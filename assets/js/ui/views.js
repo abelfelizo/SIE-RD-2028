@@ -689,9 +689,16 @@ export function renderSimulador(state, ctx) {
         "<div id=\"sim-tab-3\" style=\"display:none;\">" +
           "<div class=\"card\" style=\"margin-bottom:10px;\">" +
             "<h3>Alianzas</h3>" +
-            "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Formula: votosBloque = votosPartido + (votosAliado x transferencia)</p>" +
+            (!ctx.alianzas || !ctx.alianzas[nivel] ?
+              "<div class=\"badge-warn\" style=\"display:inline-block;margin-bottom:10px;\">⚠ alianzas_2024.json pendiente</div>" +
+              "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">" +
+                "Las alianzas históricas 2024 aún no están cargadas. " +
+                "Puedes definir alianzas ad-hoc abajo — se aplican solo a esta simulación." +
+              "</p>"
+            : "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Alianzas históricas 2024 cargadas como referencia.</p>") +
+            "<p class=\"muted\" style=\"font-size:11px;margin-bottom:8px;\">Fórmula: votosBloque = votosPartido + (votosAliado × transferencia%)</p>" +
             "<div style=\"display:flex;gap:8px;align-items:center;margin-bottom:8px;\">" +
-              "<label class=\"muted\">Lider:</label>" +
+              "<label class=\"muted\">Líder:</label>" +
               "<select id=\"sim-lider\" class=\"sel-sm\">" + liderOpts + "</select>" +
             "</div>" +
             "<div id=\"sim-aliados\" style=\"max-height:180px;overflow-y:auto;font-size:13px;\">" + aliadoRows + "</div>" +
@@ -1127,8 +1134,7 @@ export function renderPotencial(state, ctx) {
 
 //  5. MOVILIZACIÓN
 // Muestra: votos adicionales simulados | impacto en % | impacto en curules | cambio de escenario
-// Coeficientes por nivel: pres=1.00, sen=0.85, dip=0.75, mun=0.70
-var MOV_COEF = { pres:1.00, sen:0.85, dip:0.75, mun:0.70, dm:0.70 };
+// Coeficientes por nivel: pres=1.00, sen=0.85, dip=0.75, mun=0.70 (definidos en const MOV_COEF L25)
 
 export function renderMovilizacion(state, ctx) {
   var nivel  = state.nivel;
@@ -1527,6 +1533,11 @@ export function renderBoleta(state, ctx) {
     "<div class=\"page-header\"><h2>Boleta Única Opositora</h2>" +
       (isProy ? " " + badge("Proy. 2028", "badge-warn") : " " + badge("Base 2024")) +
     "</div>" +
+    (!ctx.alianzas || !ctx.alianzas.dip ?
+      "<div class=\"badge-warn\" style=\"display:block;margin-bottom:10px;padding:8px 12px;border-radius:6px;font-size:12px;\">" +
+        "⚠ <b>alianzas_2024.json pendiente:</b> Los bloques D'Hondt usan votos individuales. " +
+        "El resultado será correcto solo una vez que se carguen las alianzas reales 2024." +
+      "</div>" : "") +
     "<div style=\"font-size:11px;color:var(--text2);margin-bottom:10px;padding:8px;background:var(--bg3);border-radius:6px;\">" +
       "<b>Metodología D'Hondt:</b> votosBloque = votosPartido + (votosAliado × transferencia%) · " +
       "Aplicar D'Hondt al bloque consolidado antes de distribuir curules · " +
@@ -1649,12 +1660,12 @@ function recalcModoA(ctx, parties, lv) {
 
   // D'Hondt por circ, base vs boleta
   var html = "<h3>" + (prov.nombre || provId) + " - " + circs.length + " circunscripcion(es)</h3>";
-  var lv24  = ctx.r[2024];
+  // Use lv passed in — respects Base 2024 vs Proy 2028 mode
   circs.forEach(function(c) {
     var key = c.circ > 0 ? provId + "-" + c.circ : provId;
     var circData = c.circ > 0
-      ? (lv24.dip.circ ? lv24.dip.circ[key] : null)
-      : lv24.dip.prov[provId];
+      ? (lv.circ ? lv.circ[key] : null)
+      : lv.prov[provId];
     if (!circData) return;
 
     // Calcular boleta aplicando transferencias
@@ -1723,7 +1734,7 @@ function recalcModoB(ctx, parties, lv) {
   });
 
   var _yr = typeof isProy !== "undefined" && isProy ? 2028 : 2024;
-  var res = simBoleta(ctx, { partidos: partidos, year: 2024 });
+  var res = simBoleta(ctx, { partidos: partidos, year: _yr });
   if (!res) { resDiv.innerHTML = "<p class=\"muted\">Error al calcular.</p>"; return; }
 
   var delta = res.deltaLider;
@@ -1786,36 +1797,110 @@ function renderBoletaResult(container, res) {
     ganSection + perSection;
 }
 
-//  8. AUDITORIA 
+//  8. AUDITORÍA DE DATOS  v7.0
+// Política: cero datos inventados. Errores y pendientes son visibles, nunca silenciosos.
 export function renderAuditoria(state, ctx) {
-  var audit     = runAuditoria(ctx);
-  var notas     = audit.notas || [];
-  var issueRows = audit.issues.map(function(i) { return "<li><span class=\"aud-lbl err-lbl\">ERROR</span> " + i.msg + "</li>"; }).join("");
-  var okRows    = audit.ok.map(function(i) { return "<li><span class=\"aud-lbl ok-lbl\">OK</span> " + i.msg + "</li>"; }).join("");
-  var notaRows  = notas.map(function(i) { return "<li><span class=\"aud-lbl nota-lbl\">NOTA</span> " + i.msg + "</li>"; }).join("");
-  var noIssues  = audit.issues.length === 0 ? "<p class=\"muted\">Sin alertas. Datos integros.</p>" : "";
+  var audit = runAuditoria(ctx);
+  var res   = audit.resumen;
+
+  var SECS = {
+    padron:        "Padrón 2024",
+    resultados2024:"Resultados 2024",
+    resultados2020:"Resultados 2020",
+    curules:       "Curules",
+    alianzas:      "Alianzas 2024",
+    encuestas:     "Encuestas",
+    partidos:      "Partidos",
+    proyeccion:    "Proyección 2028",
+    consistencia:  "Consistencia cruzada",
+    general:       "General",
+  };
+
+  // Agrupar por sección
+  var bySection = {};
+  function addItems(arr, tipo, cls) {
+    arr.forEach(function(item) {
+      var s = item.seccion || "general";
+      if (!bySection[s]) bySection[s] = [];
+      bySection[s].push({ tipo:tipo, cls:cls, msg:item.msg });
+    });
+  }
+  addItems(audit.issues,     "ERROR",     "badge-err");
+  addItems(audit.warnings,   "AVISO",     "badge-warn");
+  addItems(audit.pendientes, "PENDIENTE", "badge-pend");
+  addItems(audit.ok,         "OK",        "badge-good");
+  addItems(audit.notas,      "NOTA",      "badge-info");
+
+  // KPIs resumen
+  var kpis =
+    "<div class=\"kpi-grid\" style=\"margin-bottom:16px;\">" +
+      kpi("Errores",      "<span class=\"" + (res.errores    >0?"text-warn":"text-ok") + "\">" + res.errores     + "</span>", "críticos") +
+      kpi("Avisos",       "<span class=\"" + (res.advertencias>0?"text-warn":"")       + "\">" + res.advertencias+ "</span>", "revisar") +
+      kpi("Pendientes",   "<span class=\"" + (res.pendientes >0?"text-warn":"")        + "\">" + res.pendientes  + "</span>", "por confirmar") +
+      kpi("Correctos",    "<span class=\"text-ok\">" + res.correctos + "</span>", "verificados") +
+      kpi("Notas",        String(res.notas), "informativas") +
+    "</div>";
+
+  var alertaBanner = res.errores > 0
+    ? "<div style=\"padding:10px 14px;margin-bottom:12px;border-radius:6px;background:rgba(220,50,50,0.12);border:1px solid var(--red);font-weight:600;\">" +
+        "✗ " + res.errores + " error(es) — módulos afectados pueden mostrar datos incorrectos o vacíos" +
+      "</div>"
+    : res.advertencias > 0
+    ? "<div style=\"padding:10px 14px;margin-bottom:12px;border-radius:6px;background:rgba(220,170,0,0.12);border:1px solid var(--yellow);\">" +
+        "⚠ " + res.advertencias + " aviso(s) — verificar antes de análisis definitivo" +
+      "</div>"
+    : "<div style=\"padding:10px 14px;margin-bottom:12px;border-radius:6px;background:rgba(40,180,80,0.10);border:1px solid var(--green);color:var(--green);font-weight:600;\">" +
+        "✓ Sin errores críticos — datos en buen estado" +
+      "</div>";
+
+  // Secciones con toggle
+  var seccionesHtml = Object.keys(SECS).map(function(secKey) {
+    var items = bySection[secKey] || [];
+    if (!items.length) return "";
+    var nErr  = items.filter(function(i){return i.tipo==="ERROR";}).length;
+    var nWarn = items.filter(function(i){return i.tipo==="AVISO";}).length;
+    var nPend = items.filter(function(i){return i.tipo==="PENDIENTE";}).length;
+    var borderColor = nErr  > 0 ? "var(--red)"
+                    : nWarn > 0 ? "var(--yellow)"
+                    : nPend > 0 ? "var(--accent)"
+                    : "var(--green)";
+    var badges =
+      (nErr  ? " <span class=\"badge-err\" style=\"font-size:11px;\">"+nErr+" error</span>"     : "") +
+      (nWarn ? " <span class=\"badge-warn\" style=\"font-size:11px;\">"+nWarn+" aviso</span>"   : "") +
+      (nPend ? " <span class=\"badge-pend\" style=\"font-size:11px;\">"+nPend+" pend</span>"    : "") +
+      (!nErr&&!nWarn&&!nPend ? " <span class=\"badge-good\" style=\"font-size:11px;\">✓</span>" : "");
+
+    var rows = items.map(function(item) {
+      var bg = item.tipo==="ERROR"?"rgba(220,50,50,0.07)":item.tipo==="AVISO"?"rgba(220,170,0,0.07)":item.tipo==="PENDIENTE"?"rgba(100,140,220,0.07)":"";
+      return "<div style=\"padding:7px 12px;border-bottom:1px solid var(--border);font-size:12px;background:"+bg+";display:flex;gap:10px;align-items:flex-start;\">" +
+        "<span class=\""+item.cls+"\" style=\"min-width:76px;text-align:center;flex-shrink:0;font-size:10px;\">"+item.tipo+"</span>" +
+        "<span>"+item.msg+"</span>" +
+      "</div>";
+    }).join("");
+
+    return "<div class=\"card\" style=\"margin-bottom:10px;padding:0;overflow:hidden;border-left:3px solid "+borderColor+";\">" +
+      "<div style=\"padding:10px 14px;display:flex;justify-content:space-between;align-items:center;background:var(--bg2);cursor:pointer;\"" +
+        " onclick=\"var n=this.nextElementSibling;n.style.display=n.style.display===\'none\'?\'\':\'none\';\">" +
+        "<b style=\"font-size:13px;\">"+(SECS[secKey]||secKey)+"</b>" +
+        "<span>"+badges+" <span class=\"muted\" style=\"font-size:11px;\">"+items.length+" items</span></span>" +
+      "</div>" +
+      "<div>"+rows+"</div>" +
+    "</div>";
+  }).join("");
 
   view().innerHTML =
-    "<div class=\"page-header\"><h2>Auditoria de Datos</h2>" +
-      badge("Alertas: " + audit.resumen.errores, "badge-err") + " " +
-      badge("OK: " + audit.resumen.correctos, "badge-good") +
-      (notas.length ? " " + badge("Notas: " + notas.length, "badge-nota") : "") +
+    "<div class=\"page-header\">" +
+      "<h2>Auditoría de Datos</h2>" +
+      "<span class=\"muted\" style=\"font-size:12px;\">v7.0 — política: cero datos inventados ni estimados como reales</span>" +
     "</div>" +
-    "<div class=\"row-2col\" style=\"gap:14px;\">" +
-      "<div class=\"card\"><h3 style=\"color:var(--red)\">Alertas (" + audit.issues.length + ")</h3>" +
-        noIssues + (audit.issues.length ? "<ul class=\"audit-list\">" + issueRows + "</ul>" : "") +
-      "</div>" +
-      "<div class=\"card\"><h3 style=\"color:var(--green)\">Validaciones OK (" + audit.ok.length + ")</h3>" +
-        "<ul class=\"audit-list\">" + okRows + "</ul>" +
-      "</div>" +
-    "</div>" +
-    (notaRows ? "<div class=\"card\" style=\"margin-top:14px;\">" +
-      "<h3 style=\"color:var(--accent);margin-bottom:6px;\">Notas Informativas (" + notas.length + ")</h3>" +
-      "<p class=\"muted\" style=\"font-size:12px;margin-bottom:10px;\">" +
-        "Caracteristicas del sistema electoral dominicano. No representan errores en los datos." +
+    "<div class=\"card\" style=\"margin-bottom:14px;\">" +
+      "<p class=\"muted\" style=\"font-size:12px;margin-bottom:12px;\">" +
+        "Verificación completa. Errores = datos faltantes o incorrectos que afectan resultados. " +
+        "Pendientes = datos reales por confirmar (sistema funciona sin ellos, con menor precisión)." +
       "</p>" +
-      "<ul class=\"audit-list\">" + notaRows + "</ul>" +
-    "</div>" : "");
+      kpis + alertaBanner +
+    "</div>" +
+    seccionesHtml;
 }
 
 export function renderEncuestas(state, ctx) {

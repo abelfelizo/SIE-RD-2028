@@ -1,5 +1,5 @@
 /**
- * SIE 2028 v4.1
+ * SIE 2028 v7.0
  */
 var VERSION = "5.0";
 
@@ -52,6 +52,21 @@ async function render(routeId) {
     if (!ctx) {
       document.getElementById("view").innerHTML = "<div class=\"loading\">Cargando datos...</div>";
       ctx = await loadCTX();
+      // ── BOOT CHECK ──────────────────────────────────────────────────────────
+      // Verificar integridad de datos al primer arranque. Sin inventar nada.
+      import("./core/auditoria_data.js").then(function(mod) {
+        var report = mod.runDataAudit(ctx);
+        if (report.errores.length > 0) {
+          toast("⚠ " + report.errores.length + " error(es) en datos. Ver Auditoría.");
+          console.warn("[SIE BOOT] Errores de datos:", report.errores.map(function(e){return e.codigo+": "+e.msg;}));
+        } else if (report.alertas.length > 0) {
+          console.info("[SIE BOOT] Alertas de datos:", report.alertas.length, "— ver módulo Auditoría");
+        }
+        if (!ctx.alianzas || !ctx.alianzas.pres) {
+          console.info("[SIE BOOT] alianzas_2024.json: pendiente de completar.");
+        }
+        console.info("[SIE BOOT] " + report.resumen);
+      }).catch(function() { /* auditoria_data no crítico en boot */ });
     }
     currentRoute = routeId;
     var btns = document.querySelectorAll(".nav-btn");
@@ -97,7 +112,7 @@ function initTheme() {
 function boot() {
   initTheme();
   var vBadge = document.querySelector(".brand .badge");
-  if (vBadge) vBadge.textContent = "v5.0";
+  if (vBadge) vBadge.textContent = "v7.0";
   var nav = document.getElementById("nav");
   var navHtml = "";
   for (var i = 0; i < ROUTES.length; i++) {
