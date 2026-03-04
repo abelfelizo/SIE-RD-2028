@@ -15,6 +15,21 @@
       "PRD": 1,
       "DXC": 1,
       "OTROS": 3
-    }
+    },
+    "candidatos": {
+      "FP": {
+        "nombre": "Candidato FP",
+        "pct": 40
+      },
+      "PRM": {
+        "nombre": "Candidato PRM",
+        "pct": 43
+      },
+      "PLD": {
+        "nombre": "Candidato PLD",
+        "pct": 10
+      }
+    },
+    "_ejemplo": true
   }
 ]

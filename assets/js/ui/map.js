@@ -5,6 +5,8 @@
  * Log en consola si SVG ID no tiene match en datos.
  */
 
+var _mapGeneration = 0;  // token para cancelar fetches obsoletos
+
 export function initMap(opts) {
   var containerId = opts.containerId;
   var svgUrl      = opts.svgUrl;
@@ -14,6 +16,10 @@ export function initMap(opts) {
   var container = document.getElementById(containerId);
   if (!container) return null;
 
+  // Incrementar generación: cualquier fetch en curso de generaciones anteriores se ignora
+  _mapGeneration++;
+  var myGen = _mapGeneration;
+
   var svg    = null;
   var shapes = [];
   var selected = null;
@@ -22,10 +28,13 @@ export function initMap(opts) {
   var dragging = false;
   var dragStart = { x:0, y:0, tx:0, ty:0 };
 
+  container.innerHTML = "";  // limpiar SVG anterior antes de fetch
+
   // Cargar SVG via fetch e insertarlo inline
   fetch(svgUrl)
     .then(function(r) { return r.text(); })
     .then(function(text) {
+      if (myGen !== _mapGeneration) return;  // render más nuevo ya tomó control
       container.innerHTML = text;
       svg = container.querySelector("svg");
       if (!svg) { console.error("[Mapa] SVG no encontrado en", svgUrl); return; }

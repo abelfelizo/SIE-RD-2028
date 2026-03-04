@@ -6,7 +6,7 @@
   "partidos": [
     {
       "codigo": "PRM",
-      "nombre": "PRM",
+      "nombre": "Partido Revolucionario Moderno",
       "pct_pres_2024": 48.41,
       "en_niveles": [
         "pres",
@@ -14,11 +14,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#6A1B9A"
     },
     {
       "codigo": "FP",
-      "nombre": "FP",
+      "nombre": "Fuerza del Pueblo",
       "pct_pres_2024": 26.67,
       "en_niveles": [
         "pres",
@@ -26,11 +27,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#1565C0"
     },
     {
       "codigo": "PLD",
-      "nombre": "PLD",
+      "nombre": "Partido de la Liberación Dominicana",
       "pct_pres_2024": 10.39,
       "en_niveles": [
         "pres",
@@ -38,11 +40,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#C62828"
     },
     {
       "codigo": "BIS",
-      "nombre": "BIS",
+      "nombre": "Broad Initiative for Struggle",
       "pct_pres_2024": 1.38,
       "en_niveles": [
         "pres",
@@ -50,11 +53,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#2EAE70"
     },
     {
       "codigo": "PED",
-      "nombre": "PED",
+      "nombre": "Partido Esperanza Democrática",
       "pct_pres_2024": 1.36,
       "en_niveles": [
         "pres",
@@ -62,11 +66,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#8E24AA"
     },
     {
       "codigo": "DXC",
-      "nombre": "DXC",
+      "nombre": "Dominicanos por el Cambio",
       "pct_pres_2024": 1.13,
       "en_niveles": [
         "pres",
@@ -74,11 +79,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#546E7A"
     },
     {
       "codigo": "JS",
-      "nombre": "JS",
+      "nombre": "Justicia Social",
       "pct_pres_2024": 1.13,
       "en_niveles": [
         "pres",
@@ -86,11 +92,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#D32F2F"
     },
     {
       "codigo": "PP",
-      "nombre": "PP",
+      "nombre": "Partido Progresista",
       "pct_pres_2024": 0.97,
       "en_niveles": [
         "pres",
@@ -98,11 +105,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#1A237E"
     },
     {
       "codigo": "PRSC",
-      "nombre": "PRSC",
+      "nombre": "Partido Reformista Social Cristiano",
       "pct_pres_2024": 0.87,
       "en_niveles": [
         "pres",
@@ -110,11 +118,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#1976D2"
     },
     {
       "codigo": "GENS",
-      "nombre": "GENS",
+      "nombre": "Generación de Servicio",
       "pct_pres_2024": 0.72,
       "en_niveles": [
         "pres",
@@ -122,11 +131,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#5E35B1"
     },
     {
       "codigo": "PRSD",
-      "nombre": "PRSD",
+      "nombre": "Partido Revolucionario Social Demócrata",
       "pct_pres_2024": 0.64,
       "en_niveles": [
         "pres",
@@ -134,11 +144,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#00838F"
     },
     {
       "codigo": "OD",
-      "nombre": "OD",
+      "nombre": "Opción Democrática",
       "pct_pres_2024": 0.58,
       "en_niveles": [
         "pres",
@@ -146,11 +157,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "PCR",
-      "nombre": "PCR",
+      "nombre": "Partido Cívico Renovador",
       "pct_pres_2024": 0.57,
       "en_niveles": [
         "pres",
@@ -158,11 +170,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#558B2F"
     },
     {
       "codigo": "PUN",
-      "nombre": "PUN",
+      "nombre": "Partido Unidad Nacional",
       "pct_pres_2024": 0.55,
       "en_niveles": [
         "pres",
@@ -170,11 +183,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#00796B"
     },
     {
       "codigo": "PQDC",
-      "nombre": "PQDC",
+      "nombre": "Partido Quisqueyano Demócrata Cristiano",
       "pct_pres_2024": 0.51,
       "en_niveles": [
         "pres",
@@ -182,11 +196,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#880E4F"
     },
     {
       "codigo": "PRD",
-      "nombre": "PRD",
+      "nombre": "Partido Revolucionario Dominicano",
       "pct_pres_2024": 0.45,
       "en_niveles": [
         "pres",
@@ -194,11 +209,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#F57C00"
     },
     {
       "codigo": "MODA",
-      "nombre": "MODA",
+      "nombre": "Movimiento Demócrata Alternativo",
       "pct_pres_2024": 0.42,
       "en_niveles": [
         "pres",
@@ -206,11 +222,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "APD",
-      "nombre": "APD",
+      "nombre": "Alianza por la Democracia",
       "pct_pres_2024": 0.4,
       "en_niveles": [
         "pres",
@@ -218,11 +235,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#1B5E20"
     },
     {
       "codigo": "ALPAIS",
-      "nombre": "ALPAIS",
+      "nombre": "Alianza País",
       "pct_pres_2024": 0.36,
       "en_niveles": [
         "pres",
@@ -230,11 +248,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#E64A19"
     },
     {
       "codigo": "PPG",
-      "nombre": "PPG",
+      "nombre": "Partido Popular Guatemalteco",
       "pct_pres_2024": 0.34,
       "en_niveles": [
         "pres",
@@ -242,11 +261,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "PHD",
-      "nombre": "PHD",
+      "nombre": "Partido Humanista Dominicano",
       "pct_pres_2024": 0.32,
       "en_niveles": [
         "pres",
@@ -254,11 +274,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#4527A0"
     },
     {
       "codigo": "PLR",
-      "nombre": "PLR",
+      "nombre": "Partido Liberal Reformista",
       "pct_pres_2024": 0.27,
       "en_niveles": [
         "pres",
@@ -266,11 +287,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#1976D2"
     },
     {
       "codigo": "PAL",
-      "nombre": "PAL",
+      "nombre": "Partido Acción Liberal",
       "pct_pres_2024": 0.21,
       "en_niveles": [
         "pres",
@@ -278,11 +300,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#33691E"
     },
     {
       "codigo": "PPC",
-      "nombre": "PPC",
+      "nombre": "Partido Político Comunitario",
       "pct_pres_2024": 0.21,
       "en_niveles": [
         "pres",
@@ -290,11 +313,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "PDP",
-      "nombre": "PDP",
+      "nombre": "Partido Demócrata Popular",
       "pct_pres_2024": 0.16,
       "en_niveles": [
         "pres",
@@ -302,11 +326,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#006064"
     },
     {
       "codigo": "PASOVE",
-      "nombre": "PASOVE",
+      "nombre": "Partido Solidaridad Voluntad",
       "pct_pres_2024": 0.15,
       "en_niveles": [
         "pres",
@@ -314,11 +339,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "PDI",
-      "nombre": "PDI",
+      "nombre": "Partido Demócrata Institucional",
       "pct_pres_2024": 0.15,
       "en_niveles": [
         "pres",
@@ -326,11 +352,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#4A148C"
     },
     {
       "codigo": "PSC",
-      "nombre": "PSC",
+      "nombre": "Partido Socialcristiano",
       "pct_pres_2024": 0.15,
       "en_niveles": [
         "pres",
@@ -338,19 +365,21 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "F.AMPLIO",
-      "nombre": "F.AMPLIO",
+      "nombre": "Frente Amplio",
       "pct_pres_2024": 0.14,
       "en_niveles": [
         "pres"
-      ]
+      ],
+      "color_primario": "#BF360C"
     },
     {
       "codigo": "UDC",
-      "nombre": "UDC",
+      "nombre": "Unidad Democrática y de Cambio",
       "pct_pres_2024": 0.13,
       "en_niveles": [
         "pres",
@@ -358,11 +387,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "PRI",
-      "nombre": "PRI",
+      "nombre": "Partido Reformista Institucional",
       "pct_pres_2024": 0.12,
       "en_niveles": [
         "pres",
@@ -370,11 +400,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#0277BD"
     },
     {
       "codigo": "PNVC",
-      "nombre": "PNVC",
+      "nombre": "Partido Nacional de Voluntad Ciudadana",
       "pct_pres_2024": 0.06,
       "en_niveles": [
         "pres",
@@ -382,11 +413,12 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "PPT",
-      "nombre": "PPT",
+      "nombre": "Partido Patria para Todos",
       "pct_pres_2024": 0.06,
       "en_niveles": [
         "pres",
@@ -394,29 +426,32 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "FAMP",
-      "nombre": "FAMP",
+      "nombre": "Frente Amplio",
       "pct_pres_2024": 0.0,
       "en_niveles": [
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#BF360C"
     },
     {
       "codigo": "FAMPLIO",
-      "nombre": "FAMPLIO",
+      "nombre": "Frente Amplio",
       "pct_pres_2024": 0.0,
       "en_niveles": [
         "sen",
         "dip"
-      ]
+      ],
+      "color_primario": "#BF360C"
     },
     {
       "codigo": "FNP",
-      "nombre": "FNP",
+      "nombre": "Frente Nacional Progresista",
       "pct_pres_2024": 0.0,
       "en_niveles": [
         "pres",
@@ -424,49 +459,55 @@
         "dip",
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#B71C1C"
     },
     {
       "codigo": "MA",
-      "nombre": "MA",
+      "nombre": "Movimiento Acción",
       "pct_pres_2024": 0.0,
       "en_niveles": [
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "MCC",
-      "nombre": "MCC",
+      "nombre": "Movimiento Ciudadano por el Cambio",
       "pct_pres_2024": 0.0,
       "en_niveles": [
         "mun"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "MCNPC",
-      "nombre": "MCNPC",
+      "nombre": "Mov. Cívico Nacional de Part. Ciudadana",
       "pct_pres_2024": 0.0,
       "en_niveles": [
         "mun",
         "dm"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "MHI",
-      "nombre": "MHI",
+      "nombre": "Movimiento Humanista Independiente",
       "pct_pres_2024": 0.0,
       "en_niveles": [
         "mun"
-      ]
+      ],
+      "color_primario": "#607D8B"
     },
     {
       "codigo": "MIUP",
-      "nombre": "MIUP",
+      "nombre": "Movimiento Independiente Unidad Popular",
       "pct_pres_2024": 0.0,
       "en_niveles": [
         "mun"
-      ]
+      ],
+      "color_primario": "#607D8B"
     }
   ]
 }

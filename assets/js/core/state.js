@@ -19,5 +19,6 @@ export var state = {
   setNivel: function(n) { this.nivel = n; _lsSet(_LS.nivel, n); },
   setCorte: function(c) { this.corte = c; _lsSet(_LS.corte, c); },
   setModo:  function(m) { this.modo  = m; _lsSet(_LS.modo,  m); },
+  // modos: "base2024" | "feb2024" | "proy2028"
   recomputeAndRender: function() {},
 };

@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": "1.0",
-    "estado": "ESTRUCTURA_LISTA_SIN_DATOS",
-    "fuente": "PENDIENTE — datos reales JCE 2024",
+    "version": "2.0",
+    "estado": "DATOS_REALES_2024",
+    "fuente": "JCE acuerdos de aval + resultados electorales 2024",
     "regla": "Votos por partido son individuales. Alianza = candidato compartido. transferPct = % votos del aliado que se suman al lider en D'Hondt.",
     "formato_bloque": {
       "lider": "CODIGO_PARTIDO",
@@ -22,1107 +22,3787 @@
     ]
   },
   "pres": {
-    "_nota": "PENDIENTE — 3 candidatos principales. Indicar qué partidos avalaron a cada uno.",
+    "_nota": "Alianzas presidenciales 2024 según acuerdos de aval JCE",
     "bloques": [
       {
         "_candidato": "Luis Abinader",
         "lider": "PRM",
-        "_nota": "PENDIENTE — ¿qué partidos avalaron al candidato PRM?",
-        "aliados": []
+        "aliados": [
+          {
+            "partido": "BIS",
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "transferPct": 100
+          },
+          {
+            "partido": "MCC",
+            "transferPct": 100
+          },
+          {
+            "partido": "MCNPC",
+            "transferPct": 100
+          },
+          {
+            "partido": "MHI",
+            "transferPct": 100
+          },
+          {
+            "partido": "MIUP",
+            "transferPct": 100
+          }
+        ]
       },
       {
         "_candidato": "Leonel Fernández",
         "lider": "FP",
-        "_nota": "PENDIENTE — ¿qué partidos avalaron al candidato FP?",
-        "aliados": []
+        "aliados": [
+          {
+            "partido": "PRSD",
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "transferPct": 100
+          },
+          {
+            "partido": "OD",
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "transferPct": 100
+          },
+          {
+            "partido": "PSC",
+            "transferPct": 100
+          },
+          {
+            "partido": "MA",
+            "transferPct": 100
+          },
+          {
+            "partido": "PPT",
+            "transferPct": 100
+          }
+        ]
       },
       {
         "_candidato": "Abel Martínez",
         "lider": "PLD",
-        "_nota": "PENDIENTE — ¿qué partidos avalaron al candidato PLD?",
-        "aliados": []
+        "aliados": [
+          {
+            "partido": "PED",
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSC",
+            "transferPct": 100
+          },
+          {
+            "partido": "GENS",
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "transferPct": 100
+          },
+          {
+            "partido": "PQDC",
+            "transferPct": 100
+          },
+          {
+            "partido": "PRD",
+            "transferPct": 100
+          },
+          {
+            "partido": "PDI",
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "transferPct": 100
+          },
+          {
+            "partido": "FAMP",
+            "transferPct": 100
+          }
+        ]
       }
     ]
   },
   "sen": {
-    "_nota": "PENDIENTE — alianzas pueden variar por provincia. Completar las que aplican.",
+    "_nota": "Alianzas senatoriales 2024 por provincia",
     "por_provincia": {
       "01": {
         "_nombre": "DISTRITO NACIONAL",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "02": {
         "_nombre": "LA ALTAGRACIA",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "03": {
         "_nombre": "AZUA",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "04": {
         "_nombre": "BAHORUCO",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "05": {
         "_nombre": "BARAHONA",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "06": {
-        "_nombre": "DAJABON",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "DAJABÓN",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "07": {
         "_nombre": "DUARTE",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "bloques": [
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "08": {
-        "_nombre": "EL SEIBO",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "ELÍAS PIÑA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "09": {
-        "_nombre": "ELIAS PIÑA",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "EL SEIBO",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "10": {
         "_nombre": "ESPAILLAT",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "11": {
         "_nombre": "HATO MAYOR",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "12": {
-        "_nombre": "INDEPENDENCIA",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "HERMANAS MIRABAL",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "13": {
-        "_nombre": "LA ROMANA",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "INDEPENDENCIA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "14": {
-        "_nombre": "LA VEGA",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "LA ROMANA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "15": {
-        "_nombre": "MARIA TRINIDAD SANCHEZ",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "LA VEGA",
+        "bloques": [
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "16": {
-        "_nombre": "MONSEÑOR NOUEL",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "MARÍA TRINIDAD SÁNCHEZ",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "17": {
-        "_nombre": "MONTE CRISTI",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "MONSEÑOR NOUEL",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "18": {
         "_nombre": "MONTE PLATA",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "19": {
-        "_nombre": "PEDERNALES",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "MONTE CRISTI",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "20": {
-        "_nombre": "PERAVIA",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "PEDERNALES",
+        "bloques": [
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "21": {
-        "_nombre": "PUERTO PLATA",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "PERAVIA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "22": {
-        "_nombre": "HERMANAS MIRABAL",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "PUERTO PLATA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "23": {
-        "_nombre": "SAMANA",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "HERMANAS MIRABAL",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "24": {
-        "_nombre": "SAN CRISTOBAL",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "SAMANÁ",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "25": {
-        "_nombre": "SAN JUAN",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "SAN CRISTÓBAL",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "26": {
-        "_nombre": "SAN PEDRO DE MACORIS",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "SAN JOSÉ DE OCOA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "27": {
-        "_nombre": "SANCHEZ RAMIREZ",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "SAN JUAN",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "28": {
-        "_nombre": "SANTIAGO",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "SAN PEDRO DE MACORÍS",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "29": {
-        "_nombre": "SANTIAGO RODRIGUEZ",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "SÁNCHEZ RAMÍREZ",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "30": {
-        "_nombre": "VALVERDE",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "SANTIAGO",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "31": {
-        "_nombre": "SAN JOSE DE OCOA",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "SANTIAGO RODRÍGUEZ",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
       "32": {
-        "_nombre": "SANTO DOMINGO",
-        "_nota": "PENDIENTE",
-        "bloques": []
+        "_nombre": "VALVERDE",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       }
     }
   },
   "dip": {
-    "_nota": "PENDIENTE — alianzas por circunscripción. Exterior también incluido.",
-    "por_circ": {
-      "01-1": {
-        "_nombre": "DISTRITO NACIONAL circ-1",
-        "_nota": "PENDIENTE",
-        "bloques": []
+    "_nota": "Alianzas legislativas 2024 (bloques nacionales aplicados por provincia)",
+    "por_provincia": {
+      "01": {
+        "_nombre": "DISTRITO NACIONAL",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "01-2": {
-        "_nombre": "DISTRITO NACIONAL circ-2",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "02": {
+        "_nombre": "LA ALTAGRACIA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "01-3": {
-        "_nombre": "DISTRITO NACIONAL circ-3",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "03": {
+        "_nombre": "AZUA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "14-1": {
-        "_nombre": "LA VEGA circ-1",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "04": {
+        "_nombre": "BAHORUCO",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "14-2": {
-        "_nombre": "LA VEGA circ-2",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "05": {
+        "_nombre": "BARAHONA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "21-1": {
-        "_nombre": "PUERTO PLATA circ-1",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "06": {
+        "_nombre": "DAJABÓN",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "21-2": {
-        "_nombre": "PUERTO PLATA circ-2",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "07": {
+        "_nombre": "DUARTE",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "24-1": {
-        "_nombre": "SAN CRISTOBAL circ-1",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "08": {
+        "_nombre": "ELÍAS PIÑA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "24-2": {
-        "_nombre": "SAN CRISTOBAL circ-2",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "09": {
+        "_nombre": "EL SEIBO",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "24-3": {
-        "_nombre": "SAN CRISTOBAL circ-3",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "10": {
+        "_nombre": "ESPAILLAT",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "28-1": {
-        "_nombre": "SANTIAGO circ-1",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "11": {
+        "_nombre": "HATO MAYOR",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "28-2": {
-        "_nombre": "SANTIAGO circ-2",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "12": {
+        "_nombre": "HERMANAS MIRABAL",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "28-3": {
-        "_nombre": "SANTIAGO circ-3",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "13": {
+        "_nombre": "INDEPENDENCIA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "32-1": {
-        "_nombre": "SANTO DOMINGO circ-1",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "14": {
+        "_nombre": "LA ROMANA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "32-2": {
-        "_nombre": "SANTO DOMINGO circ-2",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "15": {
+        "_nombre": "LA VEGA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "32-3": {
-        "_nombre": "SANTO DOMINGO circ-3",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "16": {
+        "_nombre": "MARÍA TRINIDAD SÁNCHEZ",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "32-4": {
-        "_nombre": "SANTO DOMINGO circ-4",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "17": {
+        "_nombre": "MONSEÑOR NOUEL",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "32-5": {
-        "_nombre": "SANTO DOMINGO circ-5",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "18": {
+        "_nombre": "MONTE PLATA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "32-6": {
-        "_nombre": "SANTO DOMINGO circ-6",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      }
-    },
-    "exterior": {
-      "C1": {
-        "_nombre": "Exterior Circ 1",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "19": {
+        "_nombre": "MONTE CRISTI",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "C2": {
-        "_nombre": "Exterior Circ 2",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "20": {
+        "_nombre": "PEDERNALES",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       },
-      "C3": {
-        "_nombre": "Exterior Circ 3",
-        "_nota": "PENDIENTE",
-        "bloques": []
+      "21": {
+        "_nombre": "PERAVIA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
+      },
+      "22": {
+        "_nombre": "PUERTO PLATA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
+      },
+      "23": {
+        "_nombre": "HERMANAS MIRABAL",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
+      },
+      "24": {
+        "_nombre": "SAMANÁ",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
+      },
+      "25": {
+        "_nombre": "SAN CRISTÓBAL",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
+      },
+      "26": {
+        "_nombre": "SAN JOSÉ DE OCOA",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
+      },
+      "27": {
+        "_nombre": "SAN JUAN",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
+      },
+      "28": {
+        "_nombre": "SAN PEDRO DE MACORÍS",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
+      },
+      "29": {
+        "_nombre": "SÁNCHEZ RAMÍREZ",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
+      },
+      "30": {
+        "_nombre": "SANTIAGO",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
+      },
+      "31": {
+        "_nombre": "SANTIAGO RODRÍGUEZ",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
+      },
+      "32": {
+        "_nombre": "VALVERDE",
+        "bloques": [
+          {
+            "lider": "PRM",
+            "aliados": [
+              {
+                "partido": "BIS",
+                "transferPct": 100
+              },
+              {
+                "partido": "MODA",
+                "transferPct": 100
+              },
+              {
+                "partido": "PHD",
+                "transferPct": 100
+              },
+              {
+                "partido": "UDC",
+                "transferPct": 100
+              },
+              {
+                "partido": "PNVC",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "FP",
+            "aliados": [
+              {
+                "partido": "PRSD",
+                "transferPct": 100
+              },
+              {
+                "partido": "OD",
+                "transferPct": 100
+              },
+              {
+                "partido": "APD",
+                "transferPct": 100
+              },
+              {
+                "partido": "PCR",
+                "transferPct": 100
+              }
+            ]
+          },
+          {
+            "lider": "PLD",
+            "aliados": [
+              {
+                "partido": "PRSC",
+                "transferPct": 100
+              },
+              {
+                "partido": "GENS",
+                "transferPct": 100
+              },
+              {
+                "partido": "DXC",
+                "transferPct": 100
+              },
+              {
+                "partido": "JS",
+                "transferPct": 100
+              },
+              {
+                "partido": "PRD",
+                "transferPct": 100
+              }
+            ]
+          }
+        ]
       }
     }
   },
   "mun": {
-    "_nota": "PENDIENTE — alianzas municipales. Pueden variar significativamente por municipio.",
-    "por_municipio": {
-      "0001": {
-        "_nombre": "DISTRITO NACIONAL",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0002": {
-        "_nombre": "SAN CRISTOBAL",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0003": {
-        "_nombre": "BANI",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0004": {
-        "_nombre": "BAYAGUANA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0005": {
-        "_nombre": "YAMASA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0008": {
-        "_nombre": "MONTE PLATA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0010": {
-        "_nombre": "AZUA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0011": {
-        "_nombre": "LAS MATAS DE FARFAN",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0012": {
-        "_nombre": "SAN JUAN DE LA MAGUANA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0013": {
-        "_nombre": "SAN JOSE DE OCOA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0014": {
-        "_nombre": "EL CERCADO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0015": {
-        "_nombre": "BANICA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0016": {
-        "_nombre": "COMENDADOR",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0017": {
-        "_nombre": "PADRE LAS CASAS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0018": {
-        "_nombre": "BARAHONA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0019": {
-        "_nombre": "CABRAL",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0020": {
-        "_nombre": "DUVERGE",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0021": {
-        "_nombre": "ENRIQUILLO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0022": {
-        "_nombre": "NEYBA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0023": {
-        "_nombre": "SAN PEDRO DE MACORIS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0024": {
-        "_nombre": "LOS LLANOS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0025": {
-        "_nombre": "EL SEIBO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0026": {
-        "_nombre": "LA ROMANA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0027": {
-        "_nombre": "HATO MAYOR",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0028": {
-        "_nombre": "HIGUEY",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0029": {
-        "_nombre": "MICHES",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0030": {
-        "_nombre": "RAMON SANTANA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0031": {
-        "_nombre": "SANTIAGO DE LOS CABALLEROS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0032": {
-        "_nombre": "TAMBORIL",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0033": {
-        "_nombre": "ESPERANZA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0034": {
-        "_nombre": "MAO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0035": {
-        "_nombre": "JANICO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0036": {
-        "_nombre": "SAN JOSE DE LAS MATAS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0037": {
-        "_nombre": "PUERTO PLATA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0038": {
-        "_nombre": "IMBERT",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0039": {
-        "_nombre": "ALTAMIRA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0040": {
-        "_nombre": "LUPERON",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0041": {
-        "_nombre": "MONTECRISTI",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0042": {
-        "_nombre": "MONCION",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0043": {
-        "_nombre": "RESTAURACION",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0044": {
-        "_nombre": "DAJABON",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0045": {
-        "_nombre": "GUAYUBIN",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0046": {
-        "_nombre": "SAN IGNACIO DE SABANETA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0047": {
-        "_nombre": "LA VEGA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0048": {
-        "_nombre": "BONAO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0049": {
-        "_nombre": "COTUI",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0050": {
-        "_nombre": "JARABACOA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0051": {
-        "_nombre": "VILLA TAPIA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0052": {
-        "_nombre": "CEVICOS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0053": {
-        "_nombre": "CONSTANZA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0054": {
-        "_nombre": "MOCA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0055": {
-        "_nombre": "SALCEDO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0056": {
-        "_nombre": "SAN FRANCISCO DE MACORIS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0057": {
-        "_nombre": "PIMENTEL",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0058": {
-        "_nombre": "VILLA RIVA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0059": {
-        "_nombre": "CASTILLO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0060": {
-        "_nombre": "CABRERA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0061": {
-        "_nombre": "GASPAR HERNANDEZ",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0063": {
-        "_nombre": "EUGENIO MARIA DE HOSTOS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0064": {
-        "_nombre": "TENARES",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0065": {
-        "_nombre": "SAMANA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0066": {
-        "_nombre": "SANCHEZ",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0067": {
-        "_nombre": "SABANA DE LA MAR",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0068": {
-        "_nombre": "VILLA ALTAGRACIA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0069": {
-        "_nombre": "PEDERNALES",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0070": {
-        "_nombre": "LA DESCUBIERTA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0071": {
-        "_nombre": "NAGUA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0072": {
-        "_nombre": "VILLA VASQUEZ",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0073": {
-        "_nombre": "LOMA DE CABRERA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0074": {
-        "_nombre": "PEDRO SANTANA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0075": {
-        "_nombre": "HONDO VALLE",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0076": {
-        "_nombre": "TAMAYO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0077": {
-        "_nombre": "JIMANI",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0078": {
-        "_nombre": "VILLA JARAGUA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0079": {
-        "_nombre": "VICENTE NOBLE",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0080": {
-        "_nombre": "PARAISO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0081": {
-        "_nombre": "RIO SAN JUAN",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0082": {
-        "_nombre": "YAGUATE",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0083": {
-        "_nombre": "SABANA GRANDE DE PALENQUE",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0084": {
-        "_nombre": "NIZAO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0085": {
-        "_nombre": "SAN RAFAEL DEL YUMA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0086": {
-        "_nombre": "PEPILLO SALCEDO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0087": {
-        "_nombre": "FANTINO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0088": {
-        "_nombre": "CAYETANO GERMOSEN",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0090": {
-        "_nombre": "SABANA GRANDE DE BOYA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0091": {
-        "_nombre": "OVIEDO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0092": {
-        "_nombre": "LAGUNA SALADA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0093": {
-        "_nombre": "BAJOS DE HAINA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0094": {
-        "_nombre": "VILLA GONZALEZ",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0095": {
-        "_nombre": "LICEY AL MEDIO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0096": {
-        "_nombre": "VILLA BISONO -NAVARRETE-",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0097": {
-        "_nombre": "SOSUA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0099": {
-        "_nombre": "POSTRER RIO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0100": {
-        "_nombre": "EL VALLE",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0101": {
-        "_nombre": "CASTAÑUELAS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0102": {
-        "_nombre": "LOS HIDALGOS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0103": {
-        "_nombre": "GUAYMATE",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0104": {
-        "_nombre": "CAMBITA GARABITOS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0105": {
-        "_nombre": "GUAYABAL",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0106": {
-        "_nombre": "PERALTA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0107": {
-        "_nombre": "SABANA YEGUA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0108": {
-        "_nombre": "VALLEJUELO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0109": {
-        "_nombre": "BOHECHIO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0110": {
-        "_nombre": "EL LLANO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0111": {
-        "_nombre": "POLO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0112": {
-        "_nombre": "LOS RIOS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0113": {
-        "_nombre": "GALVAN",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0114": {
-        "_nombre": "MELLA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0115": {
-        "_nombre": "PARTIDO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0116": {
-        "_nombre": "VILLA LOS ALMACIGOS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0117": {
-        "_nombre": "LAS MATAS DE SANTA CRUZ",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0118": {
-        "_nombre": "MAIMON",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0119": {
-        "_nombre": "ARENOSO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0120": {
-        "_nombre": "GUANANICO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0121": {
-        "_nombre": "VILLA ISABELA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0122": {
-        "_nombre": "JIMA ABAJO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0123": {
-        "_nombre": "PIEDRA BLANCA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0125": {
-        "_nombre": "LAS YAYAS DE VIAJAMA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0126": {
-        "_nombre": "TABARA ARRIBA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0128": {
-        "_nombre": "CRISTOBAL",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0129": {
-        "_nombre": "JUAN DE HERRERA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0130": {
-        "_nombre": "EL PEÑON",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0131": {
-        "_nombre": "FUNDACION",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0132": {
-        "_nombre": "ESTEBANIA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0133": {
-        "_nombre": "JAMAO AL NORTE",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0134": {
-        "_nombre": "LAS TERRENAS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0135": {
-        "_nombre": "LAS CHARCAS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0136": {
-        "_nombre": "EL FACTOR",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0137": {
-        "_nombre": "LAS SALINAS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0138": {
-        "_nombre": "CONSUELO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0139": {
-        "_nombre": "LOS CACAOS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0140": {
-        "_nombre": "SAN GREGORIO DE NIGUA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0143": {
-        "_nombre": "LAS GUARANAS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0144": {
-        "_nombre": "JUAN SANTIAGO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0146": {
-        "_nombre": "QUISQUEYA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0148": {
-        "_nombre": "SABANA IGLESIA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0149": {
-        "_nombre": "SAN VICTOR",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0150": {
-        "_nombre": "SABANA LARGA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0151": {
-        "_nombre": "EL PINO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0152": {
-        "_nombre": "RANCHO ARRIBA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0153": {
-        "_nombre": "PERALVILLO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0154": {
-        "_nombre": "PUEBLO VIEJO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0155": {
-        "_nombre": "VILLA LA MATA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0156": {
-        "_nombre": "MATANZAS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0160": {
-        "_nombre": "LA CIENAGA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0161": {
-        "_nombre": "BAITOA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0167": {
-        "_nombre": "JAQUIMEYES",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0175": {
-        "_nombre": "VILLA MONTELLANO",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0223": {
-        "_nombre": "SANTO DOMINGO ESTE",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0224": {
-        "_nombre": "SANTO DOMINGO OESTE",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0225": {
-        "_nombre": "SANTO DOMINGO NORTE",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0226": {
-        "_nombre": "BOCA CHICA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0227": {
-        "_nombre": "SAN ANTONIO DE GUERRA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0228": {
-        "_nombre": "PEDRO BRAND",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0229": {
-        "_nombre": "LOS ALCARRIZOS",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0295": {
-        "_nombre": "VILLA HERMOSA",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0350": {
-        "_nombre": "PUÑAL",
-        "_nota": "PENDIENTE",
-        "bloques": []
-      },
-      "0364": {
-        "_nombre": "GUAYACANES",
-        "_nota": "PENDIENTE",
-        "bloques": []
+    "_nota": "Alianzas municipales 2024 — mismos bloques presidenciales",
+    "bloque_default": [
+      {
+        "lider": "PRM",
+        "aliados": [
+          {
+            "partido": "BIS",
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "transferPct": 100
+          }
+        ]
+      },
+      {
+        "lider": "FP",
+        "aliados": [
+          {
+            "partido": "PRSD",
+            "transferPct": 100
+          },
+          {
+            "partido": "OD",
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "transferPct": 100
+          }
+        ]
+      },
+      {
+        "lider": "PLD",
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "transferPct": 100
+          },
+          {
+            "partido": "GENS",
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "transferPct": 100
+          },
+          {
+            "partido": "PRD",
+            "transferPct": 100
+          }
+        ]
       }
-    }
+    ]
   },
   "dm": {
-    "_nota": "PENDIENTE — alianzas por distrito municipal.",
-    "por_dm": {}
+    "_nota": "Directores municipales — mismos bloques presidenciales",
+    "bloque_default": [
+      {
+        "lider": "PRM",
+        "aliados": [
+          {
+            "partido": "BIS",
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "transferPct": 100
+          }
+        ]
+      },
+      {
+        "lider": "FP",
+        "aliados": [
+          {
+            "partido": "PRSD",
+            "transferPct": 100
+          },
+          {
+            "partido": "OD",
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "transferPct": 100
+          }
+        ]
+      },
+      {
+        "lider": "PLD",
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "transferPct": 100
+          },
+          {
+            "partido": "GENS",
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "transferPct": 100
+          },
+          {
+            "partido": "PRD",
+            "transferPct": 100
+          }
+        ]
+      }
+    ]
   }
 }

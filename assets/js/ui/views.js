@@ -1,12 +1,12 @@
 /**
- * SIE 2028  ui/views.js
+ * SIE 2028  ui/views.js  v8.0 — Build Final
  * REGLA: cero backticks anidados. Toda interpolacin condicional usa funciones helper.
  */
 import { toast }              from "./toast.js";
 import { initMap }            from "./map.js";
 import { getLevel, getInscritos } from "../core/data.js";
 import { simular }            from "../core/simulacion.js";
-import { generarEscenarios, calcularProvinciasCriticas } from "../core/objetivo.js";
+import { generarEscenarios, calcularProvinciasCriticas, calcularEficienciaTerritorios, generarPlanAccion } from "../core/objetivo.js";
 import { calcPotencial }      from "../core/potencial.js";
 import { runAuditoria }       from "../core/auditoria.js";
 import { simBoleta }          from "../core/boleta.js";
@@ -14,17 +14,31 @@ import { exportarPDF }        from "../core/exportar.js";
 import { fmtInt, fmtPct, rankVotes } from "../core/utils.js";
 import { generarAlertas, renderAlertasHtml } from "../core/alertas.js";
 import { proyectarPadron }    from "../core/proyeccion2028.js";
+import { calcSwing, calcRiesgoSegundaVuelta } from "../core/swing.js";
 
 //  Constantes 
 const NIVEL_LABEL = { pres:"Presidencial", sen:"Senadores", dip:"Diputados", mun:"Alcaldes", dm:"DM" };
 const CORTE_LABEL = { mayo2024:"Mayo 2024", feb2024:"Feb 2024", proy2028:"Proy. 2028" };
-const PARTY_COLORS = {
+// Colores base — fallback si partidos.json no está cargado
+const PARTY_COLORS_BASE = {
   PRM:"#7A52F4", PLD:"#9B1B30", FP:"#1B7BF4", PRD:"#E8B124",
   BIS:"#2EAE70", PRSC:"#5599FF", DXC:"#888", ALPAIS:"#E86A24",
+  PRSC:"#4A90D9", MODA:"#E8672A", PPH:"#2E7D32", APD:"#6A1B9A",
 };
+// _ctxPartidos se rellena en cada render con ctx.partidos — permite primaryColor dinámico
+var _ctxPartidosColors = {};
 const MOV_COEF = { pres:1.00, sen:0.85, dip:0.75, mun:0.70, dm:0.70 };
 
-function clr(p) { return PARTY_COLORS[p] || "#555"; }
+function clr(p) {
+  return _ctxPartidosColors[p] || PARTY_COLORS_BASE[p] || "#666";
+}
+function loadPartyColors(ctx) {
+  if (!ctx || !ctx.partidos) return;
+  _ctxPartidosColors = {};
+  ctx.partidos.forEach(function(pt) {
+    if (pt.codigo && pt.color_primario) _ctxPartidosColors[pt.codigo] = pt.color_primario;
+  });
+}
 function view()  { return document.getElementById("view"); }
 function el(id)  { return document.getElementById(id); }
 
@@ -110,23 +124,42 @@ function sep() { return "<hr class=\"sep\">"; }
 export function mountGlobalControls(state) {
   var slot = el("global-controls");
   if (!slot) return;
-  var nOpts = Object.entries(NIVEL_LABEL).map(function(kv) { return opt(kv[0], kv[1], kv[0]===state.nivel); }).join("");
-  var cOpts = Object.entries(CORTE_LABEL).map(function(kv) { return opt(kv[0], kv[1], kv[0]===state.corte); }).join("");
+
+  // Niveles como botones segmentados
+  var NIVELES = [
+    { id:"pres", label:"Presidencial", short:"Pres." },
+    { id:"sen",  label:"Senadores",    short:"Sen."  },
+    { id:"dip",  label:"Diputados",    short:"Dip."  },
+    { id:"mun",  label:"Alcaldes",     short:"Alc."  },
+    { id:"dm",   label:"Distritos M.", short:"DM"    },
+  ];
+  var nivelBtns = NIVELES.map(function(n) {
+    var active = n.id === state.nivel ? "active" : "";
+    return "<button class=\"seg-btn " + active + "\" data-nivel=\"" + n.id + "\" " +
+      "title=\"" + n.label + "\">" + n.short + "</button>";
+  }).join("");
+
   slot.innerHTML =
-    "<div class=\"ctrl-group\">" +
-      "<label class=\"ctrl-label\" title=\"Afecta todos los modulos: Dashboard, Mapa, Simulador, Potencial y Movilizacion\">Nivel de Eleccion Activo</label>" +
-      "<select id=\"g-nivel\" class=\"sel-sm\" title=\"Afecta todos los modulos\">" + nOpts + "</select>" +
-    "</div>" +
-    "<div class=\"ctrl-group\">" +
-      "<label class=\"ctrl-label\" title=\"Determina el padron base para calcular participacion y abstencion proyectada\">Corte (Padron y Participacion)</label>" +
-      "<select id=\"g-corte\" class=\"sel-sm\" title=\"Afecta padron, participacion y proyeccion base\">" + cOpts + "</select>" +
+    "<div class=\"seg-group\" id=\"g-nivel-group\" title=\"Nivel de elección activo — afecta todos los módulos\">" +
+      nivelBtns +
     "</div>";
-  el("g-nivel").addEventListener("change", function(e) { state.setNivel(e.target.value); state.recomputeAndRender(); });
-  el("g-corte").addEventListener("change", function(e) { state.setCorte(e.target.value); state.recomputeAndRender(); });
+
+  el("g-nivel-group").addEventListener("click", function(e) {
+    var btn = e.target.closest(".seg-btn[data-nivel]");
+    if (!btn) return;
+    var n = btn.dataset.nivel;
+    state.setNivel(n);
+    // update active
+    el("g-nivel-group").querySelectorAll(".seg-btn").forEach(function(b) {
+      b.classList.toggle("active", b.dataset.nivel === n);
+    });
+    state.recomputeAndRender();
+  });
 }
 
 //  1. DASHBOARD 
 export function renderDashboard(state, ctx) {
+  loadPartyColors(ctx);
   var nivel  = state.nivel;
   var isProy = state.modo === "proy2028";
   var year   = isProy ? 2028 : 2024;
@@ -135,6 +168,10 @@ export function renderDashboard(state, ctx) {
   var ins    = nivel === "pres" ? (getInscritos(ctx, state.corte) || nat.inscritos || 0) : (nat.inscritos || 0);
   if (isProy && ctx.padron2028) ins = ctx.padron2028.total;
   var em     = nat.emitidos || 0;
+  // Proy 2028: si emitidos proyectados disponibles, usarlos para participación
+  if (isProy && ctx.padron2028 && ctx.padron2028.emitidosProyectados) {
+    em = ctx.padron2028.emitidosProyectados;
+  }
   var part   = ins ? em / ins : 0;
   var ranked = rankVotes(nat.votes, em);
   var top    = ranked[0];
@@ -233,6 +270,18 @@ export function renderDashboard(state, ctx) {
               renderAlertasHtml(alertas, true) + "</div>"
           : "") +
       "</div>" +
+      "<details class=\"met-box\" style=\"margin-top:12px;\">" +
+        "<summary><b>Metodología — Dashboard</b></summary>" +
+        "<div class=\"met-body\">" +
+          "<b>Motor activo:</b> Resultados JCE 2024 (histórico) o Proyección 2028 (motor Escenarios)<br>" +
+          "<b>Participación:</b> Emitidos / Padrón · <b>Abstención:</b> 1 − Participación<br>" +
+          "<b>Proy. Padrón 2028:</b> Padrón₂₀₂₄ × (1 + 1.66%)⁴ (tasa crecimiento JCE 2004-2024) + Exterior × (1 + 10.6%)⁴<br>" +
+          "<b>Participación proyectada:</b> Participación₂₀₂₄ ajustada por slider ±pp<br>" +
+          "<b>Ganador:</b> partido con mayor % de votos válidos · <b>Margen:</b> Lider − 2do lugar<br>" +
+          "<b>Curules:</b> aplicación D'Hondt sobre resultados por circunscripción<br>" +
+          "<b>Fuente:</b> JCE resultados definitivos 2024 · Proyección: SIE 2028 v8.0" +
+        "</div>" +
+      "</details>" +
     "</div>";
 }
 
@@ -251,8 +300,8 @@ function _buildKpisByNivel(nivel, ins, em, part, ranked, margen, dipCurules, sen
     kpisHtml =
       kpi("Padron", fmtInt(ins), CORTE_LABEL[state.corte]) +
       kpi("Emitidos " + label24, fmtInt(em)) +
-      kpi("Participacion", fmtPct(part)) +
-      kpi("Abstencion proyectada", fmtPct(1-part), fmtInt(Math.round(ins*(1-part))) + " votos") +
+      kpi(isProy ? "Part. Proyectada 2028" : "Participacion 2024", fmtPct(part)) +
+      kpi(isProy ? "Abstencion proyectada 2028" : "Abstencion 2024", fmtPct(1-part), fmtInt(Math.round(ins*(1-part))) + " votos") +
       kpiTop + kpiTop2 +
       kpi("Margen Top1-Top2", margen > 0 ? fmtPct(margen) : "-") +
       kpi("Riesgo 2a vuelta", "<span class=\"" + riesgoCls + "\">" + riesgoTxt + "</span>",
@@ -288,24 +337,36 @@ function _buildKpisByNivel(nivel, ins, em, part, ranked, margen, dipCurules, sen
     kpisHtml =
       kpi("Padron", fmtInt(ins)) +
       kpi("Emitidos", fmtInt(em)) +
-      kpi("Participacion", fmtPct(part)) +
+      kpi(isProy ? "Part. Proyectada 2028" : "Participacion 2024", fmtPct(part)) +
       kpiTop;
   }
 
-  // KPI encuesta si hay datos
+  // KPI encuesta: promedio ponderado por recencia (peso = 1/(1+meses))
   var polls = ctx.polls || [];
   if (polls.length && top) {
-    var last   = polls[polls.length - 1];
-    var encRes = last.resultados || {};
-    if (encRes[top.p] !== undefined) {
-      var encPct = encRes[top.p] / 100;
-      var delta  = encPct - top.pct;
-      var cls    = delta > 0 ? "text-ok" : delta < 0 ? "text-warn" : "";
-      var sign   = delta > 0 ? "+" : "";
+    var hoy = new Date();
+    var totalPeso = 0;
+    var sumaPct   = 0;
+    var nUsadas   = 0;
+    polls.forEach(function(p) {
+      if (!p.resultados || p.resultados[top.p] === undefined) return;
+      if (p.nivel && p.nivel !== nivel && p.nivel !== "presidencial" && p.nivel !== "pres") return;
+      var fecha  = p.fecha ? new Date(p.fecha) : null;
+      var meses  = fecha ? Math.max(0, (hoy - fecha) / (1000*60*60*24*30)) : 24;
+      var peso   = 1 / (1 + meses);
+      totalPeso += peso;
+      sumaPct   += p.resultados[top.p] * peso;
+      nUsadas++;
+    });
+    if (nUsadas > 0 && totalPeso > 0) {
+      var encPct  = (sumaPct / totalPeso) / 100;
+      var delta   = encPct - top.pct;
+      var cls     = delta > 0.005 ? "text-ok" : delta < -0.005 ? "text-warn" : "";
+      var sign    = delta >= 0 ? "+" : "";
       kpisHtml += kpi(
-        "Encuesta " + last.encuestadora,
-        "<span class=\"" + cls + "\">" + encRes[top.p] + "%</span>",
-        sign + (delta * 100).toFixed(1) + "pp vs " + label24
+        "Encuestas (" + nUsadas + (nUsadas === 1 ? " fuente" : " fuentes") + ")",
+        "<span class=\"" + cls + "\">" + (encPct * 100).toFixed(1) + "%</span>",
+        sign + (delta * 100).toFixed(1) + "pp vs " + label24 + " — promedio ponderado"
       );
     }
   }
@@ -402,6 +463,7 @@ var _mapApi = null;
 //  2. MAPA 
 
 export function renderMapa(state, ctx) {
+  loadPartyColors(ctx);
   var nivel   = state.nivel;
   var isProy  = state.modo === "proy2028";
   var year    = isProy ? 2028 : 2024;
@@ -412,9 +474,16 @@ export function renderMapa(state, ctx) {
   view().innerHTML =
     "<div class=\"page-header\"><h2>Mapa - " + NIVEL_LABEL[nivel] + "</h2>" +
       "<div style=\"display:flex;gap:6px;flex-wrap:wrap;align-items:center;\">" +
-        "<button class=\"btn-sm\" id=\"map-zi\">Zoom +</button>" +
-        "<button class=\"btn-sm\" id=\"map-zo\">Zoom -</button>" +
-        "<button class=\"btn-sm\" id=\"map-r\">Reset</button>" +
+        "<button class=\"btn-sm\" id=\"map-zi\">+</button>" +
+        "<button class=\"btn-sm\" id=\"map-zo\">−</button>" +
+        "<button class=\"btn-sm\" id=\"map-r\">↺</button>" +
+        "<span style=\"color:var(--border);margin:0 4px;\">|</span>" +
+        "<button class=\"seg-btn active\" id=\"map-mode-ganador\" data-mapmode=\"ganador\" title=\"Color por partido ganador\">Ganador</button>" +
+        "<button class=\"seg-btn\" id=\"map-mode-swing\" data-mapmode=\"swing\" title=\"Territorios más competitivos y cambiantes\">Swing</button>" +
+        "<button class=\"seg-btn\" id=\"map-mode-abst\" data-mapmode=\"abst\" title=\"Nivel de abstención por provincia\">Abstención</button>" +
+        "<span style=\"color:var(--border);margin:0 4px;\">|</span>" +
+        "<button class=\"seg-btn\" id=\"map-mode-con-aliados\" data-mapmode=\"con-aliados\" title=\"Resultados acumulando votos de partidos + aliados\">Con aliados</button>" +
+        "<button class=\"seg-btn active\" id=\"map-mode-sin-aliados\" data-mapmode=\"sin-aliados\" title=\"Resultados por partido individual sin alianzas\">Sin aliados</button>" +
         (isProy ? " " + "<span class=\"badge badge-warn\">Proy. 2028</span>" : "") +
       "</div>" +
     "</div>" +
@@ -430,27 +499,96 @@ export function renderMapa(state, ctx) {
   el("map-zo").addEventListener("click", function() { if (_mapApi) _mapApi.zoomOut(); });
   el("map-r").addEventListener("click",  function() { if (_mapApi) _mapApi.reset(); });
 
+  // Modo mapa: Ganador / Swing / Abstención
+  var _mapMode = "ganador";
+  function applyMapColors(mode) {
+    _mapMode = mode;
+    // Actualizar botones activos
+    ["ganador","swing","abst","con-aliados","sin-aliados"].forEach(function(m) {
+      var btn = document.getElementById("map-mode-" + m);
+      if (btn) btn.classList.toggle("active", m === mode);
+    });
+    if (!lv || !lv.prov) return;
+
+    // Para modo alianzas: construir mapa de ganadores con votos agregados
+    var alianzasVotes = null;
+    if (mode === "con-aliados" && ctx.alianzas && ctx.alianzas[nivel]) {
+      alianzasVotes = {};
+      // Pre-calcular votos consolidados por provincia para el nivel activo
+      var bloques = ctx.alianzas[nivel].bloques || [];
+      Object.keys(lv.prov).forEach(function(pid) {
+        var prov  = lv.prov[pid];
+        var votes = Object.assign({}, prov.votes || {});
+        bloques.forEach(function(bloque) {
+          (bloque.aliados || []).forEach(function(aliado) {
+            var v     = votes[aliado.partido] || 0;
+            var moved = Math.round(v * ((aliado.transferPct || 70) / 100));
+            votes[aliado.partido] = v - moved;
+            votes[bloque.lider]   = (votes[bloque.lider] || 0) + moved;
+          });
+        });
+        alianzasVotes[pid] = votes;
+      });
+    }
+
+    Object.keys(lv.prov).forEach(function(pid) {
+      var prov  = lv.prov[pid];
+      var shape = document.querySelector("[id=\"DO-" + pid + "\"]");
+      if (!shape) return;
+
+      var votes = (mode === "con-aliados" && alianzasVotes) ? alianzasVotes[pid] : (prov.votes || {});
+      var r = rankVotes(votes, prov.emitidos);
+
+      if (mode === "ganador" || mode === "con-aliados" || mode === "sin-aliados") {
+        if (r[0]) {
+          var margenProv = r.length >= 2 ? r[0].pct - r[1].pct : 1;
+          shape.style.fill    = margenProv < 0.05 ? "#888" : clr(r[0].p);
+          shape.style.opacity = String(0.35 + r[0].pct * 0.65);
+        }
+      } else if (mode === "swing") {
+        var marg = r.length >= 2 ? r[0].pct - r[1].pct : 1;
+        var intensity = Math.max(0, Math.min(1, 1 - marg * 5));
+        shape.style.fill    = "hsl(" + Math.round(intensity * 0 + (1-intensity) * 120) + ",70%,45%)";
+        shape.style.opacity = "0.85";
+      } else if (mode === "abst") {
+        var ins    = prov.inscritos || 1;
+        var abst   = ins > 0 ? 1 - (prov.emitidos || 0) / ins : 0;
+        var intens = Math.min(1, abst / 0.6);
+        shape.style.fill    = "hsl(210," + Math.round(30 + intens * 70) + "%," + Math.round(60 - intens * 30) + "%)";
+        shape.style.opacity = "0.85";
+      }
+    });
+  }
+
+  ["ganador","swing","abst","con-aliados","sin-aliados"].forEach(function(m) {
+    var btn = document.getElementById("map-mode-" + m);
+    if (btn) btn.addEventListener("click", function() { applyMapColors(m); });
+  });
+
   _mapApi = initMap({
     containerId: "map-container",
     svgUrl: "./assets/maps/provincias.svg",
-    onSelect: function(provId) { showProvPanel(lv, lv2024, provId, nivel, dipRes, ctx); },
-    onReady: function() {
-      if (nivel === "pres" || nivel === "sen" || nivel === "dip") {
-        Object.keys(lv.prov).forEach(function(pid) {
-          var prov = lv.prov[pid];
-          var r = rankVotes(prov.votes, prov.emitidos);
-          if (r[0]) {
-            var shape = document.querySelector("[id=\"DO-" + pid + "\"]");
-            if (shape) {
-              var margenProv = r.length >= 2 ? r[0].pct - r[1].pct : 1;
-              shape.style.fill    = margenProv < 0.05 ? "#888" : clr(r[0].p);
-              shape.style.opacity = String(0.35 + r[0].pct * 0.65);
-            }
-          }
-        });
+    onSelect: function(provId) {
+      // Re-apply colors to reset all fills, THEN highlight selected
+      applyMapColors(_mapMode);
+      showProvPanel(lv, lv2024, provId, nivel, dipRes, ctx);
+      // Re-apply selected highlight after color reset
+      var target = document.querySelector("[id='DO-" + provId + "']");
+      if (target) {
+        target.style.fill = "var(--accent)";
+        target.style.opacity = "0.9";
+        target.style.strokeWidth = "2.5";
+        target.style.stroke = "#fff";
       }
+    },
+    onReady: function() {
+      applyMapColors("ganador");
       if (_mapApi && _mapApi.validate) {
-        _mapApi.validate(Object.keys(lv.prov));
+        // Only validate interior provinces (01-32)
+        var svgKeys = Object.keys(lv.prov).filter(function(id) {
+          var n = parseInt(id, 10); return n >= 1 && n <= 32;
+        });
+        _mapApi.validate(svgKeys);
       }
     },
   });
@@ -528,10 +666,59 @@ function showProvPanel(lv, lv2024, provId, nivel, dipRes, ctx) {
           .map(function(p) { return dot(p) + p + ":" + c.byParty[p]; }).join(" ");
         return "<tr><td>" + cid + "</td><td class=\"r\">" + c.seats + "</td><td style=\"font-size:11px;\">" + dist + "</td></tr>";
       }).join("");
-      curulesHtml = "<h4 style=\"margin:12px 0 6px;\">Curules</h4>" +
+      var nCircs = provCircs.length;
+      var circNota = nCircs > 1
+        ? "<p style=\"font-size:11px;color:var(--accent);margin-bottom:4px;\">📋 " + nCircs + " circunscripciones en esta provincia. D'Hondt se aplica por separado en cada una.</p>"
+        : "<p style=\"font-size:11px;color:var(--text2);margin-bottom:4px;\">📋 1 circunscripción (provincia completa).</p>";
+      curulesHtml = circNota + "<h4 style=\"margin:12px 0 6px;\">Curules</h4>" +
         "<table class=\"tbl\"><thead><tr><th>Circ.</th><th class=\"r\">Esc.</th><th>Dist.</th></tr></thead>" +
         "<tbody>" + crows + "</tbody></table>";
     }
+  }
+
+  // Autoridades electas 2024 en esta provincia
+  var autoridadesHtml = "";
+  var lv24Sen = getLevel(ctx, 2024, "sen");
+  var lv24Mun = getLevel(ctx, 2024, "mun");
+  var senProv = lv24Sen && lv24Sen.prov ? lv24Sen.prov[provId] : null;
+  var autoRows = [];
+
+  // Senadores ganadores
+  if (senProv && senProv.votes) {
+    var rSen = rankVotes(senProv.votes, senProv.emitidos);
+    if (rSen[0]) autoRows.push([
+      "Senador electo",
+      dot(rSen[0].p) + " <b>" + rSen[0].p + "</b>",
+      fmtPct(rSen[0].pct)
+    ]);
+  }
+
+  // Alcalde capital de provincia (municipio con mismo ID de 2 dígitos si existe)
+  if (lv24Mun && lv24Mun.mun) {
+    // Find municipalities that belong to this province (mun ID starts with provId)
+    var provMuns = Object.keys(lv24Mun.mun).filter(function(mid) {
+      return mid.indexOf(provId) === 0;
+    });
+    // Use first municipality as proxy for provincial capital
+    if (provMuns.length) {
+      var capMun = lv24Mun.mun[provMuns[0]];
+      var rMun = rankVotes(capMun.votes, capMun.emitidos);
+      if (rMun[0]) autoRows.push([
+        "Alcalde (cap.)",
+        dot(rMun[0].p) + " <b>" + rMun[0].p + "</b>",
+        fmtPct(rMun[0].pct)
+      ]);
+    }
+  }
+
+  if (autoRows.length) {
+    autoridadesHtml = "<h4 style=\"margin:12px 0 6px;\">Autoridades electas 2024</h4>" +
+      "<table class=\"tbl\"><tbody>" +
+      autoRows.map(function(r) {
+        return "<tr><td style=\"color:var(--text2);font-size:12px;\">" + r[0] + "</td>" +
+          "<td>" + r[1] + "</td><td class=\"r\">" + r[2] + "</td></tr>";
+      }).join("") +
+      "</tbody></table>";
   }
 
   panel.innerHTML =
@@ -547,11 +734,25 @@ function showProvPanel(lv, lv2024, provId, nivel, dipRes, ctx) {
     swingBlock +
     encBlock +
     histBlock +
-    curulesHtml;
+    autoridadesHtml +
+    curulesHtml +
+    "<details class=\"met-box\" style=\"margin-top:12px;\">" +
+      "<summary><b>Metodología — Mapa Electoral</b></summary>" +
+      "<div class=\"met-body\">" +
+        "<b>Modos:</b> Ganador (mayor % provincial) · Swing (desviación vs media nacional) · Abstención (%)<br>" +
+        "<b>Aliados:</b> votos consolidados por bloque presidencial según acuerdos de aval JCE 2024<br>" +
+        "<b>IDs:</b> códigos JCE 01–32 vinculados al SVG oficial · click = provincia correcta<br>" +
+        "<b>Swing:</b> %provincial − %nacional del partido (positivo = sobre-desempeño territorial)<br>" +
+        "<b>Fuente:</b> JCE resultados definitivos 2024 · Alianzas: alianzas_2024.json v2.0" +
+      "</div>" +
+    "</details>";
 }
 
-//  3. SIMULADOR  (tabs: Base | Encuestas | Movilizacion | Alianzas | Arrastre)
+//  3. SIMULADOR UNIFICADO v8.0
+// Integra: Simulación nacional + por territorio + Boleta Única (D'Hondt por circ)
+// DEFINICIÓN PP: adición aritmética al % base. PRM 48% + 3pp = 51%, renormalizado.
 export function renderSimulador(state, ctx) {
+  loadPartyColors(ctx);
   var nivel  = state.nivel;
   var isProy = state.modo === "proy2028";
   var year   = isProy ? 2028 : 2024;
@@ -568,8 +769,38 @@ export function renderSimulador(state, ctx) {
     return { p: p, pct: e ? e.pct : 0, v: e ? e.v : 0 };
   });
 
-  // Tabs
-  var TABS = ["Base", "Encuestas", "Movilizacion", "Alianzas", "Arrastre"];
+  // Selector de territorio
+  var terr24     = nivel === "mun" ? lv.mun : nivel === "dm" ? lv.dm : lv.prov;
+  var terrKeys   = Object.keys(terr24 || {}).filter(function(id) {
+    if (nivel !== "mun" && nivel !== "dm") {
+      var n = parseInt(id, 10); return n >= 1 && n <= 32;
+    }
+    return true;
+  }).sort();
+
+  var terrOpts = "<option value=\"\">Nacional (todos)</option>" +
+    terrKeys.map(function(id) {
+      var t = (terr24 || {})[id];
+      return opt(id, (t && t.nombre) || id, false);
+    }).join("");
+
+  // Para diputados: selector de circunscripción
+  var circOpts = "";
+  if (nivel === "dip" && ctx.curules && ctx.curules.territorial) {
+    var circItems = ctx.curules.territorial.filter(function(c) {
+      var pid = String(c.provincia_id).padStart(2, "0");
+      var n = parseInt(pid, 10); return n >= 1 && n <= 32;
+    });
+    circOpts = "<option value=\"\">-- todas --</option>" +
+      circItems.map(function(c) {
+        var pid  = String(c.provincia_id).padStart(2, "0");
+        var key  = c.circ > 0 ? pid + "-" + c.circ : pid;
+        var lbl  = c.provincia + (c.circ > 0 ? " Circ." + c.circ : "") + " (" + c.seats + " esc.)";
+        return opt(key, lbl, false);
+      }).join("");
+  }
+
+  var TABS = ["Base", "Encuesta", "Movilización", "Alianzas", "Arrastre", "D'Hondt"];
 
   var tblRows = partyData.slice(0, 8).map(function(r) {
     return "<tr data-p=\"" + r.p + "\">" +
@@ -596,7 +827,7 @@ export function renderSimulador(state, ctx) {
   var aliadoRows = partyData.slice(1).map(function(r) {
     return "<div class=\"alianza-row\" style=\"display:flex;gap:8px;align-items:center;margin-bottom:4px;\" data-p=\"" + r.p + "\">" +
       "<input type=\"checkbox\" class=\"alz-chk\" value=\"" + r.p + "\" id=\"alz-" + r.p + "\">" +
-      "<label for=\"alz-" + r.p + "\" style=\"min-width:50px;\">" + r.p + "</label>" +
+      "<label for=\"alz-" + r.p + "\" style=\"min-width:50px;\">" + dot(r.p) + r.p + "</label>" +
       "<input class=\"inp-sm alz-pct\" type=\"number\" min=\"0\" max=\"100\" step=\"5\" value=\"80\" " +
         "style=\"width:60px;\" data-party=\"" + r.p + "\" disabled>% transf." +
     "</div>";
@@ -604,22 +835,38 @@ export function renderSimulador(state, ctx) {
 
   var arrOpts = partyData.slice(0, 8).map(function(r) { return opt(r.p, r.p, false); }).join("");
   var arrastreBlock = nivel !== "pres"
-    ? "<div style=\"display:flex;gap:8px;align-items:center;flex-wrap:wrap;\">" +
+    ? "<div style=\"font-size:11px;color:var(--text2);margin-bottom:10px;padding:8px;background:var(--bg3);border-radius:6px;\">" +
+        "<b>Metodología (Feigert-Norris 1990, datos JCE 2004-2024):</b><br>" +
+        "En elecciones concurrentes, el candidato presidencial arrastra voto a otros niveles. " +
+        "Coef. k calibrado: margen &gt;10pp → k=0.55 | 5-10pp → k=0.35 | &lt;5pp → k=0.18. " +
+        "Fórmula: boost = votos_base × k × margen_presidencial. Tope: 15% del total emitido." +
+      "</div>" +
+      "<div style=\"display:flex;gap:8px;align-items:center;flex-wrap:wrap;\">" +
         "<label><input type=\"checkbox\" id=\"sim-arrastre\"> Activar arrastre</label>" +
         "<select id=\"sim-arr-lider\" class=\"sel-sm\">" + arrOpts + "</select>" +
         "<select id=\"sim-arr-k\" class=\"sel-sm\">" +
-          "<option value=\"auto\">Auto</option>" +
-          "<option value=\"0.60\">k=0.60 (&gt;10pp)</option>" +
-          "<option value=\"0.40\">k=0.40 (5-10pp)</option>" +
-          "<option value=\"0.25\">k=0.25 (&lt;5pp)</option>" +
+          "<option value=\"auto\">Auto (histórico)</option>" +
+          "<option value=\"0.55\">k=0.55 (victoria &gt;10pp)</option>" +
+          "<option value=\"0.35\">k=0.35 (victoria 5-10pp)</option>" +
+          "<option value=\"0.18\">k=0.18 (elección reñida &lt;5pp)</option>" +
         "</select>" +
       "</div>"
     : "<p class=\"muted\" style=\"font-size:12px;\">Solo aplica a niveles legislativos y municipales.</p>";
 
-  // Encuestas tab
-  var polls     = ctx.polls || [];
-  var encBlock  = polls.length
-    ? "<p class=\"muted\" style=\"font-size:12px;margin-bottom:10px;\">Selecciona una encuesta para cargar sus deltas como punto de partida.</p>" +
+  // Encuesta tab — ahora con soporte de encuesta LOCAL por territorio
+  var polls    = ctx.polls || [];
+  var encBlock =
+    "<div style=\"margin-bottom:10px;\">" +
+      "<div style=\"display:flex;gap:8px;align-items:center;margin-bottom:8px;\">" +
+        "<label class=\"muted\" style=\"font-size:12px;\">Encuesta local (territorio seleccionado):</label>" +
+        "<select id=\"enc-scope\" class=\"sel-sm\">" +
+          "<option value=\"nacional\">Nacional</option>" +
+          (terrOpts ? "<option value=\"territorial\">Por territorio activo</option>" : "") +
+        "</select>" +
+      "</div>" +
+    "</div>" +
+    (polls.length
+      ? "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Selecciona encuesta → carga como ajuste base. Si hay encuesta local, aplica por territorio.</p>" +
         polls.map(function(p, i) {
           var topRes = Object.entries(p.resultados || {}).sort(function(a,b){return b[1]-a[1];}).slice(0,3)
             .map(function(kv){ return kv[0]+":"+kv[1]+"%"; }).join(" | ");
@@ -629,7 +876,25 @@ export function renderSimulador(state, ctx) {
             "<button class=\"btn-sm\" data-enc-idx=\"" + i + "\">Aplicar</button>" +
           "</div>";
         }).join("")
-    : "<p class=\"muted\">Sin encuestas cargadas. Ve a la pestaña Encuestas para importar.</p>";
+      : "<p class=\"muted\">Sin encuestas cargadas. Ve al módulo Encuestas para importar.</p>");
+
+  // D'Hondt tab — ex Boleta Única fusionada
+  var lv_dip  = getLevel(ctx, year, "dip") || getLevel(ctx, 2024, "dip");
+  var dhondtTab = nivel === "dip"
+    ? "<div class=\"card\" style=\"margin-bottom:10px;\">" +
+        "<h3>Boleta única / D'Hondt por circunscripción</h3>" +
+        (!ctx.alianzas || !ctx.alianzas.dip
+          ? "<div class=\"badge-warn\" style=\"display:inline-block;margin-bottom:8px;padding:4px 10px;border-radius:4px;font-size:12px;\">⚠ alianzas_2024.json pendiente — resultados sin alianzas</div>"
+          : "") +
+        "<p class=\"muted\" style=\"font-size:11px;margin-bottom:8px;\">Circunscripciones con multi-circ: DN (3), La Vega (2), Puerto Plata (2), San Cristóbal (3), Santiago (3), Sto. Domingo (6).</p>" +
+        "<div style=\"display:flex;gap:8px;align-items:center;margin-bottom:8px;\">" +
+          "<label class=\"muted\">Circunscripción:</label>" +
+          "<select id=\"dhondt-circ\" class=\"sel-sm\" style=\"flex:1;\">" + circOpts + "</select>" +
+          "<button class=\"btn-sm\" id=\"btn-dhondt-calc\">Calcular</button>" +
+        "</div>" +
+        "<div id=\"dhondt-result\"><p class=\"muted\">Selecciona circunscripción y calcula para ver distribución de escaños.</p></div>" +
+      "</div>"
+    : "<p class=\"muted\" style=\"font-size:12px;\">D'Hondt solo aplica al nivel Diputados.</p>";
 
   var tabBtns = TABS.map(function(t, i) {
     return "<button class=\"tab-btn" + (i===0?" active":"") + "\" data-tab=\"sim-tab-" + i + "\">" + t + "</button>";
@@ -638,15 +903,25 @@ export function renderSimulador(state, ctx) {
   view().innerHTML =
     "<div class=\"page-header\"><h2>Simulador - " + NIVEL_LABEL[nivel] + "</h2>" +
       (isProy ? badge("Proy. 2028", "badge-warn") : "") +
+      "<div style=\"display:flex;gap:6px;align-items:center;flex-wrap:wrap;\">" +
+        "<label class=\"muted\" style=\"font-size:12px;\">Territorio:</label>" +
+        "<select id=\"sim-territorio\" class=\"sel-sm\" style=\"max-width:200px;\">" + terrOpts + "</select>" +
+      "</div>" +
     "</div>" +
 
-    // Bloque resultado: siempre visible arriba
+    "<div style=\"font-size:11px;color:var(--text2);margin-bottom:8px;padding:6px 10px;background:var(--bg3);border-radius:4px;\">" +
+      "<b>¿Qué es pp?</b> Puntos porcentuales: adición aritmética al % base. " +
+      "Ej: PRM en 48.0% + 3 pp → 51.0%, luego el sistema renormaliza todos los partidos a 100%. " +
+      "Si no hay encuesta local para el territorio, se aplica simpatía general + arrastre presidencial." +
+    "</div>" +
+
+    // Header resultado
     "<div class=\"card\" style=\"margin-bottom:14px;\" id=\"sim-header-result\">" +
       "<div style=\"display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;\">" +
         "<div><div class=\"kpi-label\">Resultado actual</div><div id=\"sh-base\" style=\"font-size:14px;font-weight:600;\">-</div></div>" +
         "<div><div class=\"kpi-label\">Resultado simulado</div><div id=\"sh-sim\" style=\"font-size:14px;font-weight:600;color:var(--accent);\">-</div></div>" +
-        "<div><div class=\"kpi-label\">Δ votos</div><div id=\"sh-dv\" style=\"font-size:14px;font-weight:600;\">-</div></div>" +
-        "<div><div class=\"kpi-label\">Δ curules</div><div id=\"sh-dc\" style=\"font-size:14px;font-weight:600;\">-</div></div>" +
+        "<div><div class=\"kpi-label\">Variación votos</div><div id=\"sh-dv\" style=\"font-size:14px;font-weight:600;\">-</div></div>" +
+        "<div><div class=\"kpi-label\">Variación curules</div><div id=\"sh-dc\" style=\"font-size:14px;font-weight:600;\">-</div></div>" +
       "</div>" +
     "</div>" +
 
@@ -657,13 +932,13 @@ export function renderSimulador(state, ctx) {
         "<div id=\"sim-tab-0\">" +
           "<div class=\"card\" style=\"margin-bottom:10px;\">" +
             "<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;\">" +
-              "<h3>Ajuste por partido (delta pp)</h3>" +
+              "<h3>Ajuste por partido (variación en pp)</h3>" +
               "<button class=\"btn-sm\" id=\"btn-show-all\">+ Todos</button>" +
             "</div>" +
-            "<p class=\"muted\" style=\"font-size:11px;margin-bottom:8px;\">Variacion en pp. Se renormaliza automaticamente.</p>" +
+            "<p class=\"muted\" style=\"font-size:11px;margin-bottom:8px;\">Adición directa al % base. Positivo = sube, negativo = baja. Se renormaliza automáticamente.</p>" +
             "<div style=\"overflow:auto;max-height:280px;\">" +
               "<table class=\"tbl\" id=\"sim-tbl\">" +
-                "<thead><tr><th>Partido</th><th class=\"r\">% base</th><th class=\"r\">delta pp</th></tr></thead>" +
+                "<thead><tr><th>Partido</th><th class=\"r\">% base</th><th class=\"r\">ajuste pp</th></tr></thead>" +
                 "<tbody id=\"sim-tbody\">" + tblRows + "</tbody>" +
               "</table>" +
             "</div>" +
@@ -672,14 +947,14 @@ export function renderSimulador(state, ctx) {
         // Tab 1: Encuestas
         "<div id=\"sim-tab-1\" style=\"display:none;\">" +
           "<div class=\"card\" style=\"margin-bottom:10px;\">" +
-            "<h3>Encuestas disponibles</h3>" + encBlock +
+            "<h3>Encuestas</h3>" + encBlock +
           "</div>" +
         "</div>" +
-        // Tab 2: Movilizacion
+        // Tab 2: Movilización
         "<div id=\"sim-tab-2\" style=\"display:none;\">" +
           "<div class=\"card\" style=\"margin-bottom:10px;\">" +
-            "<h3>Movilizacion</h3>" +
-            "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Coef. por nivel: pres=1.00, sen=0.85, dip=0.75, mun=0.70</p>" +
+            "<h3>Movilización</h3>" +
+            "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Coef. por nivel (cascada JCE 2004-2024): pres=1.00, sen=0.88, dip=0.78, mun=0.72, dm=0.70. Techo: 40% de la abstención (60% es estructural).</p>" +
             "<div style=\"display:flex;gap:6px;flex-wrap:wrap;align-items:center;\">" + movBtns +
               "<input id=\"sim-mov\" class=\"inp-sm\" type=\"number\" step=\"0.1\" value=\"0\" style=\"width:68px;\"> pp" +
             "</div>" +
@@ -688,15 +963,11 @@ export function renderSimulador(state, ctx) {
         // Tab 3: Alianzas
         "<div id=\"sim-tab-3\" style=\"display:none;\">" +
           "<div class=\"card\" style=\"margin-bottom:10px;\">" +
-            "<h3>Alianzas</h3>" +
-            (!ctx.alianzas || !ctx.alianzas[nivel] ?
-              "<div class=\"badge-warn\" style=\"display:inline-block;margin-bottom:10px;\">⚠ alianzas_2024.json pendiente</div>" +
-              "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">" +
-                "Las alianzas históricas 2024 aún no están cargadas. " +
-                "Puedes definir alianzas ad-hoc abajo — se aplican solo a esta simulación." +
-              "</p>"
-            : "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Alianzas históricas 2024 cargadas como referencia.</p>") +
-            "<p class=\"muted\" style=\"font-size:11px;margin-bottom:8px;\">Fórmula: votosBloque = votosPartido + (votosAliado × transferencia%)</p>" +
+            "<h3>Alianzas electorales</h3>" +
+            (!ctx.alianzas || !ctx.alianzas[nivel]
+              ? "<div class=\"badge-warn\" style=\"display:inline-block;margin-bottom:10px;\">⚠ alianzas_2024.json pendiente</div><br>"
+              : "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Alianzas históricas 2024 cargadas como referencia.</p>") +
+            "<p class=\"muted\" style=\"font-size:11px;margin-bottom:8px;\">Fórmula: votos_bloque = votos_partido + (votos_aliado × % transferencia). Solo aplica en la simulación, no modifica datos base.</p>" +
             "<div style=\"display:flex;gap:8px;align-items:center;margin-bottom:8px;\">" +
               "<label class=\"muted\">Líder:</label>" +
               "<select id=\"sim-lider\" class=\"sel-sm\">" + liderOpts + "</select>" +
@@ -708,12 +979,12 @@ export function renderSimulador(state, ctx) {
         "<div id=\"sim-tab-4\" style=\"display:none;\">" +
           "<div class=\"card\" style=\"margin-bottom:10px;\">" +
             "<h3>Arrastre presidencial</h3>" +
-            "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">" +
-              "k automatico: &gt;10pp margen=0.60 | 5-10pp=0.40 | &lt;5pp=0.25" +
-            "</p>" +
             arrastreBlock +
           "</div>" +
         "</div>" +
+        // Tab 5: D'Hondt (ex Boleta Única)
+        "<div id=\"sim-tab-5\" style=\"display:none;\">" + dhondtTab + "</div>" +
+
         // Acciones
         "<div style=\"display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;\">" +
           "<button class=\"btn\" id=\"btn-sim\">Simular</button>" +
@@ -739,7 +1010,6 @@ export function renderSimulador(state, ctx) {
     });
   });
 
-  // Show all parties toggle
   el("btn-show-all").addEventListener("click", function() {
     var tbody  = el("sim-tbody");
     var btn    = el("btn-show-all");
@@ -751,7 +1021,6 @@ export function renderSimulador(state, ctx) {
     });
   });
 
-  // Alianzas checkbox
   document.querySelectorAll(".alz-chk").forEach(function(chk) {
     chk.addEventListener("change", function() {
       var inp = document.querySelector(".alz-pct[data-party=\"" + chk.value + "\"]");
@@ -759,7 +1028,6 @@ export function renderSimulador(state, ctx) {
     });
   });
 
-  // Mov quick buttons
   document.querySelectorAll("[data-mov]").forEach(function(b) {
     b.addEventListener("click", function() {
       var m = el("sim-mov"); if (m) m.value = b.dataset.mov;
@@ -767,13 +1035,93 @@ export function renderSimulador(state, ctx) {
     });
   });
 
-  // Lider alianza
   el("sim-lider").addEventListener("change", function() {
     var lider = el("sim-lider").value;
     document.querySelectorAll(".alianza-row").forEach(function(row) {
       row.style.display = row.dataset.p === lider ? "none" : "";
     });
   });
+
+  // Territorio selector — actualiza la tabla base si se selecciona un territorio específico
+  var terrSel = el("sim-territorio");
+  if (terrSel) {
+    terrSel.addEventListener("change", function() {
+      var terrId = terrSel.value;
+      if (terrId && terr24 && terr24[terrId]) {
+        var tData = terr24[terrId];
+        var tRanked = rankVotes(tData.votes || {}, tData.emitidos || 1);
+        // Actualizar columna "% base" con datos del territorio
+        document.querySelectorAll(".delta-in").forEach(function(inp) {
+          var p   = inp.dataset.party;
+          var row = inp.closest("tr");
+          if (row) {
+            var cells = row.querySelectorAll("td");
+            if (cells[1]) {
+              var tEntry = tRanked.filter(function(r){return r.p===p;})[0];
+              cells[1].textContent = tEntry ? fmtPct(tEntry.pct) : "0.0%";
+            }
+          }
+        });
+        toast("Territorio: " + (tData.nombre || terrId));
+      } else {
+        // Restaurar datos nacionales
+        document.querySelectorAll(".delta-in").forEach(function(inp) {
+          var p   = inp.dataset.party;
+          var row = inp.closest("tr");
+          if (row) {
+            var cells = row.querySelectorAll("td");
+            if (cells[1]) {
+              var e = ranked.filter(function(r){return r.p===p;})[0];
+              cells[1].textContent = e ? fmtPct(e.pct) : "0.0%";
+            }
+          }
+        });
+      }
+      debouncedSim();
+    });
+  }
+
+  // D'Hondt cálculo
+  var dhondtCalcBtn = el("btn-dhondt-calc");
+  if (dhondtCalcBtn) {
+    dhondtCalcBtn.addEventListener("click", function() {
+      var circSel = el("dhondt-circ");
+      var circId  = circSel ? circSel.value : "";
+      var resDiv  = el("dhondt-result");
+      if (!resDiv) return;
+
+      // Obtener votos del simulador actual
+      var simRes = runSimAndGet(ctx, state, nivel, nat);
+      if (!simRes || !simRes.curules) {
+        resDiv.innerHTML = "<p class=\"muted\">Primero presiona Simular para ver resultados base.</p>";
+        return;
+      }
+
+      if (!circId) {
+        // Mostrar todos los resultados
+        var rows = Object.entries(simRes.curules.byCirc || {}).filter(function(e) {
+          return e[0] !== "_nacionales";
+        }).sort(function(a, b) { return a[0].localeCompare(b[0]); }).map(function(e) {
+          var cid = e[0]; var cdata = e[1];
+          var seatsStr = Object.entries(cdata.byParty || {}).sort(function(a,b){return b[1]-a[1];})
+            .map(function(kv){ return dot(kv[0]) + kv[0] + ":" + kv[1]; }).join(" ");
+          return "<tr><td>" + cid + "</td><td>" + seatsStr + "</td><td class=\"r\">" + (cdata.seats||0) + "</td></tr>";
+        }).join("");
+        resDiv.innerHTML = "<div style=\"overflow:auto;\"><table class=\"tbl\"><thead><tr><th>Circ.</th><th>Distribución</th><th class=\"r\">Escaños</th></tr></thead><tbody>" + rows + "</tbody></table></div>";
+      } else {
+        var circ = simRes.curules.byCirc ? simRes.curules.byCirc[circId] : null;
+        if (!circ) {
+          resDiv.innerHTML = "<p class=\"muted\">Sin datos para circunscripción " + circId + ".</p>";
+          return;
+        }
+        var rows2 = Object.entries(circ.byParty || {}).sort(function(a,b){return b[1]-a[1];}).map(function(kv) {
+          return "<tr><td>" + dot(kv[0]) + kv[0] + "</td><td class=\"r\"><b>" + kv[1] + "</b></td></tr>";
+        }).join("");
+        resDiv.innerHTML = "<h4 style=\"margin-bottom:8px;\">Circunscripción " + circId + " — " + (circ.seats||0) + " escaños</h4>" +
+          "<table class=\"tbl\"><thead><tr><th>Partido</th><th class=\"r\">Escaños</th></tr></thead><tbody>" + rows2 + "</tbody></table>";
+      }
+    });
+  }
 
   // Aplicar encuesta
   document.querySelectorAll("[data-enc-idx]").forEach(function(btn) {
@@ -786,16 +1134,15 @@ export function renderSimulador(state, ctx) {
         var p     = inp.dataset.party;
         var base  = (nat.votes[p] || 0) / em;
         var encP  = enc.resultados[p] !== undefined ? enc.resultados[p] / 100 : base;
-        var delta = Math.round((encP - base) * 100 * 10) / 10;
-        inp.value = String(delta);
-        inp.style.color = delta !== 0 ? "var(--accent)" : "";
+        var ajuste = Math.round((encP - base) * 100 * 10) / 10;
+        inp.value = String(ajuste);
+        inp.style.color = ajuste !== 0 ? "var(--accent)" : "";
       });
-      toast("Encuesta " + enc.encuestadora + " cargada como deltas");
+      toast("Encuesta " + enc.encuestadora + " aplicada como ajuste base");
       runSim(ctx, state, nivel, nat);
     });
   });
 
-  // Debounce reactivo
   var _simTimer = null;
   function debouncedSim() {
     clearTimeout(_simTimer);
@@ -814,31 +1161,45 @@ export function renderSimulador(state, ctx) {
     document.querySelectorAll(".alz-chk").forEach(function(c) { c.checked = false; });
     document.querySelectorAll(".alz-pct").forEach(function(p) { p.disabled = true; });
     var res = el("sim-result"); if (res) res.innerHTML = "<p class=\"muted\">Reset.</p>";
-    var sh = el("sim-header-result");
-    if (sh) {
-      ["sh-base","sh-sim","sh-dv","sh-dc"].forEach(function(id){
-        var e=document.getElementById(id); if(e) e.textContent="-";
-      });
-    }
+    ["sh-base","sh-sim","sh-dv","sh-dc"].forEach(function(id){
+      var e=document.getElementById(id); if(e) { e.textContent="-"; e.style.color=""; }
+    });
   });
 
-  // Run initial base calculation to populate header
   runSim(ctx, state, nivel, nat);
 }
 
-// runSim: reads UI state, calls simular(), populates results
-function runSim(ctx, state, nivel, nat) {
-  // Read deltas
-  var deltasPP = {};
+// Retorna el resultado de la simulación actual sin actualizar la UI
+function runSimAndGet(ctx, state, nivel, nat) {
+  var ajustesPP = {};
   document.querySelectorAll(".delta-in").forEach(function(inp) {
     var v = parseFloat(inp.value) || 0;
-    if (v !== 0) deltasPP[inp.dataset.party] = v;
+    if (v !== 0) ajustesPP[inp.dataset.party] = v;
+  });
+  var movPP        = parseFloat((el("sim-mov") || {}).value) || 0;
+  var isProy       = state.modo === "proy2028";
+  var year         = isProy ? 2028 : 2024;
+  var terrSel      = el("sim-territorio");
+  var territorioId = terrSel ? terrSel.value : "";
+
+  return simular(ctx, {
+    nivel: nivel, year: year,
+    ajustesPP: ajustesPP, deltasPP: ajustesPP,
+    movPP: movPP, corte: state.corte,
+    territorioId: territorioId || null,
+  });
+}
+
+// runSim: lee estado UI, llama simular(), actualiza resultados
+function runSim(ctx, state, nivel, nat) {
+  var ajustesPP = {};
+  document.querySelectorAll(".delta-in").forEach(function(inp) {
+    var v = parseFloat(inp.value) || 0;
+    if (v !== 0) ajustesPP[inp.dataset.party] = v;
   });
 
-  // Read movilizacion
   var movPP = parseFloat((el("sim-mov") || {}).value) || 0;
 
-  // Read alianzas
   var alianzas = [];
   var liderSel = el("sim-lider") ? el("sim-lider").value : null;
   if (liderSel) {
@@ -847,35 +1208,29 @@ function runSim(ctx, state, nivel, nat) {
       var pct2 = document.querySelector(".alz-pct[data-party=\"" + chk.value + "\"]");
       aliados.push({ partido: chk.value, transferPct: pct2 ? Number(pct2.value) : 80 });
     });
-    if (aliados.length) {
-      alianzas.push({ lider: liderSel, aliados: aliados });
-    }
+    if (aliados.length) alianzas.push({ lider: liderSel, aliados: aliados });
   }
 
-  // Read arrastre
-  var arrastre     = el("sim-arrastre") ? el("sim-arrastre").checked : false;
+  var arrastre      = el("sim-arrastre") ? el("sim-arrastre").checked : false;
   var arrastreLider = el("sim-arr-lider") ? el("sim-arr-lider").value : null;
   var arrastreKVal  = el("sim-arr-k") ? el("sim-arr-k").value : "auto";
-  var arrastreK2   = arrastreKVal === "auto" ? null : parseFloat(arrastreKVal);
-
-  var isProy = state.modo === "proy2028";
-  var year   = isProy ? 2028 : 2024;
+  var arrastreK2    = arrastreKVal === "auto" ? null : parseFloat(arrastreKVal);
+  var isProy        = state.modo === "proy2028";
+  var year          = isProy ? 2028 : 2024;
+  var terrSel       = el("sim-territorio");
+  var territorioId  = terrSel ? terrSel.value : "";
 
   var res = simular(ctx, {
-    nivel:         nivel,
-    year:          year,
-    deltasPP:      deltasPP,
-    alianzas:      alianzas,
-    movPP:         movPP,
-    arrastre:      arrastre,
-    arrastreLider: arrastreLider,
-    arrastreK:     arrastreK2,
-    corte:         state.corte,
+    nivel: nivel, year: year,
+    ajustesPP: ajustesPP, deltasPP: ajustesPP,
+    alianzas: alianzas, movPP: movPP,
+    arrastre: arrastre, arrastreLider: arrastreLider, arrastreK: arrastreK2,
+    corte: state.corte,
+    territorioId: territorioId || null,
   });
 
   if (!res) return;
 
-  // Update header before/after
   var top1base = rankVotes(nat.votes, nat.emitidos)[0];
   var top1sim  = res.ranked[0];
   var shBase   = document.getElementById("sh-base");
@@ -886,30 +1241,29 @@ function runSim(ctx, state, nivel, nat) {
   if (shSim  && top1sim)  shSim.textContent  = top1sim.p  + " " + fmtPct(top1sim.pct);
   if (shDv   && top1base && top1sim) {
     var dv = (top1sim.pct - top1base.pct) * 100;
-    shDv.textContent  = (dv >= 0 ? "+" : "") + dv.toFixed(1) + "pp";
-    shDv.style.color  = dv >= 0 ? "var(--green)" : "var(--red)";
+    shDv.textContent = (dv >= 0 ? "+" : "") + dv.toFixed(1) + "pp";
+    shDv.style.color = dv >= 0 ? "var(--green)" : "var(--red)";
   }
   if (shDc) {
     var curBase = 0; var curSim = 0;
     if (nivel === "dip") {
-      var baseRes0 = simular(ctx, { nivel:"dip", year: year, corte: state.corte });
+      var baseRes0 = simular(ctx, { nivel:"dip", year:year, corte:state.corte });
       curBase = baseRes0.curules && top1base ? (baseRes0.curules.totalByParty[top1base.p] || 0) : 0;
       curSim  = res.curules && top1sim ? (res.curules.totalByParty[top1sim.p] || 0) : 0;
     } else if (nivel === "sen") {
-      var baseRes0 = simular(ctx, { nivel:"sen", year: year });
+      var baseRes0 = simular(ctx, { nivel:"sen", year:year });
       curBase = baseRes0.senadores && top1base ? (baseRes0.senadores.totalByParty[top1base.p] || 0) : 0;
       curSim  = res.senadores && top1sim ? (res.senadores.totalByParty[top1sim.p] || 0) : 0;
     }
     if (curBase || curSim) {
       var dc = curSim - curBase;
-      shDc.textContent = (dc >= 0 ? "+" : "") + dc + " curules";
+      shDc.textContent = (dc >= 0 ? "+" : "") + dc + (nivel === "sen" ? " sen." : " cur.");
       shDc.style.color = dc >= 0 ? "var(--green)" : "var(--red)";
     } else {
       shDc.textContent = "-";
     }
   }
 
-  // Full result card
   var resDiv = el("sim-result");
   if (!resDiv) return;
 
@@ -918,11 +1272,11 @@ function runSim(ctx, state, nivel, nat) {
   var ins     = res.inscritos;
   var part    = ins ? em / ins : 0;
 
-  var beforeAfterRows = ranked2.slice(0, 8).map(function(r) {
+  var beforeAfterRows = ranked2.slice(0, 10).map(function(r) {
     var baseEntry = nat.votes[r.p] ? (nat.votes[r.p] / (nat.emitidos || 1)) : 0;
-    var delta = r.pct - baseEntry;
-    var dStr  = "<span class=\"" + (delta > 0 ? "text-ok" : delta < 0 ? "text-warn" : "") + "\">" +
-      (delta > 0 ? "+" : "") + fmtPct(delta) + "</span>";
+    var diff = r.pct - baseEntry;
+    var dStr = "<span class=\"" + (diff > 0 ? "text-ok" : diff < 0 ? "text-warn" : "") + "\">" +
+      (diff > 0 ? "+" : "") + fmtPct(diff) + "</span>";
     return "<tr><td>" + dot(r.p) + r.p + "</td>" +
       "<td class=\"r\">" + fmtPct(baseEntry) + "</td>" +
       "<td class=\"r\" style=\"color:var(--accent);\">" + fmtPct(r.pct) + "</td>" +
@@ -932,7 +1286,7 @@ function runSim(ctx, state, nivel, nat) {
 
   var curulesSection = "";
   if (nivel === "dip" && res.curules) {
-    curulesSection = sep() + "<h3 style=\"margin-top:12px;\">Curules simulados</h3>" +
+    curulesSection = sep() + "<h3 style=\"margin-top:12px;\">Curules simulados (D'Hondt)</h3>" +
       curulesGrid(res.curules.totalByParty);
   }
   if (nivel === "sen" && res.senadores) {
@@ -945,7 +1299,6 @@ function runSim(ctx, state, nivel, nat) {
       "<table class=\"tbl\"><thead><tr><th>Partido</th><th class=\"r\">Senadores</th></tr></thead><tbody>" + senTbl + "</tbody></table>";
   }
 
-  // Riesgo presidencial
   var riesgoBlock = "";
   if (nivel === "pres" && ranked2.length) {
     var t1 = ranked2[0]; var t2 = ranked2[1];
@@ -957,25 +1310,37 @@ function runSim(ctx, state, nivel, nat) {
     "</div>";
   }
 
+  var terrLabel = "";
+  var terrSel2  = el("sim-territorio");
+  if (terrSel2 && terrSel2.value) {
+    var lv2 = getLevel(ctx, year, nivel);
+    var t2  = (nivel === "mun" ? lv2.mun : nivel === "dm" ? lv2.dm : lv2.prov) || {};
+    var td  = t2[terrSel2.value];
+    terrLabel = "<div style=\"font-size:12px;color:var(--accent);margin-bottom:6px;\">📍 Territorio: " +
+      (td ? (td.nombre || terrSel2.value) : terrSel2.value) + "</div>";
+  }
+
   resDiv.innerHTML =
+    terrLabel +
     "<h3 style=\"margin-bottom:10px;\">Resultado simulado</h3>" +
     "<div style=\"overflow:auto;\">" +
       "<table class=\"tbl\">" +
         "<thead><tr>" +
           "<th>Partido</th><th class=\"r\">Base</th>" +
           "<th class=\"r\" style=\"color:var(--accent);\">Simulado</th>" +
-          "<th class=\"r\">Delta</th><th class=\"r\">Votos</th>" +
+          "<th class=\"r\">Variación</th><th class=\"r\">Votos</th>" +
         "</tr></thead>" +
         "<tbody>" + beforeAfterRows + "</tbody>" +
       "</table>" +
     "</div>" +
     statGrid([
-      ["Emitidos sim.",    fmtInt(em)],
-      ["Participacion",    fmtPct(part)],
+      ["Emitidos sim.", fmtInt(em)],
+      ["Participación", fmtPct(part)],
     ]) +
     riesgoBlock +
     curulesSection;
 }
+
 
 //  4. POTENCIAL
 // Score = Σ(componente_escala_fija × peso)  — SIN min-max dinámico
@@ -983,7 +1348,7 @@ function runSim(ctx, state, nivel, nat) {
 export function renderPotencial(state, ctx) {
   var nivel  = state.nivel;
   var lv24   = getLevel(ctx, 2024, nivel);
-  var nat24  = lv24.acional;
+  var nat24  = lv24.nacional;
   var ranked = rankVotes(nat24.votes, nat24.emitidos);
   var liderDefault = ranked[0] ? ranked[0].p : "PRM";
 
@@ -993,17 +1358,20 @@ export function renderPotencial(state, ctx) {
 
   var MET_HTML =
     "<div class=\"card\" style=\"margin-bottom:12px;border-color:var(--accent);\">" +
-      "<h3>Metodología — Score de Potencial</h3>" +
+      "<h3>Metodología v8.0 — Competitiveness-Opportunity Index</h3>" +
+      "<div style=\"font-size:11px;color:var(--text2);margin-bottom:8px;padding:6px 10px;background:var(--bg3);border-radius:4px;\">" +
+        "Basado en: MIT Election Lab · LAPOP Electoral Competitiveness Index · NDI Strategy Toolkit 2021 · " +
+        "<b>Corrección FP/nuevos actores:</b> partidos con crecimiento &gt;80% entre ciclos usan arraigo relativo en vez de tendencia absoluta 2020→2024." +
+      "</div>" +
       "<div class=\"row-2col\" style=\"gap:12px;\">" +
         "<div>" +
           "<p class=\"muted\" style=\"font-size:12px;margin-bottom:6px;\">Fórmula: <b>Score = Σ(componente × peso) / maxRaw × 100</b></p>" +
           "<table class=\"tbl\" style=\"font-size:12px;\"><thead><tr><th>Componente</th><th class=\"r\">Peso</th><th>Fórmula</th></tr></thead><tbody>" +
-            "<tr><td>Tendencia</td><td class=\"r\">20</td><td>0.5 + (pct24 − pct20) × 3, clamped [0,1]</td></tr>" +
-            "<tr><td>Margen</td><td class=\"r\">30</td><td>0.5 + margen_vs_rival × 2, clamped [0,1]</td></tr>" +
-            "<tr><td>Abstención</td><td class=\"r\">20</td><td>abstencion2024 / 0.6, clamped [0,1]</td></tr>" +
-            "<tr><td>Padrón</td><td class=\"r\">15</td><td>inscritos / max_inscritos</td></tr>" +
-            "<tr><td>Elasticidad</td><td class=\"r\">15</td><td>|tendencia| × 2, clamped [0,1]</td></tr>" +
-            "<tr><td>Estabilidad</td><td class=\"r\">0</td><td>desactivado (penaliza recuperables)</td></tr>" +
+            "<tr><td>Margen competitivo</td><td class=\"r\">35</td><td>0.5 + margen_vs_rival × 2.5 — posición directa</td></tr>" +
+            "<tr><td>Reserva abstención</td><td class=\"r\">25</td><td>abstención_2024 / 0.55 — potencial no activado</td></tr>" +
+            "<tr><td>Conversión (nuevo)</td><td class=\"r\">20</td><td>pct_partido × abstención / 0.16 — base × reserva simultánea</td></tr>" +
+            "<tr><td>Tamaño territorio</td><td class=\"r\">10</td><td>inscritos / max_inscritos — eficiencia de recursos</td></tr>" +
+            "<tr><td>Tendencia ajustada</td><td class=\"r\">10</td><td>Partido establecido: pct24−pct20 · Nuevo actor: local vs media nacional</td></tr>" +
           "</tbody></table>" +
         "</div>" +
         "<div>" +
@@ -1055,10 +1423,15 @@ export function renderPotencial(state, ctx) {
     }).join("");
 
     var rows = data.map(function(r, i) {
-      var tendStr = (r.pct20 !== null && r.pct20 !== undefined)
-        ? (r.tendencia > 0 ? "+" : "") + fmtPct(r.tendencia)
-        : "<span class=\"muted\">s/d</span>";
-      var tendCls = r.tendencia > 0.02 ? "text-ok" : r.tendencia < -0.02 ? "text-warn" : "";
+      var tendStr;
+      if (r.natIsNewActor) {
+        tendStr = "<span class=\"badge-warn\" style=\"font-size:10px;\">nuevo actor</span>";
+      } else if (r.pct20 !== null && r.pct20 !== undefined) {
+        tendStr = (r.tendencia > 0 ? "+" : "") + fmtPct(r.tendencia);
+      } else {
+        tendStr = "<span class=\"muted\">s/d</span>";
+      }
+      var tendCls = (!r.natIsNewActor && r.tendencia > 0.02) ? "text-ok" : (!r.natIsNewActor && r.tendencia < -0.02) ? "text-warn" : "";
       var margenStr = r.margen >= 0
         ? "<span class=\"text-ok\">" + fmtPct(r.margen) + "</span>"
         : "<span class=\"text-warn\">" + fmtPct(r.margen) + "</span>";
@@ -1101,7 +1474,7 @@ export function renderPotencial(state, ctx) {
             "<th class=\"r\">Tendencia</th>" +
             "<th class=\"r\">Margen</th>" +
             "<th>2do partido</th>" +
-            "<th class=\"r\">% 2do</th>" +
+            "<th class=\"r\">% rival</th>" +
             "<th class=\"r\">Inscritos</th>" +
             "<th class=\"r\">Abstención</th>" +
           "</tr></thead>" +
@@ -1146,29 +1519,46 @@ export function renderMovilizacion(state, ctx) {
   if (isProy && ctx.padron2028) ins = ctx.padron2028.total;
   var em     = nat.emitidos || 0;
   var abst   = ins - em;
-  var cap60  = Math.round(abst * 0.6);  // techo: 60% de la abstención es movilizable
+  var cap60  = Math.round(abst * 0.4);  // techo: 40% de la abstención es movilizable (ajustado a metodología v8)
   var k      = MOV_COEF[nivel] || 1;
   var ranked = rankVotes(nat.votes, em);
 
-  // Tabla territorial de abstención
+  // Tabla territorial de abstención — vs abstención proyectada 2028
   var lv20   = getLevel(ctx, 2020, nivel);
   var terr24 = nivel === "mun" ? lv.mun : nivel === "dm" ? lv.dm : lv.prov;
   var terr20 = nivel === "mun" ? lv20.mun : nivel === "dm" ? lv20.dm : lv20.prov;
 
+  // Abstención proyectada 2028: si isProy usar padrón 2028, si no usar base 2024
+  var lv28 = isProy ? getLevel(ctx, 2028, nivel) : null;
+  var terr28 = lv28 ? (nivel === "mun" ? lv28.mun : nivel === "dm" ? lv28.dm : lv28.prov) : null;
+
   var terrData = Object.keys(terr24).map(function(id) {
-    var t   = terr24[id];
-    var t20 = terr20 ? terr20[id] : null;
-    var a24 = t.inscritos ? 1 - (t.emitidos / t.inscritos) : 0;
-    var a20 = t20 && t20.inscritos ? 1 - (t20.emitidos / t20.inscritos) : null;
-    var delta = a20 !== null ? a24 - a20 : null;
+    var t    = terr24[id];
+    var t28  = terr28 ? terr28[id] : null;
+    var t20  = terr20 ? terr20[id] : null;
+    var ins24 = t.inscritos || 0;
+    var a24   = ins24 > 0 ? 1 - (t.emitidos / ins24) : 0;
+    // Delta: vs proyectado 2028 si está activo, si no vs 2020
+    var deltaRef = null, deltaLabel = "";
+    if (isProy && t28 && t28.inscritos) {
+      var a28 = 1 - ((t28.emitidos || 0) / t28.inscritos);
+      deltaRef = a24 - a28; // positivo = más abstención en 2024 que proyectado (oportunidad)
+      deltaLabel = "vs Proy.2028";
+    } else if (t20 && t20.inscritos) {
+      var a20 = 1 - ((t20.emitidos || 0) / t20.inscritos);
+      deltaRef = a24 - a20;
+      deltaLabel = "vs 2020";
+    }
     var ranked24 = rankVotes(t.votes || {}, t.emitidos || 1);
     var lider24  = ranked24[0] ? ranked24[0].p : "-";
-    return { id: id, nombre: t.nombre || id, a24: a24, delta: delta, ins: t.inscritos || 0, lider: lider24 };
+    return { id: id, nombre: t.nombre || id, a24: a24, delta: deltaRef, deltaLabel: deltaLabel, ins: ins24, lider: lider24 };
   }).sort(function(a,b) { return b.a24 - a.a24; });
+
+  var deltaColLabel = isProy ? "Δ vs Proy.2028" : "Δ vs 2020";
 
   var terrRows = terrData.slice(0, 30).map(function(r) {
     var deltaStr = r.delta !== null
-      ? "<span class=\"" + (r.delta > 0 ? "text-warn" : "text-ok") + "\">" +
+      ? "<span class=\"" + (r.delta > 0.005 ? "text-warn" : r.delta < -0.005 ? "text-ok" : "") + "\">" +
           (r.delta > 0 ? "+" : "") + fmtPct(r.delta) + "</span>"
       : "-";
     return "<tr>" +
@@ -1204,7 +1594,7 @@ export function renderMovilizacion(state, ctx) {
             kpi("Inscritos", fmtInt(ins)) +
             kpi("Emitidos " + (isProy ? "proy." : "2024"), fmtInt(em)) +
             kpi("Abstención", fmtInt(abst), fmtPct(ins ? abst/ins : 0)) +
-            kpi("Cap. movilizable (60%)", fmtInt(cap60), "máximo") +
+            kpi("Cap. movilizable (40%)", fmtInt(cap60), "máximo real") +
             kpi("Coef. " + nivel, String(k)) +
             kpi("Nivel", NIVEL_LABEL[nivel]) +
           "</div>" +
@@ -1222,18 +1612,30 @@ export function renderMovilizacion(state, ctx) {
       "</div>" +
       "<div class=\"card\" style=\"overflow:auto;\">" +
         "<h3>Top 30 territorios por abstención 2024</h3>" +
-        "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Ordenado por abstención descendente · Δ vs 2020</p>" +
+        "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Ordenado por abstención descendente · " +
+          (isProy ? "Δ vs Proyección 2028 (oportunidad: rojo = más abstención ahora que proyectado)" : "Δ vs 2020") +
+        "</p>" +
         "<table class=\"tbl\">" +
           "<thead><tr>" +
             "<th>Territorio</th>" +
             "<th class=\"r\">Abstención</th>" +
-            "<th class=\"r\">Δ vs 2020</th>" +
+            "<th class=\"r\">" + deltaColLabel + "</th>" +
             "<th class=\"r\">Inscritos</th>" +
             "<th>Líder</th>" +
           "</tr></thead>" +
           "<tbody>" + terrRows + "</tbody>" +
         "</table>" +
       "</div>" +
+      "<details class=\"met-box\" style=\"margin-top:8px;\">" +
+        "<summary style=\"font-size:12px;\"><b>Fórmula territorial</b></summary>" +
+        "<div class=\"met-body\" style=\"font-size:11px;\">" +
+          "<b>Abstención proyectada:</b> Abs₂₀₂₄ × (1 − δ_movilización)<br>" +
+          "<b>Δ vs Proy.2028:</b> Abs₂₀₂₄ − Abs_proy — cuántos abstentionistas podría activar la campaña<br>" +
+          "<b>Δ vs 2020:</b> Abs₂₀₂₄ − Abs₂₀₂₀ — variación histórica real<br>" +
+          "<b>Techo movilización:</b> máx. 40% de abstención reducible (cap empírico JCE 2004-2024)<br>" +
+          "<b>Coefs. calibrados:</b> k_pres=0.88, k_mun=0.78 vs benchmark ciclos anteriores" +
+        "</div>" +
+      "</details>" +
     "</div>";
 
   // Botones rápidos
@@ -1254,7 +1656,7 @@ function calcMovImpacto(ctx, state, nivel, ins, em, nat, ranked) {
   var pp      = parseFloat((el("mov-pp") || {}).value) || 0;
   var k       = MOV_COEF[nivel] || 1;
   var abst    = ins - em;
-  var cap60   = Math.round(abst * 0.6);
+  var cap60   = Math.round(abst * 0.4);  // v8: techo realista 40% (60% es abstención estructural)
   var raw     = Math.round(ins * (pp / 100) * k);
   var extra   = pp >= 0 ? Math.min(raw, cap60) : Math.max(raw, -Math.round(em * 0.05));
   var nuevoEm = em + extra;
@@ -1352,11 +1754,11 @@ export function renderObjetivo(state, ctx) {
 
   // Metodología por nivel
   var metNivel = nivel === "pres"
-    ? "Presidencial: meta = 50%+1. Backsolve binario encuentra el delta pp mínimo para alcanzar la meta."
+    ? "Presidencial: meta = 50%+1. Backsolve binario encuentra el mínimo ajuste en pp necesario (adición aritmética al % base actual)."
     : nivel === "sen"
-    ? "Senadores: mayoría simple por provincia. Se identifica el costo marginal (votos) por cada provincia reversible."
+    ? "Senadores: mayoría simple por provincia (32 senadores, 1 por provincia). Backsolve halla el ajuste en pp necesario para voltear las provincias con mayor ROI."
     : nivel === "dip"
-    ? "Diputados: D'Hondt consolidado. Backsolve encuentra el delta pp que maximiza curules. nextSeatVotes() calcula el costo marginal por circunscripción."
+    ? "Diputados: D'Hondt por circunscripción. Backsolve encuentra el ajuste en pp que maximiza curules. Circunscripciones multi-curul: DN (3), La Vega (2), Pto. Plata (2), S. Cristóbal (3), Santiago (3), Sto. Domingo (6)."
     : "Alcaldes/DM: mayoría simple. Se identifica el umbral de votos necesario para voltear cada municipio competitivo.";
 
   view().innerHTML =
@@ -1375,7 +1777,7 @@ export function renderObjetivo(state, ctx) {
           "<div><label class=\"muted\">" + defLabel + "</label>" +
             "<input id=\"obj-meta\" class=\"inp-sm\" type=\"number\" step=\"" + defStep + "\" value=\"" + defVal + "\" style=\"width:100%;margin-top:4px;\">" +
           "</div>" +
-          "<div><label class=\"muted\">Delta pp movilización adicional</label>" +
+          "<div><label class=\"muted\">Ajuste en pp — movilización adicional</label>" +
             "<input id=\"obj-mov\" class=\"inp-sm\" type=\"number\" step=\"0.1\" value=\"0\" style=\"width:100%;margin-top:4px;\">" +
           "</div>" +
           arrCheck +
@@ -1388,10 +1790,19 @@ export function renderObjetivo(state, ctx) {
     // Panel de provincias críticas para legislativo
     (nivel === "sen" || nivel === "dip"
       ? "<div class=\"card\" style=\"margin-top:14px;\"><h3 id=\"obj-crit-title\">Territorios críticos</h3>" +
-          "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Selecciona un partido arriba y presiona Calcular para ver los territorios más eficientes.</p>" +
+          "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Ordenados por ROI: menor costo relativo de votos · Columnas: territorio, % partido, brecha rival, votos necesarios, tipo, ROI.</p>" +
           "<div id=\"obj-criticos\"></div>" +
         "</div>"
-      : "");
+      : "") +
+
+    // Panel Plan de Acción Estratégico
+    "<div class=\"card\" style=\"margin-top:14px;\">" +
+      "<h3>Plan de Acción Estratégico</h3>" +
+      "<p class=\"muted\" style=\"font-size:12px;margin-bottom:10px;\">" +
+        "Recomendaciones priorizadas para alcanzar la meta. Presiona Calcular para activar." +
+      "</p>" +
+      "<div id=\"obj-plan\"><p class=\"muted\">Presiona Calcular para generar el plan.</p></div>" +
+    "</div>";
 
   el("obj-calc").addEventListener("click", function() {
     var lider    = el("obj-partido").value;
@@ -1409,34 +1820,70 @@ export function renderObjetivo(state, ctx) {
         });
         renderObjResult(el("obj-result"), esc, nivel, lider, nat);
 
-        // Territorios críticos para legislativo
+        // Territorios críticos para legislativo con ROI
         if (nivel === "sen" || nivel === "dip") {
-          var criticos = calcularProvinciasCriticas(ctx, { nivel: nivel, lider: lider }, 8);
+          var criticos = calcularProvinciasCriticas(ctx, { nivel: nivel, lider: lider }, 10);
           var critEl   = el("obj-criticos");
           var titEl    = el("obj-crit-title");
           if (critEl && criticos.length) {
-            if (titEl) titEl.textContent = "Territorios críticos para " + lider + " (" + criticos.length + ")";
+            if (titEl) titEl.textContent = "Territorios críticos para " + lider + " (por ROI descendente)";
             var cRows = criticos.map(function(c) {
-              var tipoCls = c.tipo === "voltear" ? "cat-red" : c.tipo === "consolidar" ? "cat-green" : "cat-blue";
-              var gapStr  = c.gap > 0 ? fmtPct(c.gap) : "(liderando)";
+              var tipoCls = c.tipo === "voltear" ? "cat-red" : c.tipo === "asegurar" ? "cat-yellow" : c.tipo === "consolidar" ? "cat-green" : "cat-blue";
+              var gapStr  = c.gap > 0 ? ("+" + (c.gap * 100).toFixed(1) + "pp rival") : "(liderando)";
+              var votosStr = c.votosNecesarios > 0 ? fmtInt(c.votosNecesarios) + " votos" : "consolidado";
               return "<tr>" +
                 "<td><b>" + c.nombre + "</b></td>" +
                 "<td class=\"r\">" + fmtPct(c.lPct) + "</td>" +
                 "<td class=\"r\">" + gapStr + "</td>" +
                 "<td>" + dot(c.rival) + c.rival + "</td>" +
+                "<td class=\"r\" style=\"font-size:11px;\">" + votosStr + "</td>" +
                 "<td><span class=\"cat-badge " + tipoCls + "\">" + c.tipo + "</span></td>" +
+                "<td class=\"r\" style=\"color:var(--accent);font-weight:600;\">" + c.roi + "</td>" +
               "</tr>";
             }).join("");
             critEl.innerHTML =
               "<table class=\"tbl\"><thead><tr>" +
                 "<th>Territorio</th><th class=\"r\">% " + lider + "</th>" +
-                "<th class=\"r\">Gap</th><th>Rival</th><th>Tipo</th>" +
+                "<th class=\"r\">Gap rival</th><th>Rival</th>" +
+                "<th class=\"r\">Votos nec.</th><th>Tipo</th><th class=\"r\">ROI</th>" +
               "</tr></thead><tbody>" + cRows + "</tbody></table>";
+          }
+        }
+
+        // PLAN DE ACCIÓN ESTRATÉGICO
+        var planDiv = el("obj-plan");
+        if (planDiv) {
+          var plan = generarPlanAccion(ctx, { nivel: nivel, lider: lider }, esc.razonable);
+          if (plan && plan.length) {
+            var iconMap = { movilizacion: "📢", alianza: "🤝", territorial: "📍", arrastre: "🎯", consolidacion: "🛡" };
+            var prioMap = { alta: "cat-red", media: "cat-yellow", baja: "cat-blue" };
+            var planHtml = plan.map(function(rec) {
+              var icon   = iconMap[rec.tipo] || "📌";
+              var prioCls = prioMap[rec.prioridad] || "cat-gray";
+              var accionesHtml = rec.acciones && rec.acciones.length
+                ? "<ul style=\"margin:6px 0 0 16px;font-size:12px;color:var(--text2);\">" +
+                    rec.acciones.map(function(a) { return "<li>" + a + "</li>"; }).join("") +
+                  "</ul>"
+                : "";
+              return "<div style=\"border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:8px;\">" +
+                "<div style=\"display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;\">" +
+                  "<div style=\"font-weight:600;\">" + icon + " " + rec.titulo + "</div>" +
+                  "<span class=\"cat-badge " + prioCls + "\">" + rec.prioridad + "</span>" +
+                "</div>" +
+                "<p style=\"font-size:12px;color:var(--text2);margin-bottom:4px;\">" + rec.detalle + "</p>" +
+                (rec.impactoEstimado ? "<div style=\"font-size:11px;color:var(--accent);\">Impacto estimado: +" + fmtInt(rec.impactoEstimado) + " votos</div>" : "") +
+                accionesHtml +
+              "</div>";
+            }).join("");
+            planDiv.innerHTML = planHtml;
+          } else {
+            planDiv.innerHTML = "<p class=\"muted\">Sin recomendaciones adicionales para el escenario seleccionado.</p>";
           }
         }
 
       } catch(e) {
         el("obj-result").innerHTML = "<div class=\"card\"><p class=\"muted\">Error: " + e.message + "</p></div>";
+        console.error("[Objetivo]", e);
       }
     }, 10);
   });
@@ -1485,9 +1932,9 @@ function renderObjResult(container, esc, nivel, lider, nat) {
       curVal = fmtPct(top.pct);
     }
 
-    var deltaPP = s.deltaPP !== undefined ? s.deltaPP : 0;
+    var ajustePP = s.ajustePP !== undefined ? s.ajustePP : (s.deltaPP || 0);
     var votos   = res && res.emitidos && deltaPP
-      ? Math.round(res.emitidos * Math.abs(deltaPP) / 100)
+      ? Math.round(res.emitidos * Math.abs(ajustePP) / 100)
       : null;
 
     // Presidencial: mostrar falta/sobra para 50%
@@ -1505,7 +1952,7 @@ function renderObjResult(container, esc, nivel, lider, nat) {
       "<div class=\"kpi-label\">" + catBadge(lbl.label, lbl.cls) + " " + lbl.desc + "</div>" +
       "<div class=\"kpi-value\" style=\"font-size:18px;\">" + curVal + "</div>" +
       presidencialExtra +
-      "<div class=\"kpi-sub\">Delta necesario: " + (deltaPP >= 0 ? "+" : "") + deltaPP.toFixed(2) + "pp</div>" +
+      "<div class=\"kpi-sub\">Ajuste mín. necesario: " + (ajustePP >= 0 ? "+" : "") + ajustePP.toFixed(2) + " pp sobre base 2024</div>" +
       (votos ? "<div class=\"kpi-sub\">≈ " + fmtInt(votos) + " votos adicionales</div>" : "") +
     "</div>";
   }).join("");
@@ -1905,69 +2352,177 @@ export function renderAuditoria(state, ctx) {
 
 export function renderEncuestas(state, ctx) {
   var polls = ctx.polls || [];
+  var nivel = state.nivel;
+  var lv24  = getLevel(ctx, 2024, nivel);
+  var nat24 = lv24.nacional;
+  var totalEm24 = nat24.emitidos || 1;
+
+  // Advertencia encuestas ejemplo
+  var ejemploWarning = polls.some(function(p){return p._ejemplo;})
+    ? "<div style=\"padding:8px 12px;margin-bottom:10px;border-radius:6px;background:rgba(220,170,0,0.1);border:1px solid var(--yellow);font-size:12px;\">" +
+        "⚠ <b>Encuesta de ejemplo</b> — reemplaza con datos reales cargando un polls.json o Excel." +
+      "</div>"
+    : "";
+
+  // Toggle partido/candidato
+  var modoEnc = "partido";  // will be updated by button
+
+  // Gráfico comparativo: encuesta más reciente vs 2024
+  function buildCompChart(enc, useCand) {
+    if (!enc) return "";
+    var src = useCand && enc.candidatos ? enc.candidatos : null;
+    var res = enc.resultados || {};
+    var parties = Object.keys(res).filter(function(p){ return p !== "OTROS"; }).slice(0,6);
+    if (!parties.length) return "";
+    var rows = parties.map(function(p) {
+      var pctEnc = useCand && src && src[p] ? src[p].pct : res[p];
+      var pct24  = nat24.votes[p] ? Math.round((nat24.votes[p]/totalEm24)*10000)/100 : 0;
+      var delta  = pctEnc - pct24;
+      var cls    = delta > 0.5 ? "text-ok" : delta < -0.5 ? "text-warn" : "";
+      var label  = useCand && src && src[p] ? src[p].nombre : p;
+      return "<tr>" +
+        "<td>" + dot(p) + " <b>" + label + "</b></td>" +
+        "<td class=\"r\">" + pct24.toFixed(1) + "%</td>" +
+        "<td class=\"r\"><b>" + (pctEnc||0).toFixed(1) + "%</b></td>" +
+        "<td class=\"r\"><span class=\"" + cls + "\">" + (delta>=0?"+":"") + delta.toFixed(1) + "pp</span></td>" +
+      "</tr>";
+    });
+    return "<table class=\"tbl\" style=\"margin-top:8px;\">" +
+      "<thead><tr><th>" + (useCand?"Candidato":"Partido") + "</th>" +
+      "<th class=\"r\">2024 JCE</th><th class=\"r\">Encuesta</th><th class=\"r\">Delta</th></tr></thead>" +
+      "<tbody>" + rows.join("") + "</tbody></table>";
+  }
+
+  // Timeline: evolución por partido si hay varias encuestas
+  function buildTimeline() {
+    if (polls.length < 2) return "";
+    var sorted = polls.slice().sort(function(a,b){ return (a.fecha||"") > (b.fecha||"") ? 1 : -1; });
+    var parties = ["FP","PRM","PLD"];
+    var rows = parties.map(function(p) {
+      var cells = sorted.map(function(enc) {
+        var res = enc.resultados || {};
+        var pct = res[p];
+        if (pct === undefined) return "<td class=\"muted r\">-</td>";
+        var pct24 = nat24.votes[p] ? (nat24.votes[p]/totalEm24*100) : 0;
+        var delta = pct - pct24;
+        var cls = delta > 0.5 ? "text-ok" : delta < -0.5 ? "text-warn" : "";
+        return "<td class=\"r\"><span class=\"" + cls + "\">" + pct.toFixed(1) + "%</span></td>";
+      }).join("");
+      return "<tr><td>" + dot(p) + " " + p + "</td>" + cells + "</tr>";
+    });
+    var dateCols = sorted.map(function(enc) {
+      return "<th class=\"r\">" + (enc.fecha||"?").slice(0,7) + "<br><span style=\"font-size:10px;font-weight:400;\">" + (enc.encuestadora||"").slice(0,8) + "</span></th>";
+    }).join("");
+    return "<h3 style=\"margin-bottom:8px;\">Evolución temporal</h3>" +
+      "<div style=\"overflow:auto;\">" +
+      "<table class=\"tbl\"><thead><tr><th>Partido</th>" + dateCols + "</tr></thead>" +
+      "<tbody>" + rows.join("") + "</tbody></table></div>";
+  }
+
+  var lastPoll = polls.length ? polls[polls.length-1] : null;
+  var compChart = buildCompChart(lastPoll, false);
+  var timeline  = buildTimeline();
 
   view().innerHTML =
-    "<div class=\"page-header\"><h2>Encuestas</h2>" +
-      "<button class=\"btn-sm\" id=\"btn-enc-upload\">Cargar archivo</button>" +
+    "<div class=\"page-header\">" +
+      "<h2>Encuestas</h2>" +
+      "<button class=\"btn-sm\" id=\"btn-enc-upload\">+ Cargar JSON</button>" +
       "<input type=\"file\" id=\"enc-file\" accept=\".json\" style=\"display:none;\">" +
     "</div>" +
+    ejemploWarning +
 
-    // Toggle aplicar a simulador
-    "<div class=\"card\" style=\"margin-bottom:14px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;\">" +
-      "<label style=\"display:flex;align-items:center;gap:8px;font-weight:600;\">" +
-        "<input type=\"checkbox\" id=\"enc-apply\"> Aplicar encuesta activa al Simulador como delta inicial" +
-      "</label>" +
-      "<select id=\"enc-activa\" class=\"sel-sm\">" +
-        (polls.length
-          ? polls.map(function(p, i) {
-              return opt(String(i), p.fecha + " - " + p.encuestadora + " (" + p.nivel + ")", i === 0);
-            }).join("")
-          : "<option>Sin encuestas</option>"
-        ) +
-      "</select>" +
+    // Modo: partido vs candidato
+    "<div class=\"card\" style=\"margin-bottom:14px;\">" +
+      "<div style=\"display:flex;gap:12px;align-items:center;flex-wrap:wrap;\">" +
+        "<div class=\"seg-group\" id=\"enc-modo-group\">" +
+          "<button class=\"seg-btn active\" data-encmodo=\"partido\">Por partido</button>" +
+          "<button class=\"seg-btn\" data-encmodo=\"candidato\">Por candidato</button>" +
+        "</div>" +
+        "<label style=\"display:flex;align-items:center;gap:8px;font-size:12px;\">" +
+          "<input type=\"checkbox\" id=\"enc-apply\"> Aplicar al Simulador como delta inicial" +
+        "</label>" +
+        "<select id=\"enc-activa\" class=\"sel-sm\">" +
+          (polls.length
+            ? polls.map(function(p, i) {
+                return opt(String(i), p.fecha + " - " + p.encuestadora + " (" + p.nivel + ")", i === polls.length-1);
+              }).join("")
+            : "<option>Sin encuestas</option>"
+          ) +
+        "</select>" +
+      "</div>" +
     "</div>" +
 
-    // Tabla historica
+    // Comparativo vs 2024
+    (lastPoll
+      ? "<div class=\"card\" style=\"margin-bottom:14px;\">" +
+          "<h3>Comparativo: Encuesta más reciente vs. 2024 JCE</h3>" +
+          "<p class=\"muted\" style=\"font-size:11px;margin-bottom:6px;\">" +
+            lastPoll.encuestadora + " · " + lastPoll.fecha +
+            (lastPoll.muestra ? " · n=" + fmtInt(lastPoll.muestra) : "") +
+            (lastPoll.margen_error ? " · ±" + lastPoll.margen_error + "%" : "") +
+          "</p>" +
+          "<div id=\"enc-comp-chart\">" + compChart + "</div>" +
+        "</div>"
+      : ""
+    ) +
+
+    // Timeline
+    (timeline
+      ? "<div class=\"card\" style=\"margin-bottom:14px;\">" + timeline + "</div>"
+      : ""
+    ) +
+
+    // Tabla histórica completa
     "<div class=\"card\" style=\"margin-bottom:14px;\">" +
-      "<h3>Historico de encuestas (" + polls.length + ")</h3>" +
+      "<h3>Histórico (" + polls.length + " encuesta" + (polls.length !== 1 ? "s" : "") + ")</h3>" +
       (polls.length
         ? "<div style=\"overflow:auto;\">" +
             "<table class=\"tbl\">" +
               "<thead><tr>" +
                 "<th>Fecha</th><th>Encuestadora</th><th>Nivel</th>" +
-                "<th class=\"r\">Muestra</th><th class=\"r\">Margen error</th>" +
-                "<th>Principales resultados</th>" +
+                "<th class=\"r\">Muestra</th><th class=\"r\">±Error</th>" +
+                "<th>Partidos (top 5)</th><th>Candidatos</th>" +
               "</tr></thead>" +
               "<tbody>" + polls.map(function(p) {
                 var topRes = Object.entries(p.resultados || {})
                   .sort(function(a,b){return b[1]-a[1];})
                   .slice(0,5)
-                  .map(function(kv) { return kv[0] + ":" + kv[1] + "%"; })
-                  .join(" | ");
+                  .map(function(kv) { return dot(kv[0]) + kv[0] + ":" + kv[1] + "%"; })
+                  .join(" ");
+                var candRes = p.candidatos
+                  ? Object.entries(p.candidatos)
+                      .filter(function(kv){return kv[1].pct;})
+                      .sort(function(a,b){return b[1].pct-a[1].pct;})
+                      .slice(0,3)
+                      .map(function(kv){return kv[1].nombre + ":" + kv[1].pct + "%";})
+                      .join(" | ")
+                  : "-";
                 return "<tr>" +
                   "<td>" + (p.fecha || "-") + "</td>" +
                   "<td>" + (p.encuestadora || "-") + "</td>" +
                   "<td>" + (p.nivel || "-") + "</td>" +
                   "<td class=\"r\">" + (p.muestra ? fmtInt(p.muestra) : "-") + "</td>" +
-                  "<td class=\"r\">+/-" + (p.margen_error || "-") + "%</td>" +
-                  "<td style=\"font-size:12px;\">" + topRes + "</td>" +
+                  "<td class=\"r\">±" + (p.margen_error || "-") + "%</td>" +
+                  "<td style=\"font-size:11px;\">" + topRes + "</td>" +
+                  "<td style=\"font-size:11px;color:var(--text2);\">" + candRes + "</td>" +
                 "</tr>";
               }).join("") +
               "</tbody>" +
             "</table>" +
           "</div>"
-        : "<p class=\"muted\">Sin encuestas cargadas. Usa el boton \"Cargar archivo\" para importar un polls.json.</p>"
+        : "<p class=\"muted\">Sin encuestas. Carga un archivo polls.json.</p>"
       ) +
     "</div>" +
 
-    // Grafico comparativo (si hay datos)
-    (polls.length
-      ? "<div class=\"card\">" +
-          "<h3>Comparativo - Encuesta mas reciente</h3>" +
-          renderEncuestaChart(polls[polls.length-1]) +
-        "</div>"
-      : ""
-    );
+    // Metodología
+    "<div class=\"card\">" +
+      "<h3>Metodología</h3>" +
+      "<p class=\"muted\" style=\"font-size:12px;\">" +
+        "Promedio ponderado por recencia: <b>peso = 1 / (1 + meses_desde_publicación)</b>. " +
+        "Encuestas recientes tienen mayor peso. Delta vs JCE 2024 indica variación desde el resultado oficial. " +
+        "Las encuestas alimentan directamente el motor de Proyección 2028 y el Simulador." +
+      "</p>" +
+    "</div>";
 
   // Upload handler
   el("btn-enc-upload").addEventListener("click", function() {
@@ -1984,7 +2539,6 @@ export function renderEncuestas(state, ctx) {
         try {
           var data = JSON.parse(ev.target.result);
           var arr  = Array.isArray(data) ? data : [data];
-          // Normalizar cada encuesta a 100%
           arr.forEach(function(enc) {
             var res = enc.resultados || {};
             var total = Object.values(res).reduce(function(a,v){return a+v;},0);
@@ -1998,10 +2552,48 @@ export function renderEncuestas(state, ctx) {
           toast("Encuesta cargada: " + arr.length + " registro(s)");
           renderEncuestas(state, ctx);
         } catch(err) {
-          toast("Error: JSON invalido");
+          toast("Error: JSON inválido — " + err.message);
         }
       };
       reader.readAsText(file);
+    });
+  }
+
+  // Toggle partido/candidato → actualizar gráfico comparativo
+  var modoGroup = el("enc-modo-group");
+  if (modoGroup) {
+    modoGroup.addEventListener("click", function(e) {
+      var btn = e.target.closest(".seg-btn[data-encmodo]");
+      if (!btn) return;
+      var modo = btn.dataset.encmodo;
+      modoGroup.querySelectorAll(".seg-btn").forEach(function(b){
+        b.classList.toggle("active", b.dataset.encmodo === modo);
+      });
+      var chart = el("enc-comp-chart");
+      if (chart && lastPoll) {
+        chart.innerHTML = buildCompChart(lastPoll, modo === "candidato");
+      }
+    });
+  }
+
+  // Cambio de encuesta activa → actualizar gráfico
+  var selActiva = el("enc-activa");
+  if (selActiva) {
+    selActiva.addEventListener("change", function() {
+      var idx = Number(selActiva.value);
+      var chart = el("enc-comp-chart");
+      if (chart && polls[idx]) {
+        var modoActual = modoGroup ? (modoGroup.querySelector(".seg-btn.active") || {}).dataset : {};
+        chart.innerHTML = buildCompChart(polls[idx], modoActual.encmodo === "candidato");
+        // update header
+        var hdr = chart.previousElementSibling;
+        if (hdr && hdr.classList.contains("muted")) {
+          var p = polls[idx];
+          hdr.textContent = p.encuestadora + " · " + p.fecha +
+            (p.muestra ? " · n=" + fmtInt(p.muestra) : "") +
+            (p.margen_error ? " · ±" + p.margen_error + "%" : "");
+        }
+      }
     });
   }
 
@@ -2010,54 +2602,38 @@ export function renderEncuestas(state, ctx) {
   if (applyChk) {
     applyChk.addEventListener("change", function() {
       if (!applyChk.checked) return;
-      var idx   = el("enc-activa") ? Number(el("enc-activa").value) : 0;
+      var idx      = el("enc-activa") ? Number(el("enc-activa").value) : 0;
       var encuesta = polls[idx];
-      if (!encuesta || !encuesta.resultados) {
-        toast("Sin datos de resultados en la encuesta");
-        return;
-      }
-      // Calcular deltas vs 2024
-      var nivel = state.nivel === "pres" ? "pres" : state.nivel;
-      var lv    = getLevel(ctx, 2024, nivel);
-      var nat   = lv.nacional;
-      var totalEm = nat.emitidos || 1;
+      if (!encuesta || !encuesta.resultados) { toast("Sin datos en la encuesta"); return; }
       var deltaStore = {};
       Object.entries(encuesta.resultados).forEach(function(kv) {
         var p = kv[0]; var pctEnc = kv[1] / 100;
-        var pctBase = (nat.votes[p] || 0) / totalEm;
+        var pctBase = (nat24.votes[p] || 0) / totalEm24;
         var delta = Math.round((pctEnc - pctBase) * 100 * 10) / 10;
         if (Math.abs(delta) > 0.1) deltaStore[p] = delta;
       });
       localStorage.setItem("sie28-sim-deltas", JSON.stringify(deltaStore));
-      toast("Deltas guardados. Ve al Simulador para aplicarlos.");
+      toast(encuesta.encuestadora + " aplicada al Simulador (" + Object.keys(deltaStore).length + " deltas)");
     });
   }
+
+  // Leyenda metodológica encuestas
+  var metEnc = document.createElement("details");
+  metEnc.className = "met-box";
+  metEnc.style.marginTop = "12px";
+  metEnc.innerHTML =
+    "<summary><b>Metodología — Encuestas</b></summary>" +
+    "<div class=\"met-body\">" +
+      "<b>Modo partido:</b> intención de voto por organización política<br>" +
+      "<b>Modo candidato:</b> simpatía/intención por figura individual (útil en elecciones personalistas)<br>" +
+      "<b>Ponderación:</b> inverso de días desde publicación × factor tamaño muestral (si disponible)<br>" +
+      "<b>Promedio ponderado:</b> Σ(pct_i × w_i) / Σ(w_i) — encuestas recientes pesan más<br>" +
+      "<b>Delta al Simulador:</b> diferencia encuesta vs resultado 2024 aplicada como ajuste inicial de pp<br>" +
+      "<b>Advertencia:</b> encuestas miden intención, no participación efectiva — combinar con motor Movilización" +
+    "</div>";
+  var encWrap = document.getElementById("enc-wrap");
+  if (encWrap) encWrap.appendChild(metEnc);
 }
 
-function renderEncuestaChart(encuesta) {
-  if (!encuesta || !encuesta.resultados) return "<p class=\"muted\">Sin datos.</p>";
-  var sorted = Object.entries(encuesta.resultados)
-    .sort(function(a,b){return b[1]-a[1];})
-    .slice(0, 8);
-  var max = sorted[0] ? sorted[0][1] : 1;
-  return "<div style=\"margin-top:8px;\">" +
-    sorted.map(function(kv) {
-      var p = kv[0]; var pct = kv[1];
-      var w = Math.round((pct/max)*100);
-      return "<div class=\"bar-row\">" +
-        "<span class=\"bar-label\">" + p + "</span>" +
-        "<div class=\"bar-track\">" +
-          "<div class=\"bar-fill\" style=\"width:" + w + "%;background:" + clr(p) + "\"></div>" +
-        "</div>" +
-        "<span class=\"bar-pct\">" + pct + "%</span>" +
-        "</div>";
-    }).join("") +
-    "<p class=\"muted\" style=\"margin-top:8px;font-size:11px;\">" +
-      encuesta.encuestadora + " | " + encuesta.fecha +
-      (encuesta.muestra ? " | n=" + fmtInt(encuesta.muestra) : "") +
-      (encuesta.margen_error ? " | +/-" + encuesta.margen_error + "%" : "") +
-    "</p>" +
-  "</div>";
-}
 
 export { exportarPDF };

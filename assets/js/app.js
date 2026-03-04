@@ -1,7 +1,7 @@
 /**
- * SIE 2028 v7.0
+ * SIE 2028 v8.0
  */
-var VERSION = "5.0";
+var VERSION = "8.0";
 
 import { loadCTX }         from "./core/data.js";
 import { state }           from "./core/state.js";
@@ -15,7 +15,6 @@ import { mountGlobalControls,
          renderMovilizacion,
          renderObjetivo,
          renderAuditoria,
-         renderBoleta,
          renderEncuestas,
          exportarPDF }     from "./ui/views.js";
 
@@ -26,7 +25,6 @@ var ROUTES = [
   { id:"potencial",    label:"Potencial",    fn: renderPotencial    },
   { id:"movilizacion", label:"Movilizacion", fn: renderMovilizacion },
   { id:"objetivo",     label:"Objetivo",     fn: renderObjetivo     },
-  { id:"boleta",       label:"Boleta unica", fn: renderBoleta       },
   { id:"encuestas",    label:"Encuestas",    fn: renderEncuestas    },
   { id:"auditoria",    label:"Auditoria",    fn: renderAuditoria    },
 ];
@@ -42,6 +40,8 @@ function getActiveCtx() {
     if (!ctx2028) ctx2028 = buildCtx2028(ctx, _partAjuste);
     return ctx2028;
   }
+  // feb2024: usa el mismo ctx pero con corte feb2024 aplicado (state.corte ya lo tiene)
+  // Los módulos leen state.corte directamente para el padrón — no se necesita ctx diferente
   return ctx;
 }
 
@@ -82,8 +82,7 @@ async function render(routeId) {
     route.fn(state, getActiveCtx());
     var expBtn = document.getElementById("btn-export");
     if (expBtn) {
-      var show = routeId === "dashboard" || routeId === "simulador" || routeId === "auditoria";
-      expBtn.style.display = show ? "" : "none";
+      expBtn.style.display = "";  // v8: PDF export visible en todos los módulos
     }
   } catch(e) {
     console.error("[SIE]", e);
@@ -99,20 +98,20 @@ function initTheme() {
   document.documentElement.setAttribute("data-theme", saved);
   var btn = document.getElementById("btn-theme");
   if (!btn) return;
-  btn.textContent = saved === "dark" ? "Claro" : "Oscuro";
+  btn.textContent = saved === "dark" ? "☀️" : "🌙";
   btn.addEventListener("click", function() {
     var cur  = document.documentElement.getAttribute("data-theme");
     var next = cur === "dark" ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
     localStorage.setItem("sie28-theme", next);
-    btn.textContent = next === "dark" ? "Claro" : "Oscuro";
+    btn.textContent = next === "dark" ? "☀️" : "🌙";
   });
 }
 
 function boot() {
   initTheme();
   var vBadge = document.querySelector(".brand .badge");
-  if (vBadge) vBadge.textContent = "v7.0";
+  if (vBadge) vBadge.textContent = "v8.0";
   var nav = document.getElementById("nav");
   var navHtml = "";
   for (var i = 0; i < ROUTES.length; i++) {
@@ -124,31 +123,46 @@ function boot() {
     if (btn) render(btn.dataset.route);
   });
   mountGlobalControls(state);
-  // Toggle Base 2024 / Proyección 2028
+
+  // ── ESCENARIO CÍCLICO: Base 2024 → Feb 2024 → Proy. 2028 → Base 2024 ──────
+  // Estado: state.modo (base2024 | feb2024 | proy2028) + state.corte (mayo2024 | feb2024)
+  var ESCENARIOS = [
+    { modo: "base2024", corte: "mayo2024", label: "Base 2024",  icon: "📊" },
+    { modo: "feb2024",  corte: "feb2024",  label: "Feb 2024",   icon: "📅" },
+    { modo: "proy2028", corte: "mayo2024", label: "Proy. 2028", icon: "✦"  },
+  ];
+  function getEscIdx() {
+    for (var i = 0; i < ESCENARIOS.length; i++) {
+      if (ESCENARIOS[i].modo === state.modo) return i;
+    }
+    return 0;
+  }
   var modoBtn = document.createElement("button");
   modoBtn.id = "btn-modo";
   modoBtn.className = "btn-sm";
-  modoBtn.title = "Alternar entre datos reales 2024 y proyección 2028";
-  modoBtn.style.cssText = "font-weight:600;border-color:var(--accent);color:var(--accent);";
+  modoBtn.title = "Ciclar escenario: Base 2024 → Feb 2024 → Proyección 2028";
+  modoBtn.style.cssText = "font-weight:600;border-color:var(--accent);color:var(--accent);min-width:110px;";
   function updateModoBtn() {
-    modoBtn.textContent = state.modo === "proy2028" ? "Proy. 2028 ✦" : "Base 2024";
+    var esc = ESCENARIOS[getEscIdx()];
+    modoBtn.textContent = esc.icon + " " + esc.label;
   }
   updateModoBtn();
   modoBtn.addEventListener("click", function() {
-    var next = state.modo === "base2024" ? "proy2028" : "base2024";
-    state.setModo(next);
+    var nextIdx = (getEscIdx() + 1) % ESCENARIOS.length;
+    var nextEsc = ESCENARIOS[nextIdx];
+    state.setModo(nextEsc.modo);
+    state.setCorte(nextEsc.corte);
     ctx2028 = null;
     updateModoBtn();
-    // Mostrar/ocultar slider de participación
     var sliderWrap = document.getElementById("wrap-part-slider");
-    if (sliderWrap) sliderWrap.style.display = next === "proy2028" ? "flex" : "none";
+    if (sliderWrap) sliderWrap.style.display = nextEsc.modo === "proy2028" ? "flex" : "none";
     state.recomputeAndRender();
   });
 
   // Slider participación 2028 (visible solo en modo proy2028)
   var sliderWrap = document.createElement("div");
   sliderWrap.id = "wrap-part-slider";
-  sliderWrap.style.cssText = "display:none;align-items:center;gap:6px;font-size:12px;";
+  sliderWrap.style.cssText = "display:" + (state.modo === "proy2028" ? "flex" : "none") + ";align-items:center;gap:6px;font-size:12px;";
   sliderWrap.innerHTML =
     "<span style=\"color:var(--text2);\">Part.2028:</span>" +
     "<input id=\"slider-part\" type=\"range\" min=\"-5\" max=\"5\" step=\"0.5\" value=\"0\" " +
