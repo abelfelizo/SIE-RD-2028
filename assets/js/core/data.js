@@ -43,8 +43,7 @@ const DATA = {
   curules: "./data/curules_2024.json",
   geo:     "./data/geography.json",
   polls:   "./data/polls.json",
-  partidos:  "./data/partidos.json",
-  alianzas:  "./data/alianzas_2024.json",
+  partidos: "./data/partidos.json",
 };
 
 const INTERIOR_MAX_PROV = 32; // codigos 01-32 son interior
@@ -191,7 +190,7 @@ let _ctx = null;
 export async function loadCTX() {
   if (_ctx) return _ctx;
 
-  const [r2024, r2020, padron, meta, curules, geo, polls, partidos, alianzas] = await Promise.all([
+  const [r2024, r2020, padron, meta, curules, geo, polls, partidos] = await Promise.all([
     fetchJSON(DATA.r2024),
     fetchJSON(DATA.r2020),
     fetchJSON(DATA.padron),
@@ -200,7 +199,6 @@ export async function loadCTX() {
     fetchJSON(DATA.geo),
     fetchJSON(DATA.polls),
     fetchJSON(DATA.partidos),
-    fetchJSON(DATA.alianzas),
   ]);
 
   _ctx = {
@@ -214,7 +212,6 @@ export async function loadCTX() {
     geo:     geo     || {},
     polls:   Array.isArray(polls) ? polls : [],
     partidos: Array.isArray(partidos) ? partidos : (partidos && partidos.partidos ? partidos.partidos : []),
-    alianzas: alianzas || null,
   };
 
   return _ctx;
