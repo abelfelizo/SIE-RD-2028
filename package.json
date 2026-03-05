@@ -1,0 +1,16 @@
+{
+  "name": "sie-2028",
+  "version": "1.0.0",
+  "description": "Sistema de Inteligencia Electoral — República Dominicana 2028",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node assets/js/tests/sie_tests.js && node assets/js/tests/capa3_tests.js && node assets/js/tests/dhondt_tests.js && node assets/js/tests/capas_nuevas_tests.js",
+    "test:sie": "node assets/js/tests/sie_tests.js",
+    "test:capa3": "node assets/js/tests/capa3_tests.js",
+    "test:dhondt": "node assets/js/tests/dhondt_tests.js",
+    "test:nuevas": "node assets/js/tests/capas_nuevas_tests.js"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
