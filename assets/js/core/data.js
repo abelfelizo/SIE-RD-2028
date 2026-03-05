@@ -36,15 +36,18 @@
 
 //  Constantes 
 const DATA = {
-  r2024:   "./data/results_2024.json",
-  r2020:   "./data/results_2020.json",
-  padron:  "./data/padron.json",
-  meta:    "./data/padron_2024_meta.json",
-  curules: "./data/curules_2024.json",
-  geo:     "./data/geography.json",
-  polls:   "./data/polls.json",
-  partidos:  "./data/partidos.json",
-  alianzas:  "./data/alianzas_2024.json",
+  r2024:       "./data/results_2024.json",
+  r2020:       "./data/results_2020.json",
+  alcaldes:    "./data/results_alcaldes_2024.json",
+  padron:      "./data/padron.json",
+  padronProv:  "./data/padron_2024_unificado.json",
+  meta:        "./data/padron_2024_meta.json",
+  curules:     "./data/curules_2024.json",
+  geo:         "./data/geography.json",
+  polls:       "./data/polls.json",
+  partidos:    "./data/partidos.json",
+  alianzas:    "./data/alianzas_2024.json",
+  svgmap:      "./data/templates/data/mappings_svg.json",
 };
 
 const INTERIOR_MAX_PROV = 32; // codigos 01-32 son interior
@@ -191,30 +194,50 @@ let _ctx = null;
 export async function loadCTX() {
   if (_ctx) return _ctx;
 
-  const [r2024, r2020, padron, meta, curules, geo, polls, partidos, alianzas] = await Promise.all([
+  const [r2024, r2020, alcaldes, padron, padronProv, meta, curules, geo, polls, partidos, alianzas, svgmap] = await Promise.all([
     fetchJSON(DATA.r2024),
     fetchJSON(DATA.r2020),
+    fetchJSON(DATA.alcaldes),
     fetchJSON(DATA.padron),
+    fetchJSON(DATA.padronProv),
     fetchJSON(DATA.meta),
     fetchJSON(DATA.curules),
     fetchJSON(DATA.geo),
     fetchJSON(DATA.polls),
     fetchJSON(DATA.partidos),
     fetchJSON(DATA.alianzas),
+    fetchJSON(DATA.svgmap),
   ]);
+
+  // Build SVG<->JCE province mapping lookup
+  var svgToJce = (svgmap && svgmap.svgToJce) || {};
+  var jceToSvg = (svgmap && svgmap.jceToSvg) || {};
+
+  // Build provincial inscritos lookup from padron unificado: { "01": 794080, ... }
+  var padronProvLookup = {};
+  if (padronProv && padronProv.mayo2024 && padronProv.mayo2024.provincial && padronProv.mayo2024.provincial.rows) {
+    padronProv.mayo2024.provincial.rows.forEach(function(row) {
+      var code = String(row.provincia_id).padStart(2, "0");
+      padronProvLookup[code] = row.inscritos;
+    });
+  }
 
   _ctx = {
     r: {
       2024: normYear(r2024),
       2020: normYear(r2020),
     },
-    padron:  padron  || {},
+    alcaldes: alcaldes || null,
+    padron:   padron   || {},
+    padronProvLookup: padronProvLookup,
     meta:    meta    || {},
     curules: curules || {},
     geo:     geo     || {},
     polls:   Array.isArray(polls) ? polls : [],
     partidos: Array.isArray(partidos) ? partidos : (partidos && partidos.partidos ? partidos.partidos : []),
     alianzas: alianzas || null,
+    svgToJce: svgToJce,
+    jceToSvg: jceToSvg,
   };
 
   return _ctx;

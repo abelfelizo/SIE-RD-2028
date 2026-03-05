@@ -324,8 +324,10 @@ export function simular(ctx, params) {
   var arrastreKv    = params.arrastreK     || null;
   var presResult    = params.presResult    || null;
   var corte         = params.corte         || "mayo2024";
-  var territorioId  = params.territorioId  || null;  // provincia/municipio específico
-  var encuestaLocal = params.encuestaLocal || null;   // encuesta para territorio específico
+  var territorioId  = params.territorioId  || null;
+  var encuestaLocal = params.encuestaLocal || null;
+  // fuenteMotor: "partido" | "candidato" — qué columna de la encuesta alimenta los ajustesPP
+  var fuenteMotor   = params.fuenteMotor   || "partido";
 
   var lv  = getLevel(ctx, year, nivel);
   var nat = lv.nacional;
@@ -335,20 +337,34 @@ export function simular(ctx, params) {
     : (nat.inscritos || 0);
   var emitidosBase = nat.emitidos || 0;
 
-  // Si hay territorio específico y encuesta local, sobreescribir ajustesPP
-  if (territorioId && encuestaLocal && encuestaLocal.resultados) {
-    var terrData = nivel === "mun" ? lv.mun : nivel === "dm" ? lv.dm : lv.prov;
-    var terrBase = terrData ? terrData[territorioId] : null;
-    if (terrBase && terrBase.votes) {
-      var terrEm = terrBase.emitidos || 1;
-      Object.entries(encuestaLocal.resultados).forEach(function(e) {
+  // Si encuestaLocal tiene datos de candidato y fuenteMotor === "candidato", usar candidatos
+  // como fuente de ajustesPP en lugar de resultados partidarios
+  if (encuestaLocal) {
+    var terrDataMap = nivel === "mun" ? lv.mun : nivel === "dm" ? lv.dm : lv.prov;
+    var terrBase = (territorioId && terrDataMap) ? terrDataMap[territorioId] : null;
+    var baseVotes = terrBase ? terrBase.votes : nat.votes;
+    var baseEm    = terrBase ? (terrBase.emitidos || 1) : (emitidosBase || 1);
+
+    var encFuente = null;
+    if (fuenteMotor === "candidato" && encuestaLocal.candidatos) {
+      // Candidatos: { "PRM": { nombre, pct }, ... } — pct ya en porcentaje (0-100)
+      encFuente = {};
+      Object.entries(encuestaLocal.candidatos).forEach(function(kv) {
+        encFuente[kv[0]] = kv[1].pct || 0;
+      });
+    } else if (encuestaLocal.resultados) {
+      encFuente = encuestaLocal.resultados;
+    }
+
+    if (encFuente) {
+      ajustesPP = Object.assign({}, ajustesPP);
+      Object.entries(encFuente).forEach(function(e) {
         var p = e[0]; var encPct = e[1] / 100;
-        var basePct = terrBase.votes[p] ? terrBase.votes[p] / terrEm : 0;
+        var basePct = baseVotes[p] ? baseVotes[p] / baseEm : 0;
         ajustesPP[p] = (ajustesPP[p] || 0) + (encPct - basePct) * 100;
       });
     }
   }
-
   // 1. Movilización
   var movResult = applyMovilizacion(inscritos, emitidosBase, movPP, nivel);
   var extraVotos = movResult.extraVotos;

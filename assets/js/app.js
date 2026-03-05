@@ -1,7 +1,7 @@
 /**
  * SIE 2028 v8.0
  */
-var VERSION = "8.0";
+var VERSION = "8.3";
 
 import { loadCTX }         from "./core/data.js";
 import { state }           from "./core/state.js";
@@ -69,10 +69,8 @@ async function render(routeId) {
       }).catch(function() { /* auditoria_data no crítico en boot */ });
     }
     currentRoute = routeId;
-    var btns = document.querySelectorAll(".nav-btn");
-    btns.forEach(function(b) {
-      b.classList.toggle("active", b.dataset.route === routeId);
-    });
+    var navSel = document.getElementById("nav-select");
+    if (navSel) navSel.value = routeId;
     history.replaceState({}, "", "#" + routeId);
     var route = null;
     for (var i = 0; i < ROUTES.length; i++) {
@@ -111,16 +109,15 @@ function initTheme() {
 function boot() {
   initTheme();
   var vBadge = document.querySelector(".brand .badge");
-  if (vBadge) vBadge.textContent = "v8.0";
+  if (vBadge) vBadge.textContent = "v8.3";
   var nav = document.getElementById("nav");
-  var navHtml = "";
+  var navOpts = "";
   for (var i = 0; i < ROUTES.length; i++) {
-    navHtml += "<button class=\"nav-btn\" data-route=\"" + ROUTES[i].id + "\">" + ROUTES[i].label + "</button>";
+    navOpts += "<option value=\"" + ROUTES[i].id + "\">" + ROUTES[i].label + "</option>";
   }
-  nav.innerHTML = navHtml;
-  nav.addEventListener("click", function(e) {
-    var btn = e.target.closest(".nav-btn");
-    if (btn) render(btn.dataset.route);
+  nav.innerHTML = "<select id=\"nav-select\" class=\"sel-sm\" style=\"font-size:13px;font-weight:600;min-width:140px;cursor:pointer;\">" + navOpts + "</select>";
+  document.getElementById("nav-select").addEventListener("change", function(e) {
+    render(e.target.value);
   });
   mountGlobalControls(state);
 

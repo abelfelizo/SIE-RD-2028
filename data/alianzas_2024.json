@@ -1,3808 +1,3705 @@
 {
   "_meta": {
-    "version": "2.0",
-    "estado": "DATOS_REALES_2024",
-    "fuente": "JCE acuerdos de aval + resultados electorales 2024",
-    "regla": "Votos por partido son individuales. Alianza = candidato compartido. transferPct = % votos del aliado que se suman al lider en D'Hondt.",
-    "formato_bloque": {
-      "lider": "CODIGO_PARTIDO",
-      "aliados": [
-        {
-          "partido": "CODIGO_ALIADO",
-          "transferPct": 100
-        }
-      ]
-    },
-    "niveles_requeridos": [
-      "pres",
-      "sen",
-      "dip",
-      "mun",
-      "dm"
-    ]
+    "version": "3.0",
+    "estado": "DATOS_REALES_JCE_2024",
+    "fuente": "JCE Relacion General Definitiva del Computo Electoral - 19 Mayo 2024",
+    "archivos": [
+      "P_2024_aspx.pdf",
+      "S_2024_aspx.pdf"
+    ],
+    "notas": "Votos y porcentajes extraidos directamente de los documentos oficiales JCE"
   },
   "pres": {
-    "_nota": "Alianzas presidenciales 2024 según acuerdos de aval JCE",
     "bloques": [
       {
-        "_candidato": "Luis Abinader",
         "lider": "PRM",
+        "votos_lider": 2113100,
+        "votos_bloque": 2507297,
+        "pct_bloque": 57.44,
+        "transferPct": 100,
         "aliados": [
           {
-            "partido": "BIS",
-            "transferPct": 100
-          },
-          {
-            "partido": "MODA",
-            "transferPct": 100
-          },
-          {
-            "partido": "PPG",
-            "transferPct": 100
-          },
-          {
-            "partido": "PHD",
-            "transferPct": 100
-          },
-          {
-            "partido": "UDC",
-            "transferPct": 100
-          },
-          {
-            "partido": "PNVC",
-            "transferPct": 100
-          },
-          {
-            "partido": "MCC",
-            "transferPct": 100
-          },
-          {
-            "partido": "MCNPC",
-            "transferPct": 100
-          },
-          {
-            "partido": "MHI",
-            "transferPct": 100
-          },
-          {
-            "partido": "MIUP",
-            "transferPct": 100
-          }
-        ]
-      },
-      {
-        "_candidato": "Leonel Fernández",
-        "lider": "FP",
-        "aliados": [
-          {
-            "partido": "PRSD",
+            "partido": "PRSC",
+            "votos": 38126,
+            "pct": 0.87,
             "transferPct": 100
           },
           {
             "partido": "ALPAIS",
-            "transferPct": 100
-          },
-          {
-            "partido": "OD",
-            "transferPct": 100
-          },
-          {
-            "partido": "APD",
-            "transferPct": 100
-          },
-          {
-            "partido": "PLR",
-            "transferPct": 100
-          },
-          {
-            "partido": "PCR",
-            "transferPct": 100
-          },
-          {
-            "partido": "PPC",
-            "transferPct": 100
-          },
-          {
-            "partido": "PDP",
-            "transferPct": 100
-          },
-          {
-            "partido": "PASOVE",
-            "transferPct": 100
-          },
-          {
-            "partido": "PSC",
-            "transferPct": 100
-          },
-          {
-            "partido": "MA",
-            "transferPct": 100
-          },
-          {
-            "partido": "PPT",
-            "transferPct": 100
-          }
-        ]
-      },
-      {
-        "_candidato": "Abel Martínez",
-        "lider": "PLD",
-        "aliados": [
-          {
-            "partido": "PED",
+            "votos": 15913,
+            "pct": 0.36,
             "transferPct": 100
           },
           {
             "partido": "DXC",
+            "votos": 49141,
+            "pct": 1.13,
             "transferPct": 100
           },
           {
-            "partido": "PRSC",
+            "partido": "PUN",
+            "votos": 24119,
+            "pct": 0.55,
             "transferPct": 100
           },
           {
-            "partido": "GENS",
+            "partido": "PHD",
+            "votos": 14111,
+            "pct": 0.32,
             "transferPct": 100
           },
           {
-            "partido": "JS",
+            "partido": "PCR",
+            "votos": 24809,
+            "pct": 0.57,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 27913,
+            "pct": 0.64,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 18519,
+            "pct": 0.42,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 17551,
+            "pct": 0.4,
             "transferPct": 100
           },
           {
             "partido": "PP",
+            "votos": 42201,
+            "pct": 0.97,
             "transferPct": 100
           },
           {
-            "partido": "PQDC",
+            "partido": "PLR",
+            "votos": 11738,
+            "pct": 0.27,
             "transferPct": 100
           },
           {
-            "partido": "PRD",
+            "partido": "PPC",
+            "votos": 9108,
+            "pct": 0.21,
             "transferPct": 100
           },
           {
-            "partido": "PDI",
-            "transferPct": 100
-          },
-          {
-            "partido": "FNP",
-            "transferPct": 100
-          },
-          {
-            "partido": "PRI",
+            "partido": "UDC",
+            "votos": 5748,
+            "pct": 0.13,
             "transferPct": 100
           },
           {
             "partido": "PAL",
+            "votos": 9292,
+            "pct": 0.21,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 5223,
+            "pct": 0.12,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 7079,
+            "pct": 0.16,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 2832,
+            "pct": 0.06,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 6420,
+            "pct": 0.15,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 14935,
+            "pct": 0.34,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 49419,
+            "pct": 1.13,
+            "transferPct": 100
+          }
+        ]
+      },
+      {
+        "lider": "FP",
+        "votos_lider": 1164122,
+        "votos_bloque": 1259427,
+        "pct_bloque": 28.85,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "BIS",
+            "votos": 60146,
+            "pct": 1.38,
+            "transferPct": 100
+          },
+          {
+            "partido": "PQDC",
+            "votos": 22187,
+            "pct": 0.51,
+            "transferPct": 100
+          },
+          {
+            "partido": "PSC",
+            "votos": 6581,
+            "pct": 0.15,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDI",
+            "votos": 6391,
+            "pct": 0.15,
+            "transferPct": 100
+          }
+        ]
+      },
+      {
+        "lider": "PLD",
+        "votos_lider": 453468,
+        "votos_bloque": 453468,
+        "pct_bloque": 10.39,
+        "transferPct": 100,
+        "aliados": []
+      }
+    ],
+    "solos": [
+      {
+        "partido": "PLD",
+        "votos": 453468,
+        "pct": 10.39
+      },
+      {
+        "partido": "PRD",
+        "votos": 19790,
+        "pct": 0.45
+      },
+      {
+        "partido": "F.AMPLIO",
+        "votos": 6255,
+        "pct": 0.14
+      },
+      {
+        "partido": "PPT",
+        "votos": 2744,
+        "pct": 0.06
+      },
+      {
+        "partido": "GENS",
+        "votos": 31566,
+        "pct": 0.72
+      },
+      {
+        "partido": "OD",
+        "votos": 25204,
+        "pct": 0.58
+      },
+      {
+        "partido": "PED",
+        "votos": 59396,
+        "pct": 1.36
+      }
+    ],
+    "resumen_nacional": {
+      "inscritos": 8145548,
+      "emitidos": 4429079,
+      "validos": 4365147,
+      "nulos": 63932,
+      "participacion_pct": 54.37
+    }
+  },
+  "sen": {
+    "por_provincia": {
+      "01": {
+        "lider": "FP",
+        "votos_bloque": 256054,
+        "pct_bloque": 56.2,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PLD",
+            "votos": 80371,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRD",
+            "votos": 13002,
+            "transferPct": 100
+          },
+          {
+            "partido": "BIS",
+            "votos": 5933,
+            "transferPct": 100
+          },
+          {
+            "partido": "PQDC",
+            "votos": 2446,
+            "transferPct": 100
+          },
+          {
+            "partido": "PSC",
+            "votos": 1444,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDI",
+            "votos": 1074,
+            "transferPct": 100
+          }
+        ]
+      },
+      "02": {
+        "lider": "PRM",
+        "votos_bloque": 51634,
+        "pct_bloque": 51.54,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 1009,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 754,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 1779,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 960,
+            "transferPct": 100
+          },
+          {
+            "partido": "BIS",
+            "votos": 944,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 262,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 327,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 418,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 301,
             "transferPct": 100
           },
           {
             "partido": "F.AMPLIO",
-            "transferPct": 100
-          },
-          {
-            "partido": "FAMP",
-            "transferPct": 100
-          }
-        ]
-      }
-    ]
-  },
-  "sen": {
-    "_nota": "Alianzas senatoriales 2024 por provincia",
-    "por_provincia": {
-      "01": {
-        "_nombre": "DISTRITO NACIONAL",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "02": {
-        "_nombre": "LA ALTAGRACIA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "03": {
-        "_nombre": "AZUA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "04": {
-        "_nombre": "BAHORUCO",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "05": {
-        "_nombre": "BARAHONA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "06": {
-        "_nombre": "DAJABÓN",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "07": {
-        "_nombre": "DUARTE",
-        "bloques": [
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "08": {
-        "_nombre": "ELÍAS PIÑA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "09": {
-        "_nombre": "EL SEIBO",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "10": {
-        "_nombre": "ESPAILLAT",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "11": {
-        "_nombre": "HATO MAYOR",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "12": {
-        "_nombre": "HERMANAS MIRABAL",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "13": {
-        "_nombre": "INDEPENDENCIA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "14": {
-        "_nombre": "LA ROMANA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "15": {
-        "_nombre": "LA VEGA",
-        "bloques": [
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "16": {
-        "_nombre": "MARÍA TRINIDAD SÁNCHEZ",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "17": {
-        "_nombre": "MONSEÑOR NOUEL",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "18": {
-        "_nombre": "MONTE PLATA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "19": {
-        "_nombre": "MONTE CRISTI",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "20": {
-        "_nombre": "PEDERNALES",
-        "bloques": [
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "21": {
-        "_nombre": "PERAVIA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "22": {
-        "_nombre": "PUERTO PLATA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "23": {
-        "_nombre": "HERMANAS MIRABAL",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "24": {
-        "_nombre": "SAMANÁ",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "25": {
-        "_nombre": "SAN CRISTÓBAL",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "26": {
-        "_nombre": "SAN JOSÉ DE OCOA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "27": {
-        "_nombre": "SAN JUAN",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "28": {
-        "_nombre": "SAN PEDRO DE MACORÍS",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "29": {
-        "_nombre": "SÁNCHEZ RAMÍREZ",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "30": {
-        "_nombre": "SANTIAGO",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "31": {
-        "_nombre": "SANTIAGO RODRÍGUEZ",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "32": {
-        "_nombre": "VALVERDE",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      }
-    }
-  },
-  "dip": {
-    "_nota": "Alianzas legislativas 2024 (bloques nacionales aplicados por provincia)",
-    "por_provincia": {
-      "01": {
-        "_nombre": "DISTRITO NACIONAL",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "02": {
-        "_nombre": "LA ALTAGRACIA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "03": {
-        "_nombre": "AZUA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "04": {
-        "_nombre": "BAHORUCO",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "05": {
-        "_nombre": "BARAHONA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "06": {
-        "_nombre": "DAJABÓN",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "07": {
-        "_nombre": "DUARTE",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "08": {
-        "_nombre": "ELÍAS PIÑA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "09": {
-        "_nombre": "EL SEIBO",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "10": {
-        "_nombre": "ESPAILLAT",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "11": {
-        "_nombre": "HATO MAYOR",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "12": {
-        "_nombre": "HERMANAS MIRABAL",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "13": {
-        "_nombre": "INDEPENDENCIA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "14": {
-        "_nombre": "LA ROMANA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "15": {
-        "_nombre": "LA VEGA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "16": {
-        "_nombre": "MARÍA TRINIDAD SÁNCHEZ",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "17": {
-        "_nombre": "MONSEÑOR NOUEL",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "18": {
-        "_nombre": "MONTE PLATA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "19": {
-        "_nombre": "MONTE CRISTI",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "20": {
-        "_nombre": "PEDERNALES",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "21": {
-        "_nombre": "PERAVIA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "22": {
-        "_nombre": "PUERTO PLATA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "23": {
-        "_nombre": "HERMANAS MIRABAL",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "24": {
-        "_nombre": "SAMANÁ",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "25": {
-        "_nombre": "SAN CRISTÓBAL",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "26": {
-        "_nombre": "SAN JOSÉ DE OCOA",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "27": {
-        "_nombre": "SAN JUAN",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "28": {
-        "_nombre": "SAN PEDRO DE MACORÍS",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "29": {
-        "_nombre": "SÁNCHEZ RAMÍREZ",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "30": {
-        "_nombre": "SANTIAGO",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "31": {
-        "_nombre": "SANTIAGO RODRÍGUEZ",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      },
-      "32": {
-        "_nombre": "VALVERDE",
-        "bloques": [
-          {
-            "lider": "PRM",
-            "aliados": [
-              {
-                "partido": "BIS",
-                "transferPct": 100
-              },
-              {
-                "partido": "MODA",
-                "transferPct": 100
-              },
-              {
-                "partido": "PHD",
-                "transferPct": 100
-              },
-              {
-                "partido": "UDC",
-                "transferPct": 100
-              },
-              {
-                "partido": "PNVC",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "FP",
-            "aliados": [
-              {
-                "partido": "PRSD",
-                "transferPct": 100
-              },
-              {
-                "partido": "OD",
-                "transferPct": 100
-              },
-              {
-                "partido": "APD",
-                "transferPct": 100
-              },
-              {
-                "partido": "PCR",
-                "transferPct": 100
-              }
-            ]
-          },
-          {
-            "lider": "PLD",
-            "aliados": [
-              {
-                "partido": "PRSC",
-                "transferPct": 100
-              },
-              {
-                "partido": "GENS",
-                "transferPct": 100
-              },
-              {
-                "partido": "DXC",
-                "transferPct": 100
-              },
-              {
-                "partido": "JS",
-                "transferPct": 100
-              },
-              {
-                "partido": "PRD",
-                "transferPct": 100
-              }
-            ]
-          }
-        ]
-      }
-    }
-  },
-  "mun": {
-    "_nota": "Alianzas municipales 2024 — mismos bloques presidenciales",
-    "bloque_default": [
-      {
-        "lider": "PRM",
-        "aliados": [
-          {
-            "partido": "BIS",
-            "transferPct": 100
-          },
-          {
-            "partido": "MODA",
-            "transferPct": 100
-          },
-          {
-            "partido": "PHD",
-            "transferPct": 100
-          },
-          {
-            "partido": "UDC",
-            "transferPct": 100
-          },
-          {
-            "partido": "PNVC",
-            "transferPct": 100
-          }
-        ]
-      },
-      {
-        "lider": "FP",
-        "aliados": [
-          {
-            "partido": "PRSD",
-            "transferPct": 100
-          },
-          {
-            "partido": "OD",
+            "votos": 387,
             "transferPct": 100
           },
           {
             "partido": "APD",
+            "votos": 502,
             "transferPct": 100
           },
           {
-            "partido": "PCR",
-            "transferPct": 100
-          }
-        ]
-      },
-      {
-        "lider": "PLD",
-        "aliados": [
-          {
-            "partido": "PRSC",
+            "partido": "PP",
+            "votos": 842,
             "transferPct": 100
           },
           {
-            "partido": "GENS",
+            "partido": "PLR",
+            "votos": 3423,
             "transferPct": 100
           },
           {
-            "partido": "DXC",
-            "transferPct": 100
-          },
-          {
-            "partido": "JS",
-            "transferPct": 100
-          },
-          {
-            "partido": "PRD",
-            "transferPct": 100
-          }
-        ]
-      }
-    ]
-  },
-  "dm": {
-    "_nota": "Directores municipales — mismos bloques presidenciales",
-    "bloque_default": [
-      {
-        "lider": "PRM",
-        "aliados": [
-          {
-            "partido": "BIS",
-            "transferPct": 100
-          },
-          {
-            "partido": "MODA",
-            "transferPct": 100
-          },
-          {
-            "partido": "PHD",
+            "partido": "PPC",
+            "votos": 107,
             "transferPct": 100
           },
           {
             "partido": "UDC",
+            "votos": 245,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 381,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 188,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 258,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 133,
             "transferPct": 100
           },
           {
             "partido": "PNVC",
-            "transferPct": 100
-          }
-        ]
-      },
-      {
-        "lider": "FP",
-        "aliados": [
-          {
-            "partido": "PRSD",
+            "votos": 121,
             "transferPct": 100
           },
           {
-            "partido": "OD",
+            "partido": "PASOVE",
+            "votos": 122,
             "transferPct": 100
           },
           {
-            "partido": "APD",
+            "partido": "PSC",
+            "votos": 142,
             "transferPct": 100
           },
           {
-            "partido": "PCR",
-            "transferPct": 100
-          }
-        ]
-      },
-      {
-        "lider": "PLD",
-        "aliados": [
-          {
-            "partido": "PRSC",
+            "partido": "PDI",
+            "votos": 83,
             "transferPct": 100
           },
           {
-            "partido": "GENS",
-            "transferPct": 100
-          },
-          {
-            "partido": "DXC",
+            "partido": "PPG",
+            "votos": 319,
             "transferPct": 100
           },
           {
             "partido": "JS",
+            "votos": 245,
+            "transferPct": 100
+          }
+        ]
+      },
+      "03": {
+        "lider": "PRM",
+        "votos_bloque": 74732,
+        "pct_bloque": 66.73,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 974,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 707,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 1396,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 1155,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 445,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 410,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 639,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 741,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 355,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 775,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 1718,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 364,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 144,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 234,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 790,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 185,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 274,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 213,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 86,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 129,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 495,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 3037,
+            "transferPct": 100
+          }
+        ]
+      },
+      "04": {
+        "lider": "PRM",
+        "votos_bloque": 34497,
+        "pct_bloque": 67.98,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 597,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 297,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 328,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 434,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 285,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 163,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 661,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 156,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 150,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 310,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 640,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 106,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 390,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 90,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 85,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 56,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 112,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 60,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 33,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 102,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 211,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 549,
+            "transferPct": 100
+          }
+        ]
+      },
+      "05": {
+        "lider": "PRM",
+        "votos_bloque": 53226,
+        "pct_bloque": 61.05,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 865,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 432,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 904,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 817,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 371,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 580,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 411,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 431,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 276,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 688,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 2037,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 455,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 228,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 573,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 144,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 878,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 148,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 65,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 89,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 419,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 1011,
+            "transferPct": 100
+          }
+        ]
+      },
+      "06": {
+        "lider": "PRM",
+        "votos_bloque": 20728,
+        "pct_bloque": 56.56,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 281,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 210,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 562,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 243,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 86,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 124,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 90,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 56,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 45,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 113,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 136,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 32,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 17,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 38,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 43,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 40,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 34,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 25,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 24,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 28,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 214,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 435,
+            "transferPct": 100
+          }
+        ]
+      },
+      "07": {
+        "lider": "PRM",
+        "votos_bloque": 87987,
+        "pct_bloque": 72.87,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 1585,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 1160,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 2148,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 1523,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 2048,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 602,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 961,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 3140,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 884,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 1262,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 520,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 151,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 249,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 820,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 229,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 307,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 227,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 171,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 172,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 462,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 1163,
+            "transferPct": 100
+          }
+        ]
+      },
+      "08": {
+        "lider": "PRM",
+        "votos_bloque": 27061,
+        "pct_bloque": 68.89,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 309,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 335,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 1017,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 594,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 401,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 486,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 138,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 168,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 373,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 367,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 192,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 47,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 102,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 155,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 124,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 99,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 128,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 48,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 171,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 578,
+            "transferPct": 100
+          }
+        ]
+      },
+      "09": {
+        "lider": "PRM",
+        "votos_bloque": 18345,
+        "pct_bloque": 63.23,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 1066,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 172,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 304,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 208,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 70,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 136,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 148,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 177,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 108,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 123,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 259,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 59,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 119,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 37,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 81,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 32,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 45,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 43,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 24,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 20,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 78,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 566,
+            "transferPct": 100
+          }
+        ]
+      },
+      "10": {
+        "lider": "PRM",
+        "votos_bloque": 74036,
+        "pct_bloque": 68.85,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 769,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 594,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 2813,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 1047,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 488,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 663,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 401,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 302,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 301,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 1126,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 1035,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 227,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 51,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 171,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 187,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 184,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 181,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 196,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 129,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 167,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 555,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 1125,
+            "transferPct": 100
+          }
+        ]
+      },
+      "11": {
+        "lider": "PRM",
+        "votos_bloque": 24447,
+        "pct_bloque": 51.49,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 347,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 284,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 465,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 471,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 236,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 590,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 316,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 170,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 119,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 258,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 397,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 130,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 35,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 110,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 118,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 67,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 96,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 92,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 42,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 52,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 298,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 593,
+            "transferPct": 100
+          }
+        ]
+      },
+      "12": {
+        "lider": "PRM",
+        "votos_bloque": 15726,
+        "pct_bloque": 56.65,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 321,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 58,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 223,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 141,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 79,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 105,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 63,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 80,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 38,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 238,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 293,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 12,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 18,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 11,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 27,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 142,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 18,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 11,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 63,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 140,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 327,
+            "transferPct": 100
+          }
+        ]
+      },
+      "13": {
+        "lider": "FP",
+        "votos_bloque": 57657,
+        "pct_bloque": 52.17,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "BIS",
+            "votos": 3510,
+            "transferPct": 100
+          },
+          {
+            "partido": "PQDC",
+            "votos": 1840,
+            "transferPct": 100
+          },
+          {
+            "partido": "OD",
+            "votos": 839,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDI",
+            "votos": 705,
+            "transferPct": 100
+          }
+        ]
+      },
+      "14": {
+        "lider": "PRM",
+        "votos_bloque": 106471,
+        "pct_bloque": 59.94,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 7450,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 885,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 1592,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 1876,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 739,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 776,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 1715,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 684,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 881,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 1478,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 477,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 556,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 609,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 271,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 305,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 305,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 231,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 182,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 366,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 875,
+            "transferPct": 100
+          }
+        ]
+      },
+      "15": {
+        "lider": "PRM",
+        "votos_bloque": 51320,
+        "pct_bloque": 75.36,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 708,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 356,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 629,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 711,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 257,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 556,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 560,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 482,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 308,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 321,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 1392,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 133,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 55,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 110,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 503,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 131,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 156,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 148,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 52,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 75,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 172,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 859,
+            "transferPct": 100
+          }
+        ]
+      },
+      "16": {
+        "lider": "PRM",
+        "votos_bloque": 44455,
+        "pct_bloque": 57.92,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 1086,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 568,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 778,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 871,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 320,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 468,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 495,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 217,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 248,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 353,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 634,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 234,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 79,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 190,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 198,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 150,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 176,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 123,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 96,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 110,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 824,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 543,
+            "transferPct": 100
+          }
+        ]
+      },
+      "17": {
+        "lider": "PRM",
+        "votos_bloque": 36542,
+        "pct_bloque": 70.78,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 580,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 254,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 704,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 647,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 258,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 518,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 387,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 610,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 366,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 627,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 120,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 46,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 102,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 64,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 58,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 106,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 73,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 29,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 35,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 209,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 988,
+            "transferPct": 100
+          }
+        ]
+      },
+      "18": {
+        "lider": "PRM",
+        "votos_bloque": 41093,
+        "pct_bloque": 42.93,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 1207,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 395,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 881,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 546,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 391,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 240,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 187,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 316,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 749,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 303,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 60,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 119,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 115,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 83,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 189,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 102,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 79,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 88,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 219,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 884,
+            "transferPct": 100
+          }
+        ]
+      },
+      "19": {
+        "lider": "PRM",
+        "votos_bloque": 8709,
+        "pct_bloque": 61.0,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 177,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 71,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 242,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 131,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 120,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 27,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 70,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 52,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 20,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 102,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 128,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 16,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 6,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 32,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 6,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 19,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 70,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 26,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 8,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 6,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 89,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 99,
+            "transferPct": 100
+          }
+        ]
+      },
+      "20": {
+        "lider": "PRM",
+        "votos_bloque": 41551,
+        "pct_bloque": 52.58,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 523,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 425,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 962,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 662,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 237,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 110,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 245,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 299,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 574,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 667,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 142,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 53,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 168,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 319,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 123,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 133,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 106,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 69,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 56,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 256,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 394,
+            "transferPct": 100
+          }
+        ]
+      },
+      "21": {
+        "lider": "PRM",
+        "votos_bloque": 80509,
+        "pct_bloque": 54.76,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 2080,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 982,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 3171,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 1434,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 317,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 567,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 476,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 486,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 350,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 717,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 754,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 207,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 74,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 280,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 349,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 215,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 190,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 163,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 107,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 163,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 420,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 1229,
+            "transferPct": 100
+          }
+        ]
+      },
+      "22": {
+        "lider": "PRM",
+        "votos_bloque": 35375,
+        "pct_bloque": 69.56,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 425,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 331,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 339,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 528,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 398,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 1273,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 157,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 389,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 100,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 302,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 545,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 58,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 25,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 66,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 130,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 60,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 74,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 67,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 41,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 54,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 153,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 1069,
+            "transferPct": 100
+          }
+        ]
+      },
+      "23": {
+        "lider": "PRM",
+        "votos_bloque": 25207,
+        "pct_bloque": 50.97,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 384,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 314,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 271,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 406,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 302,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 164,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 194,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 153,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 99,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 211,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 425,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 82,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 19,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 69,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 53,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 56,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 91,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 50,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 23,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 26,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 115,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 227,
+            "transferPct": 100
+          }
+        ]
+      },
+      "24": {
+        "lider": "PRM",
+        "votos_bloque": 158055,
+        "pct_bloque": 57.86,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 2514,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 1758,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 2593,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 2798,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 1405,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 1012,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 1682,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 1072,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 1229,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 1430,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 3265,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 1420,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 347,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 682,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 585,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 423,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 887,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 383,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 344,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 308,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 819,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 1934,
+            "transferPct": 100
+          }
+        ]
+      },
+      "25": {
+        "lider": "FP",
+        "votos_bloque": 66817,
+        "pct_bloque": 53.24,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PLD",
+            "votos": 29690,
             "transferPct": 100
           },
           {
             "partido": "PRD",
+            "votos": 2591,
+            "transferPct": 100
+          },
+          {
+            "partido": "BIS",
+            "votos": 2083,
+            "transferPct": 100
+          },
+          {
+            "partido": "PQDC",
+            "votos": 768,
+            "transferPct": 100
+          },
+          {
+            "partido": "PSC",
+            "votos": 451,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDI",
+            "votos": 288,
+            "transferPct": 100
+          }
+        ]
+      },
+      "26": {
+        "lider": "PRM",
+        "votos_bloque": 82705,
+        "pct_bloque": 62.48,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 2522,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 978,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 2034,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 1836,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 698,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 713,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 787,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 932,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 426,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 877,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 1744,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 334,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 132,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 242,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 303,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 259,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 348,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 363,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 127,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 248,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 535,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 908,
+            "transferPct": 100
+          }
+        ]
+      },
+      "27": {
+        "lider": "PRM",
+        "votos_bloque": 58049,
+        "pct_bloque": 72.5,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 911,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 555,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 761,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 919,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 576,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 771,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 602,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 313,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 238,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 417,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 587,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 119,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 41,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 134,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 180,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 131,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 145,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 107,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 74,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 60,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 195,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 430,
+            "transferPct": 100
+          }
+        ]
+      },
+      "28": {
+        "lider": "PRM",
+        "votos_bloque": 226765,
+        "pct_bloque": 63.06,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 5438,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 2313,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 7042,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 4227,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 1277,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 1619,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 2434,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 1034,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 1116,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 2116,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 2224,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 1012,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 308,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 752,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 907,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 663,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 847,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 735,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 416,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 535,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 1415,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 12587,
+            "transferPct": 100
+          }
+        ]
+      },
+      "29": {
+        "lider": "PRM",
+        "votos_bloque": 18172,
+        "pct_bloque": 56.82,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 292,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 128,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 207,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 213,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 69,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 135,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 78,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 93,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 51,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 103,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 135,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 24,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 27,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 34,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 31,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 65,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 47,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 20,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 23,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 2654,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 377,
+            "transferPct": 100
+          }
+        ]
+      },
+      "30": {
+        "lider": "PRM",
+        "votos_bloque": 41628,
+        "pct_bloque": 63.24,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 1059,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 568,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 646,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 255,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 529,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 149,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 550,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 179,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 479,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 479,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 67,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 29,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 171,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 73,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 60,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 78,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 73,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 47,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 66,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 368,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 1183,
+            "transferPct": 100
+          }
+        ]
+      },
+      "31": {
+        "lider": "PRM",
+        "votos_bloque": 22733,
+        "pct_bloque": 68.91,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 463,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 280,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 609,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 470,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 183,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 221,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 217,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 265,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 327,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 642,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 195,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 34,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 68,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 151,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 54,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 88,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 53,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 38,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 46,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 137,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 41,
+            "transferPct": 100
+          }
+        ]
+      },
+      "32": {
+        "lider": "PRM",
+        "votos_bloque": 478470,
+        "pct_bloque": 54.17,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos": 8106,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos": 5732,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos": 9658,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos": 9120,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos": 3428,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos": 4086,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos": 4142,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos": 3795,
+            "transferPct": 100
+          },
+          {
+            "partido": "F.AMPLIO",
+            "votos": 3859,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos": 4315,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos": 6845,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos": 4930,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos": 804,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos": 1762,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos": 1920,
+            "transferPct": 100
+          },
+          {
+            "partido": "FNP",
+            "votos": 1555,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos": 3351,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos": 1914,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos": 992,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos": 2222,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos": 3701,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos": 3594,
             "transferPct": 100
           }
         ]
       }
-    ]
+    }
   }
 }
