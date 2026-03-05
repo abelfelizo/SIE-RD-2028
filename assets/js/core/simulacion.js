@@ -44,7 +44,7 @@
  *   Flag en datos: ctx._newActors = ['FP'] cuando aplica.
  */
 
-import { dhondt }                   from "./dhondt.js";
+import { dhondt }                   from "./dhondt_engine.js";
 import { getLevel, getInscritos }   from "./data.js";
 import { clamp, rankVotes, deepCopy } from "./utils.js";
 

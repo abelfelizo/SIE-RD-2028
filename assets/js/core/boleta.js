@@ -4,7 +4,7 @@
  * Simula qu sucede si partidos de oposicin van en coalicin
  * en cada demarcacin para maximizar curules.
  */
-import { dhondt }         from "./dhondt.js";
+import { dhondt }         from "./dhondt_engine.js";
 import { getLevel }       from "./data.js";
 import { rankVotes }      from "./utils.js";
 

@@ -5,7 +5,7 @@
  * Tipos: 2da_vuelta | margen_critico | sin_mayoria | swing_necesario | encuesta_difiere | competitivo
  */
 
-import { nextSeatVotes } from "./dhondt.js";
+import { nextSeatVotes } from "./dhondt_engine.js";
 import { rankVotes }     from "./utils.js";
 import { getLevel }      from "./data.js";
 
