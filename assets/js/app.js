@@ -25,6 +25,7 @@ var ROUTES = [
   { id:"potencial",    label:"Potencial",    fn: renderPotencial    },
   { id:"movilizacion", label:"Movilizacion", fn: renderMovilizacion },
   { id:"objetivo",     label:"Objetivo",     fn: renderObjetivo     },
+  { id:"alianzas",     label:"Alianzas",     fn: renderSimulador    }, // Tab alianzas en Simulador
   { id:"encuestas",    label:"Encuestas",    fn: renderEncuestas    },
   { id:"auditoria",    label:"Auditoria",    fn: renderAuditoria    },
 ];
@@ -108,21 +109,53 @@ function initTheme() {
 
 function boot() {
   initTheme();
-  var vBadge = document.querySelector(".brand .badge");
-  if (vBadge) vBadge.textContent = "v8.3";
-  var nav = document.getElementById("nav");
-  var navOpts = "";
-  for (var i = 0; i < ROUTES.length; i++) {
-    navOpts += "<option value=\"" + ROUTES[i].id + "\">" + ROUTES[i].label + "</option>";
+
+  // ── Sidebar navigation ───────────────────────────────────────────────────
+  var sidebar = document.getElementById("sidebar");
+  var toggleBtn = document.getElementById("btn-sidebar-toggle");
+  var sidebarCollapsed = localStorage.getItem("sie28-sidebar") === "collapsed";
+
+  function setSidebarState(collapsed) {
+    sidebarCollapsed = collapsed;
+    if (sidebar) sidebar.classList.toggle("collapsed", collapsed);
+    if (toggleBtn) toggleBtn.textContent = collapsed ? "▶" : "◀";
+    localStorage.setItem("sie28-sidebar", collapsed ? "collapsed" : "open");
   }
-  nav.innerHTML = "<select id=\"nav-select\" class=\"sel-sm\" style=\"font-size:13px;font-weight:600;min-width:140px;cursor:pointer;\">" + navOpts + "</select>";
-  document.getElementById("nav-select").addEventListener("change", function(e) {
-    render(e.target.value);
+  setSidebarState(sidebarCollapsed);
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", function() {
+      setSidebarState(!sidebarCollapsed);
+    });
+  }
+
+  function setActiveRoute(routeId) {
+    document.querySelectorAll(".sidebar-item[data-route]").forEach(function(btn) {
+      btn.classList.toggle("active", btn.dataset.route === routeId);
+    });
+  }
+
+  document.querySelectorAll(".sidebar-item[data-route]").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      var routeId = btn.dataset.route;
+      setActiveRoute(routeId);
+      render(routeId);
+    });
   });
+
+  // ── Sidebar nivel selector ───────────────────────────────────────────────
+  var nivelSel = document.getElementById("sidebar-nivel-sel");
+  if (nivelSel) {
+    nivelSel.value = state.nivel || "pres";
+    nivelSel.addEventListener("change", function() {
+      state.setNivel(nivelSel.value);
+      render(currentRoute);
+    });
+  }
+
+  // ── Global controls (modo escenario) ───────────────────────────────────
   mountGlobalControls(state);
 
-  // ── ESCENARIO CÍCLICO: Base 2024 → Feb 2024 → Proy. 2028 → Base 2024 ──────
-  // Estado: state.modo (base2024 | feb2024 | proy2028) + state.corte (mayo2024 | feb2024)
   var ESCENARIOS = [
     { modo: "base2024", corte: "mayo2024", label: "Base 2024",  icon: "📊" },
     { modo: "feb2024",  corte: "feb2024",  label: "Feb 2024",   icon: "📅" },
@@ -156,7 +189,6 @@ function boot() {
     state.recomputeAndRender();
   });
 
-  // Slider participación 2028 (visible solo en modo proy2028)
   var sliderWrap = document.createElement("div");
   sliderWrap.id = "wrap-part-slider";
   sliderWrap.style.cssText = "display:" + (state.modo === "proy2028" ? "flex" : "none") + ";align-items:center;gap:6px;font-size:12px;";
@@ -178,25 +210,33 @@ function boot() {
       _partAjuste = val;
       var lbl = document.getElementById("slider-part-val");
       if (lbl) lbl.textContent = (val >= 0 ? "+" : "") + val.toFixed(1) + "pp";
-      ctx2028 = null;  // invalidar caché para recalcular con nuevo ajuste
+      ctx2028 = null;
       state.recomputeAndRender();
     }
   });
+
   state.recomputeAndRender = function() { render(currentRoute); };
+
   var expBtn = document.getElementById("btn-export");
   if (expBtn) {
     expBtn.style.display = "none";
     expBtn.addEventListener("click", function() { exportarPDF(ctx, state); });
   }
+
   var initial = location.hash.replace("#", "") || "dashboard";
   var validInitial = false;
   for (var i = 0; i < ROUTES.length; i++) {
     if (ROUTES[i].id === initial) { validInitial = true; break; }
   }
+  setActiveRoute(validInitial ? initial : "dashboard");
   render(validInitial ? initial : "dashboard");
+
   window.addEventListener("hashchange", function() {
     var id = location.hash.replace("#", "");
-    if (id && id !== currentRoute) render(id);
+    if (id && id !== currentRoute) {
+      setActiveRoute(id);
+      render(id);
+    }
   });
 }
 

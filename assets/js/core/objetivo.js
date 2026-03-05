@@ -68,6 +68,141 @@ export function calcularDipMeta(ctx, params) {
 }
 
 /**
+ * Motor de Objetivo para Senadores.
+ * Opera sobre las 32 provincias (1 senador c/u), con soporte de alianzas.
+ * Identifica qué provincias necesita voltear/asegurar el partido y
+ * qué combinación de movilización + alianzas puede lograrlo.
+ */
+export function calcularSenMeta(ctx, params) {
+  var lider      = params.lider;
+  var metaAsientos = params.metaAsientos || 17;
+  var maxAjuste  = params.maxDelta || 25;
+  var conAlianzas = params.conAlianzas !== false; // default true
+  var lv         = getLevel(ctx, 2024, "sen");
+  var prov       = lv.prov || {};
+
+  // Obtener alianzas disponibles para este partido
+  var alianzasDisp = [];
+  var alianzasBloques = (ctx.alianzas && ctx.alianzas.sen && ctx.alianzas.sen.por_provincia) || null;
+  var alianzasGen    = (ctx.alianzas && ctx.alianzas.sen && ctx.alianzas.sen.bloques) || [];
+  var miBloque = alianzasGen.filter(function(b){ return b.lider === lider; })[0];
+  if (miBloque) alianzasDisp = (miBloque.aliados || []).map(function(a){ return a.partido; });
+
+  // Función: votar con alianzas en una provincia
+  function votosConAlianzas(votes, provId) {
+    var merged = Object.assign({}, votes);
+    if (!conAlianzas) return merged;
+    // Primero usar datos específicos por provincia si existen
+    var provAlData = alianzasBloques && alianzasBloques[provId];
+    if (provAlData && provAlData.lider === lider) {
+      (provAlData.aliados || []).forEach(function(al) {
+        var v = merged[al.partido] || 0;
+        var moved = Math.round(v * ((al.transferPct || 100) / 100));
+        merged[al.partido] = v - moved;
+        merged[lider] = (merged[lider] || 0) + moved;
+      });
+    } else if (miBloque) {
+      // Fallback a alianza general del bloque
+      (miBloque.aliados || []).forEach(function(al) {
+        var v = merged[al.partido] || 0;
+        var moved = Math.round(v * ((al.transferPct || 100) / 100));
+        merged[al.partido] = v - moved;
+        merged[lider] = (merged[lider] || 0) + moved;
+      });
+    }
+    return merged;
+  }
+
+  // Análisis de cada provincia
+  var analisisProv = [];
+  var senatosBase = 0;
+  var senatosConAlianzas = 0;
+
+  Object.keys(prov).forEach(function(pid) {
+    var n = parseInt(pid, 10);
+    if (n < 1 || n > 32) return;
+    var p = prov[pid];
+    if (!p || !p.votes) return;
+    var em = p.emitidos || p.validos || 1;
+    var ins = p.inscritos || em;
+
+    var votesBase = p.votes;
+    var votesAl   = votosConAlianzas(votesBase, pid);
+
+    var ranked   = rankVotes(votesBase, em);
+    var rankedAl = rankVotes(votesAl, em);
+    var ganadorBase = ranked[0] ? ranked[0].p : null;
+    var ganadorAl   = rankedAl[0] ? rankedAl[0].p : null;
+    var liderBaseR  = ranked.filter(function(r){ return r.p === lider; })[0];
+    var liderAlR    = rankedAl.filter(function(r){ return r.p === lider; })[0];
+    var lPctBase    = liderBaseR ? liderBaseR.pct : 0;
+    var lPctAl      = liderAlR   ? liderAlR.pct   : 0;
+    var rival       = ganadorBase !== lider ? ranked[0] : ranked[1];
+    var rivalAl     = ganadorAl   !== lider ? rankedAl[0] : rankedAl[1];
+
+    if (ganadorBase === lider) senatosBase++;
+    if (ganadorAl   === lider) senatosConAlianzas++;
+
+    var abst        = ins > 0 ? 1 - em / ins : 0;
+    var brechaBase  = ganadorBase === lider ? 0 : ((ranked[0] ? ranked[0].pct : 0) - lPctBase);
+    var brechaAl    = ganadorAl   === lider ? 0 : ((rankedAl[0] ? rankedAl[0].pct : 0) - lPctAl);
+    var alianzaCambia = ganadorBase !== lider && ganadorAl === lider;
+    var votosParaVoltearBase = brechaBase > 0 ? Math.round((brechaBase / 2) * em) + 1 : 0;
+    var votosParaVoltearAl   = brechaAl   > 0 ? Math.round((brechaAl   / 2) * em) + 1 : 0;
+    var movNecesaria = abst > 0.30 && votosParaVoltearAl > 0
+      ? Math.min(votosParaVoltearAl, Math.round(ins * abst * 0.25))
+      : 0;
+
+    analisisProv.push({
+      id: pid,
+      nombre: p.nombre || ("Prov." + pid),
+      ganadorBase: ganadorBase,
+      ganadorConAlianzas: ganadorAl,
+      liderGana: ganadorAl === lider,
+      alianzaCambia: alianzaCambia,
+      lPctBase: lPctBase,
+      lPctConAlianzas: lPctAl,
+      rival: rival ? rival.p : "-",
+      rivalPct: rival ? rival.pct : 0,
+      brechaBase: brechaBase,
+      brechaConAlianzas: brechaAl,
+      votosParaVoltearBase: votosParaVoltearBase,
+      votosParaVoltearConAlianzas: votosParaVoltearAl,
+      movNecesaria: movNecesaria,
+      alianzasProvinciales: (alianzasBloques && alianzasBloques[pid] && alianzasBloques[pid].lider === lider)
+        ? (alianzasBloques[pid].aliados || []).map(function(a){ return a.partido; })
+        : alianzasDisp,
+      abstension: abst,
+      inscritos: ins,
+      emitidos: em,
+    });
+  });
+
+  // Ordenar provincias: primero las que ya se ganan con alianzas, luego las más fáciles de voltear
+  var ganadas = analisisProv.filter(function(p){ return p.liderGana; });
+  var aVoltear = analisisProv.filter(function(p){ return !p.liderGana; })
+    .sort(function(a,b){ return a.brechaConAlianzas - b.brechaConAlianzas; });
+
+  // Calcular escenario para llegar a la meta
+  var necesitaVoltear = Math.max(0, metaAsientos - senatosConAlianzas);
+  var posiblesVoltear = aVoltear.filter(function(p){ return p.brechaConAlianzas < 0.15; });
+  var alcanzable = senatosConAlianzas + posiblesVoltear.length >= metaAsientos;
+
+  return {
+    metaAsientos:     metaAsientos,
+    senatosBase:      senatosBase,
+    senatosConAlianzas: senatosConAlianzas,
+    necesitaVoltear:  necesitaVoltear,
+    alcanzable:       alcanzable,
+    alianzasDisponibles: alianzasDisp,
+    ganadas:          ganadas.sort(function(a,b){ return a.lPctConAlianzas - b.lPctConAlianzas; }),
+    aVoltear:         aVoltear,
+    posiblesVoltear:  posiblesVoltear.slice(0, necesitaVoltear + 3),
+    analisisProv:     analisisProv,
+  };
+}
+
+/**
  * Calcula eficiencia de inversión por territorio.
  * Retorna ranking por ROI: mayor ROI = menor costo relativo para voltear/asegurar.
  */
@@ -301,6 +436,24 @@ function fmtIntLocal(n) {
 export function generarEscenarios(ctx, params) {
   var nivel     = params.nivel;
   var metaValor = params.metaValor;
+
+  // Senate: operate on seat counts (provinces), not vote percentages
+  if (nivel === "sen") {
+    var metas = {
+      conservador: Math.max(1, Math.round(metaValor * 0.90)),
+      razonable:   Math.round(metaValor),
+      optimizado:  Math.round(metaValor * 1.05),
+      agresivo:    Math.round(metaValor * 1.12),
+    };
+    return {
+      conservador: calcularSenMeta(ctx, Object.assign({}, params, { metaAsientos: metas.conservador })),
+      razonable:   calcularSenMeta(ctx, Object.assign({}, params, { metaAsientos: metas.razonable   })),
+      optimizado:  calcularSenMeta(ctx, Object.assign({}, params, { metaAsientos: metas.optimizado  })),
+      agresivo:    calcularSenMeta(ctx, Object.assign({}, params, { metaAsientos: metas.agresivo    })),
+      _tipo: "sen",
+    };
+  }
+
   var metas = {
     conservador: metaValor * 0.90,
     razonable:   metaValor,

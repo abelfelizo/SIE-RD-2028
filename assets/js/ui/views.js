@@ -19,11 +19,46 @@ import { calcSwing, calcRiesgoSegundaVuelta } from "../core/swing.js";
 //  Constantes 
 const NIVEL_LABEL = { pres:"Presidencial", sen:"Senadores", dip:"Diputados", mun:"Alcaldes", dm:"DM" };
 const CORTE_LABEL = { mayo2024:"Mayo 2024", feb2024:"Feb 2024", proy2028:"Proy. 2028" };
-// Colores base — fallback si partidos.json no está cargado
+// Colores base — extraídos de boleta JCE 2024 (https://jce.gob.do)
 const PARTY_COLORS_BASE = {
-  PRM:"#7A52F4", PLD:"#9B1B30", FP:"#1B7BF4", PRD:"#E8B124",
-  BIS:"#2EAE70", PRSC:"#5599FF", DXC:"#888", ALPAIS:"#E86A24",
-  PRSC:"#4A90D9", MODA:"#E8672A", PPH:"#2E7D32", APD:"#6A1B9A",
+  // ── Colores oficiales de boleta JCE 2024 ──────────────────────────────
+  PRM:    "#1A3FA0",  // Azul oscuro (boleta #1)
+  PLD:    "#8B0D8B",  // Morado/violeta (boleta #2 - estrella amarilla sobre fondo oscuro)
+  FP:     "#007A33",  // Verde oscuro (boleta #3)
+  PRD:    "#CC2200",  // Rojo (boleta #4)
+  PRSC:   "#1055A0",  // Rojo/azul reforma social cristiana (boleta #5)
+  ALPAIS: "#0097A7",  // Teal (boleta #6)
+  DXC:    "#F5A800",  // Amarillo/dorado (boleta #7)
+  PUN:    "#1B6B20",  // Verde oscuro (boleta #8)
+  BIS:    "#2E7D32",  // Verde (boleta #9)
+  PHD:    "#D4A100",  // Dorado (boleta #10)
+  PCR:    "#B71C1C",  // Rojo oscuro (boleta #11)
+  PRSD:   "#C00000",  // Rojo (boleta #12 - toro negro)
+  MODA:   "#3949AB",  // Azul/violeta (boleta #13)
+  "F.AMPLIO": "#4CAF50",  // Verde (boleta #14)
+  FAMPLIO:    "#4CAF50",
+  FAMPLIO2:   "#4CAF50",
+  APD:    "#D32F2F",  // Rojo con X (boleta #15)
+  PP:     "#2E8B57",  // Verde (boleta #16)
+  PLR:    "#43A047",  // Verde (boleta #17)
+  PPC:    "#E65100",  // Naranja (boleta #18)
+  PQDC:   "#1A6B2A",  // Verde (boleta #19)
+  UDC:    "#F9A825",  // Amarillo (boleta #20)
+  PAL:    "#FBC02D",  // Amarillo/verde (boleta #21)
+  FNP:    "#37474F",  // Gris oscuro (boleta #22)
+  PRI:    "#2E7D32",  // Verde (boleta #23)
+  PDP:    "#1565C0",  // Azul (boleta #24)
+  PNVC:   "#E53935",  // Rojo (boleta #25)
+  PASOVE: "#33691E",  // Verde (boleta #26)
+  PPT:    "#827717",  // Verde/amarillo (boleta #27)
+  GENS:   "#5C6BC0",  // Azul/lila (boleta #28)
+  OD:     "#455A64",  // Gris azulado (boleta #29)
+  PSC:    "#C62828",  // Rojo (boleta #30)
+  PDI:    "#4A148C",  // Morado (boleta #31)
+  PED:    "#00838F",  // Teal verde (boleta #32)
+  PPG:    "#6A1B9A",  // Morado (boleta #33)
+  JS:     "#0D47A1",  // Azul oscuro (boleta #34)
+  OTROS:  "#9E9E9E"
 };
 // _ctxPartidos se rellena en cada render con ctx.partidos — permite primaryColor dinámico
 var _ctxPartidosColors = {};
@@ -241,48 +276,97 @@ export function renderDashboard(state, ctx) {
     munSection = sep() + "<h3 style=\"margin-top:12px;\">Municipios ganados</h3>" + curulesGrid(tb2);
   }
 
+  // ── Alianzas 2024 en distribución ─────────────────────────────────────────
+  // Calcular resultados con alianzas para mostrar en dashboard (solo visualización)
+  var alianzasSection = "";
+  var alNivel = ctx.alianzas ? ctx.alianzas[nivel] : null;
+  if (alNivel && !isProy) {
+    var bloques = alNivel.bloques || [];
+    if (bloques.length) {
+      var alVotes = Object.assign({}, nat.votes);
+      bloques.forEach(function(bloque) {
+        (bloque.aliados || []).forEach(function(aliado) {
+          var v = alVotes[aliado.partido] || 0;
+          var moved = Math.round(v * ((aliado.transferPct || 100) / 100));
+          alVotes[aliado.partido] = v - moved;
+          alVotes[bloque.lider]   = (alVotes[bloque.lider] || 0) + moved;
+        });
+      });
+      var alRanked = rankVotes(alVotes, em);
+      var alRows = alRanked.slice(0, 6).map(function(r) {
+        var base = ranked.filter(function(x){ return x.p === r.p; })[0];
+        var basePct = base ? base.pct : 0;
+        var diff = r.pct - basePct;
+        var diffStr = diff > 0.001
+          ? "<span class=\"text-ok\">+" + fmtPct(diff) + "</span>"
+          : diff < -0.001
+          ? "<span class=\"text-warn\">" + fmtPct(diff) + "</span>"
+          : "<span class=\"muted\">—</span>";
+        return "<tr><td>" + dot(r.p) + " <b>" + r.p + "</b></td>" +
+               "<td class=\"r\">" + fmtPct(basePct) + "</td>" +
+               "<td class=\"r\"><b>" + fmtPct(r.pct) + "</b></td>" +
+               "<td class=\"r\">" + diffStr + "</td></tr>";
+      }).join("");
+      alianzasSection = sep() +
+        "<h3 style=\"margin-top:12px;\">Con alianzas 2024 <span class=\"muted\" style=\"font-size:11px;font-weight:400;\">(visualización — no aplica en motores)</span></h3>" +
+        "<table class=\"tbl\"><thead><tr>" +
+          "<th>Partido</th><th class=\"r\">Individual</th><th class=\"r\">Con aliados</th><th class=\"r\">Δ</th>" +
+        "</tr></thead><tbody>" + alRows + "</tbody></table>";
+    }
+  }
+
   var execItems = _buildExecItems(nivel, top, top2, margen, part, ins, em, dipCurules, senResult);
   var compBlock = _buildCompBlock(ctx, ranked, isProy);
 
+  // ── Dashboard ORDER: KPI → Resumen Ejecutivo → Alertas → Distribución + Comparativos ──
   view().innerHTML =
     "<div class=\"page-header\"><h2>Dashboard - " + NIVEL_LABEL[nivel] + "</h2>" +
       badge(CORTE_LABEL[state.corte]) +
       (isProy ? " " + badge("Proy. 2028", "badge-warn") : "") +
     "</div>" +
     modoBanner +
+
+    // 1. KPIs
     "<div class=\"kpi-grid\">" + kpisHtml + "</div>" +
+
+    // 2. Resumen Ejecutivo + Alertas (full width)
+    "<div class=\"row-2col\" style=\"margin-top:16px;gap:16px;margin-bottom:16px;\">" +
+      "<div class=\"card\"><h3>Resumen Ejecutivo</h3>" +
+        "<ul class=\"exec-list\">" + execItems + "</ul>" +
+        "<div style=\"margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;\">" +
+          "<button class=\"btn\" onclick=\"location.hash='#simulador'\">Simulador</button>" +
+          "<button class=\"btn-sm\" onclick=\"location.hash='#objetivo'\">Objetivo</button>" +
+          "<button class=\"btn-sm\" onclick=\"location.hash='#auditoria'\">Auditoría</button>" +
+        "</div>" +
+      "</div>" +
+      (alertas.length
+        ? "<div class=\"card\"><h3>⚠ Alertas (" + alertas.length + ")</h3>" +
+            renderAlertasHtml(alertas, true) + "</div>"
+        : "<div class=\"card\" style=\"border-color:var(--green);\"><p style=\"color:var(--green);font-weight:600;\">✓ Sin alertas activas</p></div>"
+      ) +
+    "</div>" +
+
+    // 3. Distribución (barras + tablas)
+    "<div class=\"card\" style=\"margin-bottom:16px;\"><h3>Distribución de votos — " + NIVEL_LABEL[nivel] + "</h3>" +
+      barChart(ranked, 8) + dipSection + senSection + munSection + alianzasSection +
+    "</div>" +
+
+    // 4. Comparativo histórico (compBlock)
     compBlock +
-    "<div class=\"row-2col\" style=\"margin-top:16px;gap:16px;\">" +
-      "<div class=\"card\"><h3>Distribucion - " + NIVEL_LABEL[nivel] + "</h3>" +
-        barChart(ranked, 7) + dipSection + senSection + munSection +
+
+    // 5. Metodología
+    "<details class=\"met-box\" style=\"margin-top:12px;\">" +
+      "<summary><b>Metodología — Dashboard</b></summary>" +
+      "<div class=\"met-body\">" +
+        "<b>Motor activo:</b> Resultados JCE 2024 (histórico) o Proyección 2028 (motor Escenarios)<br>" +
+        "<b>Participación:</b> Emitidos / Padrón · <b>Abstención:</b> 1 − Participación<br>" +
+        "<b>Proy. Padrón 2028:</b> Padrón₂₀₂₄ × (1 + 1.66%)⁴ + Exterior × (1 + 10.6%)⁴<br>" +
+        "<b>Alianzas:</b> Solo visualización en dashboard. Para activar en motores, ir a Simulador → pestaña Alianzas.<br>" +
+        "<b>Ganador:</b> partido con mayor % de votos válidos · <b>Margen:</b> Líder − 2do lugar<br>" +
+        "<b>Curules:</b> aplicación D'Hondt sobre resultados por circunscripción<br>" +
+        "<b>Fuente:</b> JCE resultados definitivos 2024 · Proyección: SIE 2028 v8.3" +
       "</div>" +
-      "<div>" +
-        "<div class=\"card\" style=\"margin-bottom:12px;\"><h3>Resumen Ejecutivo</h3>" +
-          "<ul class=\"exec-list\">" + execItems + "</ul>" +
-          "<div style=\"margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;\">" +
-            "<button class=\"btn\" onclick=\"location.hash='#simulador'\">Simulador</button>" +
-            "<button class=\"btn-sm\" onclick=\"location.hash='#objetivo'\">Objetivo</button>" +
-            "<button class=\"btn-sm\" onclick=\"location.hash='#auditoria'\">Auditoria</button>" +
-          "</div>" +
-        "</div>" +
-        (alertas.length
-          ? "<div class=\"card\"><h3>Alertas (" + alertas.length + ")</h3>" +
-              renderAlertasHtml(alertas, true) + "</div>"
-          : "") +
-      "</div>" +
-      "<details class=\"met-box\" style=\"margin-top:12px;\">" +
-        "<summary><b>Metodología — Dashboard</b></summary>" +
-        "<div class=\"met-body\">" +
-          "<b>Motor activo:</b> Resultados JCE 2024 (histórico) o Proyección 2028 (motor Escenarios)<br>" +
-          "<b>Participación:</b> Emitidos / Padrón · <b>Abstención:</b> 1 − Participación<br>" +
-          "<b>Proy. Padrón 2028:</b> Padrón₂₀₂₄ × (1 + 1.66%)⁴ (tasa crecimiento JCE 2004-2024) + Exterior × (1 + 10.6%)⁴<br>" +
-          "<b>Participación proyectada:</b> Participación₂₀₂₄ ajustada por slider ±pp<br>" +
-          "<b>Ganador:</b> partido con mayor % de votos válidos · <b>Margen:</b> Lider − 2do lugar<br>" +
-          "<b>Curules:</b> aplicación D'Hondt sobre resultados por circunscripción<br>" +
-          "<b>Fuente:</b> JCE resultados definitivos 2024 · Proyección: SIE 2028 v8.0" +
-        "</div>" +
-      "</details>" +
-    "</div>";
+    "</details>";
 }
 
 function _buildKpisByNivel(nivel, ins, em, part, ranked, margen, dipCurules, senResult, munResult, state, ctx, isProy) {
@@ -290,7 +374,48 @@ function _buildKpisByNivel(nivel, ins, em, part, ranked, margen, dipCurules, sen
   var top2 = ranked[1];
   var kpisHtml = "";
   var label24 = isProy ? "Proy. 2028" : "2024";
-  var kpiTop  = top  ? kpi("Lider " + label24, top.p,  fmtPct(top.pct),  true) : "";
+
+  // ── Calcular % con alianzas para KPI ─────────────────────────────────────
+  function calcPctConAlianzas(partido) {
+    if (!ctx.alianzas || !ctx.alianzas[nivel] || !partido) return null;
+    var bloques = ctx.alianzas[nivel].bloques || [];
+    var liderBlock = bloques.filter(function(b){ return b.lider === partido; })[0];
+    if (!liderBlock) return null;
+    var nat = ranked;
+    var totalEm = em || 1;
+    var sumVotos = (nat.filter(function(r){ return r.p === partido; })[0] || {votes: 0}).votes || 0;
+    if (!sumVotos && ctx.results2024) {
+      var lv = ctx.results2024[nivel] || {};
+      var natV = (lv.nacional || {}).votes || {};
+      sumVotos = natV[partido] || 0;
+    }
+    // Use ranked to find base votes
+    var baseR = ranked.filter(function(r){ return r.p === partido; })[0];
+    if (!baseR) return null;
+    var baseVotos = Math.round(baseR.pct * em);
+    var totalAliados = 0;
+    (liderBlock.aliados || []).forEach(function(al) {
+      var alR = ranked.filter(function(r){ return r.p === al.partido; })[0];
+      if (alR) totalAliados += Math.round(alR.pct * em * ((al.transferPct || 100) / 100));
+    });
+    return (baseVotos + totalAliados) / em;
+  }
+
+  function kpiConAlianzas(partido, pct) {
+    if (!partido || !pct) return "";
+    var alPct = calcPctConAlianzas(partido);
+    if (alPct === null) {
+      return kpi("Lider " + label24, partido, fmtPct(pct), true);
+    }
+    var diff = alPct - pct;
+    return kpi("Lider " + label24,
+      "<span style=\"color:" + clr(partido) + ";\">" + partido + "</span>",
+      fmtPct(pct) + " individual · <b>" + fmtPct(alPct) + "</b> con aliados" +
+      " <span class=\"text-ok\">(+" + fmtPct(diff) + ")</span>",
+      true);
+  }
+
+  var kpiTop  = top  ? kpiConAlianzas(top.p, top.pct) : "";
   var kpiTop2 = top2 ? kpi("2do lugar",  top2.p, fmtPct(top2.pct)) : "";
 
   if (nivel === "pres") {
@@ -309,9 +434,19 @@ function _buildKpisByNivel(nivel, ins, em, part, ranked, margen, dipCurules, sen
   } else if (nivel === "sen") {
     var senByP  = senResult && senResult.senadores ? senResult.senadores.totalByParty : {};
     var liderSen = top ? (senByP[top.p] || 0) : 0;
+    // Sen con alianzas: contar provincias ganadas con aliados
+    var alSen = ctx.alianzas ? ctx.alianzas.sen : null;
+    var liderSenAl = 0;
+    if (alSen && alSen.por_provincia && top) {
+      Object.values(alSen.por_provincia).forEach(function(pdata) {
+        if (pdata.lider === top.p) liderSenAl++;
+      });
+    }
+    var senAlStr = liderSenAl > liderSen
+      ? "<b>" + liderSen + "</b> individual · <b style=\"color:var(--accent)\">" + liderSenAl + "</b> con aliados"
+      : String(liderSen);
     kpisHtml =
-      kpi("Curules actuales " + (top ? top.p : ""), String(liderSen), "de 32 senadores") +
-      kpi("Mayoria requerida", "17", "senadores") +
+      kpi("Senadores " + (top ? top.p : ""), senAlStr, "de 32 · mayoría: 17") +
       kpi("Provincias competitivas", String(_countCompetitivos(ctx, "sen")), "<5pp de margen") +
       kpiTop + kpiTop2 +
       kpi("Participacion relativa", fmtPct(part));
@@ -319,8 +454,7 @@ function _buildKpisByNivel(nivel, ins, em, part, ranked, margen, dipCurules, sen
     var liderDip  = top && dipCurules ? (dipCurules[top.p] || 0) : 0;
     var marginals = dipCurules ? _countMarginalDip(ctx) : 0;
     kpisHtml =
-      kpi("Curules proyectadas " + (top ? top.p : ""), String(liderDip), "de 190 diputados") +
-      kpi("Mayoria requerida", "96", "diputados") +
+      kpi("Curules " + label24 + " " + (top ? top.p : ""), String(liderDip), "de 190 diputados · mayoría: 96") +
       kpi("Curules marginales", String(marginals), "circunscripciones ajustadas") +
       kpiTop + kpiTop2 +
       kpi("Variacion por abstencion", fmtPct(1-part), fmtInt(Math.round(ins*(1-part))) + " abs.");
@@ -567,29 +701,42 @@ export function renderMapa(state, ctx) {
     if (btn) btn.addEventListener("click", function() { applyMapColors(m); });
   });
 
+  var _selectedSvgId = null;  // track currently selected province for reset
+
   _mapApi = initMap({
     containerId: "map-container",
     svgUrl: "./assets/maps/provincias.svg",
     onSelect: function(svgProvId) {
       // Translate SVG id -> JCE province code
       var provId = (ctx.svgToJce && ctx.svgToJce[svgProvId]) ? ctx.svgToJce[svgProvId] : svgProvId;
-      // Re-apply colors to reset all fills, THEN highlight selected
+
+      // Clear previously selected province BEFORE re-applying all colors
+      if (_selectedSvgId && _selectedSvgId !== svgProvId) {
+        var prevTarget = document.querySelector("[id='DO-" + _selectedSvgId + "']");
+        if (prevTarget) {
+          prevTarget.style.stroke = "";
+          prevTarget.style.strokeWidth = "";
+        }
+      }
+
+      // Re-apply all colors (this resets all fills correctly)
       applyMapColors(_mapMode);
-      showProvPanel(lv, lv2024, provId, nivel, dipRes, ctx);
-      // Re-apply selected highlight after color reset — use SVG id (not JCE)
+      showProvPanel(lv, lv2024, provId, nivel, dipRes, ctx, _mapMode);
+
+      // Apply selected highlight AFTER color reset — use SVG id (not JCE)
       var svgHighlightId = (ctx.jceToSvg && ctx.jceToSvg[provId]) ? ctx.jceToSvg[provId] : provId;
       var target = document.querySelector("[id='DO-" + svgHighlightId + "']");
       if (target) {
         target.style.fill = "var(--accent)";
-        target.style.opacity = "0.9";
+        target.style.opacity = "0.95";
         target.style.strokeWidth = "2.5";
         target.style.stroke = "#fff";
       }
+      _selectedSvgId = svgHighlightId;
     },
     onReady: function() {
       applyMapColors("ganador");
       if (_mapApi && _mapApi.validate) {
-        // Only validate interior provinces (01-32)
         var svgKeys = Object.keys(lv.prov).filter(function(id) {
           var n = parseInt(id, 10); return n >= 1 && n <= 32;
         });
@@ -599,15 +746,48 @@ export function renderMapa(state, ctx) {
   });
 }
 
-function showProvPanel(lv, lv2024, provId, nivel, dipRes, ctx) {
+function showProvPanel(lv, lv2024, provId, nivel, dipRes, ctx, mapMode) {
   var panel = el("map-panel");
   if (!panel) return;
   var prov   = lv.prov ? lv.prov[provId] : null;
   var prov24 = lv2024 && lv2024.prov ? lv2024.prov[provId] : null;
   if (!prov) { panel.innerHTML = "<p class=\"muted\">Sin datos para provincia " + provId + ".</p>"; return; }
 
+  // Apply alianzas if mode is "con-aliados"
+  var provVotes = prov.votes || {};
+  var modoAliados = (mapMode === "con-aliados");
+  if (modoAliados && ctx.alianzas && ctx.alianzas[nivel]) {
+    var bloques = ctx.alianzas[nivel].bloques || [];
+    // For sen: use por_provincia
+    if (nivel === "sen" && ctx.alianzas.sen && ctx.alianzas.sen.por_provincia) {
+      var senProv = ctx.alianzas.sen.por_provincia[provId];
+      if (senProv) {
+        // Build consolidated votes for this province
+        var mergedVotes = Object.assign({}, provVotes);
+        (senProv.aliados || []).forEach(function(al) {
+          var v     = mergedVotes[al.partido] || 0;
+          var moved = Math.round(v * ((al.transferPct || 100) / 100));
+          mergedVotes[al.partido] = v - moved;
+          mergedVotes[senProv.lider] = (mergedVotes[senProv.lider] || 0) + moved;
+        });
+        provVotes = mergedVotes;
+      }
+    } else if (bloques.length) {
+      var mergedVotes = Object.assign({}, provVotes);
+      bloques.forEach(function(bloque) {
+        (bloque.aliados || []).forEach(function(aliado) {
+          var v     = mergedVotes[aliado.partido] || 0;
+          var moved = Math.round(v * ((aliado.transferPct || 100) / 100));
+          mergedVotes[aliado.partido] = v - moved;
+          mergedVotes[bloque.lider]   = (mergedVotes[bloque.lider] || 0) + moved;
+        });
+      });
+      provVotes = mergedVotes;
+    }
+  }
+
   var part   = prov.inscritos ? prov.emitidos / prov.inscritos : 0;
-  var ranked = rankVotes(prov.votes, prov.validos || prov.emitidos);
+  var ranked = rankVotes(provVotes, prov.validos || prov.emitidos);
   var margen = ranked.length >= 2 ? ranked[0].pct - ranked[1].pct : null;
 
   // Swing necesario para voltear
@@ -1361,8 +1541,41 @@ function runSim(ctx, state, nivel, nat) {
 
   var curulesSection = "";
   if (nivel === "dip" && res.curules) {
-    curulesSection = sep() + "<h3 style=\"margin-top:12px;\">Curules simulados (D'Hondt)</h3>" +
-      curulesGrid(res.curules.totalByParty);
+    // Compare with base 2024 D'Hondt
+    var baseRes2024 = simular(ctx, { nivel: "dip", year: 2024, ajustesPP: {}, corte: state.corte });
+    var baseCurules2024 = baseRes2024 && baseRes2024.curules ? baseRes2024.curules.totalByParty : {};
+    var simCurules  = res.curules.totalByParty;
+    var allParties  = Object.keys(Object.assign({}, baseCurules2024, simCurules));
+    var curulesRows = allParties
+      .sort(function(a,b){ return (simCurules[b]||0) - (simCurules[a]||0); })
+      .filter(function(p){ return (simCurules[p]||0) > 0 || (baseCurules2024[p]||0) > 0; })
+      .map(function(p) {
+        var base = baseCurules2024[p] || 0;
+        var sim  = simCurules[p] || 0;
+        var diff = sim - base;
+        var diffStr = diff === 0 ? "<span class=\"muted\">—</span>"
+          : diff > 0 ? "<span class=\"text-ok\">+" + diff + "</span>"
+          : "<span class=\"text-warn\">" + diff + "</span>";
+        return "<tr><td>" + dot(p) + " <b>" + p + "</b></td>" +
+          "<td class=\"r\">" + base + "</td>" +
+          "<td class=\"r\"><b>" + sim + "</b></td>" +
+          "<td class=\"r\">" + diffStr + "</td></tr>";
+      }).join("");
+    var totalBase = Object.values(baseCurules2024).reduce(function(a,v){return a+v;},0);
+    var totalSim  = Object.values(simCurules).reduce(function(a,v){return a+v;},0);
+    curulesSection = sep() +
+      "<h3 style=\"margin-top:12px;\">Curules simulados (D'Hondt)</h3>" +
+      "<p class=\"muted\" style=\"font-size:11px;margin-bottom:6px;\">" +
+        "D'Hondt aplicado por circunscripción con Uniform Swing sobre base JCE 2024. " +
+        "Total: " + totalSim + " / 190 escaños. <b>Base 2024: " + totalBase + " escaños.</b>" +
+      "</p>" +
+      "<table class=\"tbl\">" +
+        "<thead><tr><th>Partido</th><th class=\"r\">Base 2024</th><th class=\"r\">Simulado</th><th class=\"r\">Δ Curules</th></tr></thead>" +
+        "<tbody>" + curulesRows + "</tbody>" +
+      "</table>" +
+      "<p class=\"muted\" style=\"font-size:11px;margin-top:6px;\">" +
+        "💡 Para ver D'Hondt por circunscripción, usa el panel «D'Hondt por Circ.» en la pestaña Circunscripciones." +
+      "</p>";
   }
   if (nivel === "sen" && res.senadores) {
     var senTbl = Object.entries(res.senadores.totalByParty)
@@ -2018,6 +2231,95 @@ export function renderObjetivo(state, ctx) {
 }
 
 function renderObjResult(container, esc, nivel, lider, nat) {
+  // ── Senate: special display with province analysis ───────────────────
+  if (esc._tipo === "sen") {
+    var r = esc.razonable;
+    var statusCls = r.alcanzable ? "text-ok" : "text-warn";
+    var statusTxt = r.alcanzable ? "✓ Alcanzable con alianzas" : "⚠ Requiere movilización adicional";
+
+    // KPI cards
+    var kpiSen = [
+      kpi("Senadores base (sin alianzas)", String(r.senatosBase), "victorias individuales", false),
+      kpi("Senadores con alianzas 2024", "<span class=\"text-ok\">" + r.senatosConAlianzas + "</span>", "de 32 · mayoría: 17"),
+      kpi("Meta solicitada", String(r.metaAsientos), "senadores"),
+      kpi("Provincias a voltear", String(r.necesitaVoltear), "con alianzas actuales"),
+    ].join("");
+
+    // Table: provinces that alliance changes the winner
+    var provAlRows = (r.analisisProv || [])
+      .filter(function(p){ return p.alianzaCambia; })
+      .sort(function(a,b){ return a.brechaBase - b.brechaBase; })
+      .map(function(p) {
+        var aliStr = (p.alianzasProvinciales || []).slice(0,4).join("+") || "-";
+        return "<tr>" +
+          "<td><b>" + p.nombre + "</b></td>" +
+          "<td>" + dot(lider) + " " + fmtPct(p.lPctBase) + " → <b class=\"text-ok\">" + fmtPct(p.lPctConAlianzas) + "</b></td>" +
+          "<td>" + dot(p.rival) + " " + p.rival + " " + fmtPct(p.rivalPct) + "</td>" +
+          "<td style=\"font-size:10px;color:var(--text2);\">" + aliStr + "</td>" +
+          "<td><span class=\"cat-badge cat-green\">GANA CON ALIANZA</span></td>" +
+        "</tr>";
+      }).join("");
+
+    // Table: provinces that could be flipped with mobilization
+    var provMovRows = (r.aVoltear || [])
+      .filter(function(p){ return !p.alianzaCambia && p.brechaConAlianzas > 0 && p.brechaConAlianzas < 0.15; })
+      .slice(0, 5)
+      .map(function(p) {
+        return "<tr>" +
+          "<td><b>" + p.nombre + "</b></td>" +
+          "<td>" + dot(lider) + " " + fmtPct(p.lPctConAlianzas) + "</td>" +
+          "<td>" + dot(p.rival) + " " + p.rival + " +" + fmtPct(p.brechaConAlianzas) + "</td>" +
+          "<td>" + fmtInt(p.votosParaVoltearConAlianzas) + " votos</td>" +
+          "<td>" + (p.abstension > 0.3 ? fmtPct(p.abstension) + " abst." : "-") + "</td>" +
+          "<td><span class=\"cat-badge cat-yellow\">GANANCIA POSIBLE</span></td>" +
+        "</tr>";
+      }).join("");
+
+    // Provinces already won with details  
+    var provGanaRows = (r.ganadas || [])
+      .sort(function(a,b){ return a.lPctConAlianzas - b.lPctConAlianzas; })
+      .map(function(p) {
+        var fragil = p.lPctConAlianzas < 0.52;
+        return "<tr>" +
+          "<td><b>" + p.nombre + "</b></td>" +
+          "<td class=\"text-ok\"><b>" + fmtPct(p.lPctConAlianzas) + "</b></td>" +
+          "<td>" + dot(p.rival) + " " + p.rival + " " + fmtPct(p.rivalPct) + "</td>" +
+          "<td><span class=\"cat-badge " + (fragil ? "cat-yellow" : "cat-green") + "\">" + (fragil ? "FRÁGIL" : "ASEGURADO") + "</span></td>" +
+        "</tr>";
+      }).join("");
+
+    container.innerHTML =
+      "<div class=\"card\">" +
+        "<h3>Análisis Senatorial para " + lider + " — Meta: " + r.metaAsientos + " senadores</h3>" +
+        "<div class=\"kpi-grid\" style=\"margin-bottom:16px;\">" + kpiSen + "</div>" +
+        "<div style=\"margin-bottom:10px;padding:8px 12px;border-radius:6px;background:var(--bg3);" +
+          "font-weight:600;font-size:13px;" + (r.alcanzable ? "color:var(--green);" : "color:var(--yellow);") + "\">" +
+          statusTxt +
+        "</div>" +
+      "</div>" +
+      (provAlRows
+        ? "<div class=\"card\"><h3>🤝 Provincias donde la alianza cambia el ganador</h3>" +
+            "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Partidos que con sus votos combinados logran ganar la provincia.</p>" +
+            "<table class=\"tbl\"><thead><tr>" +
+              "<th>Provincia</th><th>% " + lider + " (base → alianza)</th>" +
+              "<th>Rival</th><th>Aliados</th><th>Resultado</th>" +
+            "</tr></thead><tbody>" + provAlRows + "</tbody></table></div>"
+        : "") +
+      (provMovRows
+        ? "<div class=\"card\"><h3>📊 Provincias con ganancia residual (movilización)</h3>" +
+            "<p class=\"muted\" style=\"font-size:12px;margin-bottom:8px;\">Con brecha &lt;15pp con alianzas — pueden voltearse con movilización específica.</p>" +
+            "<table class=\"tbl\"><thead><tr>" +
+              "<th>Provincia</th><th>% " + lider + "</th><th>Brecha</th><th>Votos nec.</th><th>Abstención</th><th>Status</th>" +
+            "</tr></thead><tbody>" + provMovRows + "</tbody></table></div>"
+        : "") +
+      "<div class=\"card\"><h3>✓ Provincias ya ganadas con alianzas</h3>" +
+        "<table class=\"tbl\"><thead><tr>" +
+          "<th>Provincia</th><th>% " + lider + "</th><th>2do lugar</th><th>Status</th>" +
+        "</tr></thead><tbody>" + provGanaRows + "</tbody></table></div>";
+    return;
+  }
+
+  // ── Other levels: pres / dip / mun ──────────────────────────────────
   var labels = {
     conservador: { label: "Conservador", cls: "cat-blue",   desc: "90% de la meta" },
     razonable:   { label: "Razonable",   cls: "cat-green",  desc: "100% de la meta" },
@@ -2040,7 +2342,6 @@ function renderObjResult(container, esc, nivel, lider, nat) {
         "<div class=\"kpi-value text-warn\" style=\"font-size:16px;\">Imposible</div>" +
         "<div class=\"kpi-sub\">Máximo alcanzable: " +
           (nivel === "dip"  ? s.maximo + " curules" :
-           nivel === "sen"  ? s.maximo + " senadores" :
            nivel === "mun"  ? s.maximo + " alcaldías" :
            (s.maximo * 100).toFixed(1) + "%") +
         "</div>" +
@@ -2052,8 +2353,6 @@ function renderObjResult(container, esc, nivel, lider, nat) {
     var curVal = "";
     if (nivel === "dip" && res && res.curules) {
       curVal = (res.curules.totalByParty[lider] || 0) + " curules";
-    } else if (nivel === "sen" && res && res.senadores) {
-      curVal = (res.senadores.totalByParty[lider] || 0) + " senadores";
     } else if (nivel === "mun" && res && res.ganadores) {
       curVal = (res.ganadores.totalByParty[lider] || 0) + " alcaldías";
     } else if (top) {
@@ -2065,7 +2364,6 @@ function renderObjResult(container, esc, nivel, lider, nat) {
       ? Math.round(res.emitidos * Math.abs(ajustePP) / 100)
       : null;
 
-    // Presidencial: mostrar falta/sobra para 50%
     var presidencialExtra = "";
     if (nivel === "pres" && top) {
       var diff = top.pct - 0.5;

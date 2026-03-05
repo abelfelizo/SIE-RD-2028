@@ -3700,6 +3700,392 @@
           }
         ]
       }
-    }
+    },
+    "bloques": [
+      {
+        "lider": "PRM",
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "transferPct": 100
+          }
+        ]
+      },
+      {
+        "lider": "FP",
+        "aliados": [
+          {
+            "partido": "BIS",
+            "transferPct": 100
+          },
+          {
+            "partido": "PQDC",
+            "transferPct": 100
+          },
+          {
+            "partido": "PSC",
+            "transferPct": 100
+          },
+          {
+            "partido": "PDI",
+            "transferPct": 100
+          }
+        ]
+      },
+      {
+        "lider": "PLD",
+        "aliados": []
+      }
+    ]
+  },
+  "dip": {
+    "tipo": "nacional",
+    "nota": "Elección concurrente con presidencial — mismos bloques aplican a nivel DIP",
+    "bloques": [
+      {
+        "lider": "PRM",
+        "votos_lider": 1983852,
+        "votos_aliados": 565295,
+        "votos_bloque": 2549147,
+        "pct_bloque": 57.82,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "votos_nacionales": 77968,
+            "transferPct": 100
+          },
+          {
+            "partido": "ALPAIS",
+            "votos_nacionales": 28420,
+            "transferPct": 100
+          },
+          {
+            "partido": "DXC",
+            "votos_nacionales": 53445,
+            "transferPct": 100
+          },
+          {
+            "partido": "PUN",
+            "votos_nacionales": 45373,
+            "transferPct": 100
+          },
+          {
+            "partido": "PHD",
+            "votos_nacionales": 29391,
+            "transferPct": 100
+          },
+          {
+            "partido": "PCR",
+            "votos_nacionales": 32861,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRSD",
+            "votos_nacionales": 34484,
+            "transferPct": 100
+          },
+          {
+            "partido": "MODA",
+            "votos_nacionales": 27108,
+            "transferPct": 100
+          },
+          {
+            "partido": "APD",
+            "votos_nacionales": 21104,
+            "transferPct": 100
+          },
+          {
+            "partido": "PP",
+            "votos_nacionales": 36567,
+            "transferPct": 100
+          },
+          {
+            "partido": "PLR",
+            "votos_nacionales": 22349,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPC",
+            "votos_nacionales": 11405,
+            "transferPct": 100
+          },
+          {
+            "partido": "UDC",
+            "votos_nacionales": 10340,
+            "transferPct": 100
+          },
+          {
+            "partido": "PAL",
+            "votos_nacionales": 16352,
+            "transferPct": 100
+          },
+          {
+            "partido": "PRI",
+            "votos_nacionales": 17906,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDP",
+            "votos_nacionales": 11899,
+            "transferPct": 100
+          },
+          {
+            "partido": "PNVC",
+            "votos_nacionales": 4455,
+            "transferPct": 100
+          },
+          {
+            "partido": "PASOVE",
+            "votos_nacionales": 8796,
+            "transferPct": 100
+          },
+          {
+            "partido": "PPG",
+            "votos_nacionales": 25096,
+            "transferPct": 100
+          },
+          {
+            "partido": "JS",
+            "votos_nacionales": 49976,
+            "transferPct": 100
+          }
+        ]
+      },
+      {
+        "lider": "FP",
+        "votos_lider": 704834,
+        "votos_aliados": 56675,
+        "votos_bloque": 761509,
+        "pct_bloque": 17.27,
+        "transferPct": 100,
+        "aliados": [
+          {
+            "partido": "BIS",
+            "votos_nacionales": 24816,
+            "transferPct": 100
+          },
+          {
+            "partido": "PQDC",
+            "votos_nacionales": 15977,
+            "transferPct": 100
+          },
+          {
+            "partido": "PSC",
+            "votos_nacionales": 9802,
+            "transferPct": 100
+          },
+          {
+            "partido": "PDI",
+            "votos_nacionales": 6080,
+            "transferPct": 100
+          }
+        ]
+      },
+      {
+        "lider": "PLD",
+        "votos_lider": 626628,
+        "votos_aliados": 0,
+        "votos_bloque": 626628,
+        "pct_bloque": 14.21,
+        "transferPct": 100,
+        "aliados": []
+      }
+    ]
+  },
+  "mun": {
+    "tipo": "estimado",
+    "estado": "PENDIENTE",
+    "nota": "Alianzas municipales varían por municipio — requiere documento JCE oficial por municipio. Usar datos de senado como referencia provincial.",
+    "bloques": [
+      {
+        "lider": "PRM",
+        "nota": "Alianzas similares a presidencial en mayoría de municipios",
+        "aliados": [
+          {
+            "partido": "PRSC",
+            "transferPct": 70
+          },
+          {
+            "partido": "ALPAIS",
+            "transferPct": 70
+          },
+          {
+            "partido": "DXC",
+            "transferPct": 70
+          },
+          {
+            "partido": "PUN",
+            "transferPct": 70
+          },
+          {
+            "partido": "PHD",
+            "transferPct": 70
+          },
+          {
+            "partido": "PCR",
+            "transferPct": 70
+          },
+          {
+            "partido": "PRSD",
+            "transferPct": 70
+          },
+          {
+            "partido": "MODA",
+            "transferPct": 70
+          },
+          {
+            "partido": "APD",
+            "transferPct": 70
+          },
+          {
+            "partido": "PP",
+            "transferPct": 70
+          },
+          {
+            "partido": "PLR",
+            "transferPct": 70
+          },
+          {
+            "partido": "PPC",
+            "transferPct": 70
+          },
+          {
+            "partido": "UDC",
+            "transferPct": 70
+          },
+          {
+            "partido": "PAL",
+            "transferPct": 70
+          },
+          {
+            "partido": "PRI",
+            "transferPct": 70
+          },
+          {
+            "partido": "PDP",
+            "transferPct": 70
+          },
+          {
+            "partido": "PNVC",
+            "transferPct": 70
+          },
+          {
+            "partido": "PASOVE",
+            "transferPct": 70
+          },
+          {
+            "partido": "PPG",
+            "transferPct": 70
+          },
+          {
+            "partido": "JS",
+            "transferPct": 70
+          }
+        ]
+      },
+      {
+        "lider": "FP",
+        "nota": "Alianzas similares a presidencial en mayoría de municipios",
+        "aliados": [
+          {
+            "partido": "BIS",
+            "transferPct": 70
+          },
+          {
+            "partido": "PQDC",
+            "transferPct": 70
+          },
+          {
+            "partido": "PSC",
+            "transferPct": 70
+          },
+          {
+            "partido": "PDI",
+            "transferPct": 70
+          }
+        ]
+      },
+      {
+        "lider": "PLD",
+        "aliados": []
+      }
+    ]
   }
 }
