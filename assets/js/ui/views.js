@@ -1130,15 +1130,27 @@ export function renderSimulador(state, ctx) {
       var enc = polls[idx];
       if (!enc || !enc.resultados) return;
       var em  = nat.emitidos || 1;
+
+      // Usar candidatos si el modo activo en Encuestas es "candidato" y los datos existen
+      var modoBtn = document.querySelector(".seg-btn.active[data-encmodo]");
+      var modo    = modoBtn ? modoBtn.dataset.encmodo : "partido";
+      var fuente  = enc.resultados;
+      if (modo === "candidato" && enc.candidatos) {
+        fuente = {};
+        Object.entries(enc.candidatos).forEach(function(kv) {
+          fuente[kv[0]] = kv[1].pct || 0;
+        });
+      }
+
       document.querySelectorAll(".delta-in").forEach(function(inp) {
         var p     = inp.dataset.party;
         var base  = (nat.votes[p] || 0) / em;
-        var encP  = enc.resultados[p] !== undefined ? enc.resultados[p] / 100 : base;
+        var encP  = fuente[p] !== undefined ? fuente[p] / 100 : base;
         var ajuste = Math.round((encP - base) * 100 * 10) / 10;
         inp.value = String(ajuste);
         inp.style.color = ajuste !== 0 ? "var(--accent)" : "";
       });
-      toast("Encuesta " + enc.encuestadora + " aplicada como ajuste base");
+      toast("Encuesta " + enc.encuestadora + " aplicada [modo " + modo + "]");
       runSim(ctx, state, nivel, nat);
     });
   });
@@ -1823,12 +1835,23 @@ export function renderObjetivo(state, ctx) {
         // Territorios críticos para legislativo con ROI
         if (nivel === "sen" || nivel === "dip") {
           var criticos = calcularProvinciasCriticas(ctx, { nivel: nivel, lider: lider }, 10);
+          // Swing data por territorio
+          var swingData = calcSwing(ctx, nivel, lider, 2024);
+          var swingByID = {};
+          swingData.forEach(function(s) { swingByID[s.id] = s; });
           var critEl   = el("obj-criticos");
           var titEl    = el("obj-crit-title");
           if (critEl && criticos.length) {
             if (titEl) titEl.textContent = "Territorios críticos para " + lider + " (por ROI descendente)";
             var cRows = criticos.map(function(c) {
               var tipoCls = c.tipo === "voltear" ? "cat-red" : c.tipo === "asegurar" ? "cat-yellow" : c.tipo === "consolidar" ? "cat-green" : "cat-blue";
+              var sw = swingByID[c.id];
+              var tendPP = sw ? sw.liderTend : null;
+              var swStr  = tendPP !== null
+                ? "<span style=\"color:" + (tendPP > 0.005 ? "var(--ok)" : tendPP < -0.005 ? "var(--err)" : "var(--muted)") + ";\">" +
+                    (tendPP > 0 ? "▲" : tendPP < 0 ? "▼" : "–") +
+                    " " + (tendPP * 100).toFixed(1) + "pp</span>"
+                : "<span class=\"muted\">—</span>";
               var gapStr  = c.gap > 0 ? ("+" + (c.gap * 100).toFixed(1) + "pp rival") : "(liderando)";
               var votosStr = c.votosNecesarios > 0 ? fmtInt(c.votosNecesarios) + " votos" : "consolidado";
               return "<tr>" +
@@ -1836,6 +1859,7 @@ export function renderObjetivo(state, ctx) {
                 "<td class=\"r\">" + fmtPct(c.lPct) + "</td>" +
                 "<td class=\"r\">" + gapStr + "</td>" +
                 "<td>" + dot(c.rival) + c.rival + "</td>" +
+                "<td class=\"r\" style=\"font-size:11px;\">" + swStr + "</td>" +
                 "<td class=\"r\" style=\"font-size:11px;\">" + votosStr + "</td>" +
                 "<td><span class=\"cat-badge " + tipoCls + "\">" + c.tipo + "</span></td>" +
                 "<td class=\"r\" style=\"color:var(--accent);font-weight:600;\">" + c.roi + "</td>" +
@@ -1845,6 +1869,7 @@ export function renderObjetivo(state, ctx) {
               "<table class=\"tbl\"><thead><tr>" +
                 "<th>Territorio</th><th class=\"r\">% " + lider + "</th>" +
                 "<th class=\"r\">Gap rival</th><th>Rival</th>" +
+                "<th class=\"r\" title=\"Tendencia 2020→2024 del partido. Positivo = creciendo.\">Swing</th>" +
                 "<th class=\"r\">Votos nec.</th><th>Tipo</th><th class=\"r\">ROI</th>" +
               "</tr></thead><tbody>" + cRows + "</tbody></table>";
           }
@@ -2428,7 +2453,46 @@ export function renderEncuestas(state, ctx) {
       "<h2>Encuestas</h2>" +
       "<button class=\"btn-sm\" id=\"btn-enc-upload\">+ Cargar JSON</button>" +
       "<input type=\"file\" id=\"enc-file\" accept=\".json\" style=\"display:none;\">" +
+      "<button class=\"btn-sm\" id=\"btn-enc-new\" title=\"Ingresar encuesta manualmente\">+ Manual</button>" +
     "</div>" +
+
+    // Formulario entrada manual (oculto por defecto)
+    "<div id=\"enc-form-manual\" class=\"card\" style=\"display:none;margin-top:10px;\">" +
+      "<h3 style=\"margin-bottom:10px;\">Registrar encuesta manualmente</h3>" +
+      "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;\">" +
+        "<div><label style=\"font-size:11px;display:block;margin-bottom:3px;\">Encuestadora</label>" +
+          "<input id=\"enc-m-encuestadora\" class=\"inp-sm\" type=\"text\" placeholder=\"Ej: Gallup RD\" style=\"width:100%;\"></div>" +
+        "<div><label style=\"font-size:11px;display:block;margin-bottom:3px;\">Fecha</label>" +
+          "<input id=\"enc-m-fecha\" class=\"inp-sm\" type=\"date\" style=\"width:100%;\"></div>" +
+        "<div><label style=\"font-size:11px;display:block;margin-bottom:3px;\">Nivel</label>" +
+          "<select id=\"enc-m-nivel\" class=\"sel-sm\" style=\"width:100%;\">" +
+            "<option value=\"pres\">Presidencial</option>" +
+            "<option value=\"sen\">Senado</option>" +
+            "<option value=\"dip\">Diputados</option>" +
+            "<option value=\"mun\">Municipal</option>" +
+          "</select></div>" +
+        "<div><label style=\"font-size:11px;display:block;margin-bottom:3px;\">Muestra (n)</label>" +
+          "<input id=\"enc-m-muestra\" class=\"inp-sm\" type=\"number\" placeholder=\"800\" style=\"width:100%;\"></div>" +
+      "</div>" +
+      "<div style=\"margin-bottom:8px;\">" +
+        "<label style=\"font-size:11px;display:block;margin-bottom:4px;\"><b>Resultados por partido</b> <span class=\"muted\">(% intención, ej: PRM=42.5)</span></label>" +
+        "<div id=\"enc-m-partidos\">" +
+          ["PRM","FP","PLD"].map(function(p) {
+            return "<div style=\"display:flex;align-items:center;gap:6px;margin-bottom:4px;\">" +
+              "<span style=\"width:60px;font-size:12px;\">" + p + "</span>" +
+              "<input class=\"inp-sm enc-m-pct\" data-partido=\"" + p + "\" type=\"number\" " +
+              "min=\"0\" max=\"100\" step=\"0.1\" placeholder=\"0.0\" style=\"width:80px;\"> %" +
+              "</div>";
+          }).join("") +
+        "</div>" +
+        "<button id=\"enc-m-add-row\" class=\"btn-sm\" style=\"margin-top:6px;font-size:11px;\">+ Agregar partido</button>" +
+      "</div>" +
+      "<div style=\"display:flex;gap:8px;\">" +
+        "<button id=\"enc-m-guardar\" class=\"btn-sm\" style=\"background:var(--accent);color:#fff;\">Guardar encuesta</button>" +
+        "<button id=\"enc-m-cancelar\" class=\"btn-sm\">Cancelar</button>" +
+      "</div>" +
+    "</div>" +
+
     ejemploWarning +
 
     // Modo: partido vs candidato
@@ -2559,6 +2623,77 @@ export function renderEncuestas(state, ctx) {
     });
   }
 
+  // Manual entry form toggle
+  var btnNew = el("btn-enc-new");
+  if (btnNew) {
+    btnNew.addEventListener("click", function() {
+      var fm = el("enc-form-manual");
+      if (fm) {
+        fm.style.display = fm.style.display === "none" ? "block" : "none";
+        // Set today as default date
+        var fechaInp = el("enc-m-fecha");
+        if (fechaInp && !fechaInp.value) {
+          fechaInp.value = new Date().toISOString().slice(0, 10);
+        }
+      }
+    });
+  }
+  var btnCancelar = el("enc-m-cancelar");
+  if (btnCancelar) {
+    btnCancelar.addEventListener("click", function() {
+      var fm = el("enc-form-manual");
+      if (fm) fm.style.display = "none";
+    });
+  }
+  // Add party row button
+  var btnAddRow = el("enc-m-add-row");
+  if (btnAddRow) {
+    btnAddRow.addEventListener("click", function() {
+      var container = el("enc-m-partidos");
+      if (!container) return;
+      var cod = prompt("Código del partido (ej: PRSC):");
+      if (!cod) return;
+      cod = cod.trim().toUpperCase();
+      var div = document.createElement("div");
+      div.style.cssText = "display:flex;align-items:center;gap:6px;margin-bottom:4px;";
+      div.innerHTML = "<span style=\"width:60px;font-size:12px;\">" + cod + "</span>" +
+        "<input class=\"inp-sm enc-m-pct\" data-partido=\"" + cod + "\" type=\"number\" " +
+        "min=\"0\" max=\"100\" step=\"0.1\" placeholder=\"0.0\" style=\"width:80px;\"> %";
+      container.appendChild(div);
+    });
+  }
+  // Save manual entry
+  var btnGuardar = el("enc-m-guardar");
+  if (btnGuardar) {
+    btnGuardar.addEventListener("click", function() {
+      var encuestadora = (el("enc-m-encuestadora") || {}).value || "Manual";
+      var fecha        = (el("enc-m-fecha") || {}).value || new Date().toISOString().slice(0, 10);
+      var nivel_enc    = (el("enc-m-nivel") || {}).value || "pres";
+      var muestra      = Number((el("enc-m-muestra") || {}).value) || null;
+      var resultados   = {};
+      document.querySelectorAll(".enc-m-pct").forEach(function(inp) {
+        var p   = inp.dataset.partido;
+        var val = parseFloat(inp.value);
+        if (p && !isNaN(val) && val > 0) resultados[p] = val;
+      });
+      if (!Object.keys(resultados).length) {
+        toast("Ingresa al menos un resultado para guardar.");
+        return;
+      }
+      var total = Object.values(resultados).reduce(function(a, v) { return a + v; }, 0);
+      if (Math.abs(total - 100) > 5) {
+        toast("Los porcentajes suman " + total.toFixed(1) + "% — deben sumar ~100%.");
+        return;
+      }
+      var newEnc = { encuestadora: encuestadora, fecha: fecha, nivel: nivel_enc,
+                     muestra: muestra, resultados: resultados, _manual: true };
+      if (!ctx.polls) ctx.polls = [];
+      ctx.polls.push(newEnc);
+      toast("Encuesta '" + encuestadora + "' guardada (" + Object.keys(resultados).length + " partidos).");
+      renderEncuestas(state, ctx);
+    });
+  }
+
   // Toggle partido/candidato → actualizar gráfico comparativo
   var modoGroup = el("enc-modo-group");
   if (modoGroup) {
@@ -2605,15 +2740,37 @@ export function renderEncuestas(state, ctx) {
       var idx      = el("enc-activa") ? Number(el("enc-activa").value) : 0;
       var encuesta = polls[idx];
       if (!encuesta || !encuesta.resultados) { toast("Sin datos en la encuesta"); return; }
+
+      // Detectar modo activo (partido vs candidato)
+      var modoBtn = document.querySelector(".seg-btn.active[data-encmodo]");
+      var modo    = modoBtn ? modoBtn.dataset.encmodo : "partido";
+
+      // En modo candidato, usar encuesta.candidatos si existe
+      var fuente = encuesta.resultados;
+      if (modo === "candidato" && encuesta.candidatos) {
+        // Mapear candidatos → partido líder (key es código de partido)
+        fuente = {};
+        Object.entries(encuesta.candidatos).forEach(function(kv) {
+          var partido = kv[0];
+          var candData = kv[1];
+          fuente[partido] = candData.pct || 0;
+        });
+      }
+
       var deltaStore = {};
-      Object.entries(encuesta.resultados).forEach(function(kv) {
+      Object.entries(fuente).forEach(function(kv) {
         var p = kv[0]; var pctEnc = kv[1] / 100;
         var pctBase = (nat24.votes[p] || 0) / totalEm24;
         var delta = Math.round((pctEnc - pctBase) * 100 * 10) / 10;
         if (Math.abs(delta) > 0.1) deltaStore[p] = delta;
       });
-      localStorage.setItem("sie28-sim-deltas", JSON.stringify(deltaStore));
-      toast(encuesta.encuestadora + " aplicada al Simulador (" + Object.keys(deltaStore).length + " deltas)");
+
+      // Guardar en ctx.polls como referencia activa (sin almacenamiento externo)
+      ctx._simDeltasActivos = deltaStore;
+      ctx._simDeltasFuente  = encuesta.encuestadora + " [modo " + modo + "]";
+
+      toast(encuesta.encuestadora + " aplicada al Simulador en modo " + modo +
+            " (" + Object.keys(deltaStore).length + " deltas)");
     });
   }
 
